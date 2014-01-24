@@ -12,6 +12,8 @@ public class Sprite {
 	protected String myFileName;
 	protected double myWidth;
 	protected double myHeight;
+	protected double myVx;
+	protected double myVy;
 	
 	// Constructors \\
 	public Sprite(Draw draw, String fileName, double speed, double maxSpeed, 
@@ -67,12 +69,12 @@ public class Sprite {
     	}
     	
     	// Convert speed and angle to vx and vy
-    	double vx = mySpeed * Math.cos((myAngle - 270) * Math.PI / 180);
-		double vy = mySpeed * Math.sin((myAngle - 270) * Math.PI / 180);
+    	myVx = mySpeed * Math.cos((myAngle - 270) * Math.PI / 180);
+		myVy = mySpeed * Math.sin((myAngle - 270) * Math.PI / 180);
 		
 		// Update the position
-		myX += vx;
-		myY += vy;
+		myX += myVx;
+		myY += myVy;
 	}
 	
 	// Put the sprite off the screen
