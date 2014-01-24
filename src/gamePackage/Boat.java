@@ -96,7 +96,7 @@ public class Boat extends Sprite {
     		}
     	}
 	}
-	
+		
 	// Update the boat
 	public void updateSelf() {
 		move();
