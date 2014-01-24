@@ -1,6 +1,7 @@
 package gamePackage;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Draw;
 
@@ -10,6 +11,8 @@ public class Boat extends Sprite {
 	private int myHealth;
 	private int myPID;
 	private double myAccel;
+	
+	private ArrayList<Cannon> myGuns = new ArrayList<Cannon>();
 	
 	private boolean keyUp = false;
 	private boolean keyDown = false;
@@ -25,16 +28,27 @@ public class Boat extends Sprite {
 		myHealth = health;
 		myPID = pID;
 		myAccel = accel;
+		initGuns();
 	}
 	
 	public Boat(Draw draw, int pID, double x, double y, int angle) {
 		super(draw, "boat.png", angle, x, y, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
 		myNumCrew = 100;
-		myNumGuns = 5;
+		myNumGuns = 5; // Guns per side
 		myHealth = 100;
 		myPID = pID;
 		myAccel = 0.001;
+		initGuns();
+	}
+	
+	public void initGuns() {
+		
+		for (int i = 0; i < myNumGuns; i++) {
+			Cannon cannon = new Cannon(myDraw, "tank0.png", myX, myY, mySpeed, myAngle+90, this);
+			
+			myGuns.add(cannon);
+		}
 	}
 	
 	//Parameters: keyPress for player1 and keyPress for player2 Returns: whether the correct 
@@ -70,6 +84,13 @@ public class Boat extends Sprite {
 	
 	// Move the boat based on keyPresses
 	public void move() {
+		for (Cannon c : myGuns) {
+			c.myAngle = myAngle + 90;
+			c.myX = myX;
+			c.myY = myY;
+			c.visualize();
+		}
+		
 		getKeyInputs();
 		
 		//Update angle
@@ -81,9 +102,10 @@ public class Boat extends Sprite {
     	}
     	
     	//Backward Driving: boats don't go backwards
-    	/*if (keyDown == true) {
-    		mySpeed -= myAccel;
-    	}*/
+    	if (keyDown == true) {
+    		//mySpeed -= myAccel;
+    		
+    	}
     	
     	//If no keypress, slow down the boat
     	if (keyUp == false && keyDown == false) {
@@ -96,16 +118,17 @@ public class Boat extends Sprite {
     		}
     	}
 	}
-		
+	
 	// Update the boat
 	public void updateSelf() {
-		move();
+		
 		
 		if (myHealth == 0) die();
 		if (myNumCrew == 0) mySpeed = 0;
 		
 		updatePosition();
 		visualize();
+		move();
 	}
 	
 	// Local main function used for testing and debugging
@@ -116,7 +139,7 @@ public class Boat extends Sprite {
 		
 		draw.setXscale(-1.0, 1.0);
 		draw.setYscale(-1.0, 1.0);
-		
+				
 		while (true) {
 			// Draw the blue background
 			draw.setPenColor(Color.blue);
