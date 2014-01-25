@@ -23,7 +23,7 @@ public class Boat extends Sprite {
 
 	// Constructors \\
 	public Boat(Draw draw, int numGuns, int numCrew, int health, int pID, double x, double y, int angle, double accel) {
-		super(draw, "boat.png", angle, x, y, 0.2, 0.2);
+		super(draw, "boat.png", angle, x, y, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
 		myNumCrew = numCrew;
 		myNumGuns = numGuns;
@@ -112,7 +112,7 @@ public class Boat extends Sprite {
     	//If no keypress, slow down the boat
     	if (keyUp == false && keyDown == false) {
     		if (mySpeed > 0) {
-    			mySpeed -= mySpeed/30;
+    			mySpeed -= mySpeed/60;
     		} else {
     			mySpeed = 0;
     		}
