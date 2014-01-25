@@ -135,11 +135,6 @@ public class Boat extends Sprite {
 	public static void main(String[] args) {
 		Draw draw = new Draw();
 		
-		draw.frame.addWindowListener(new WindowAdapter() {
-			public void windowClosed(WindowEvent e){
-				System.exit(0);
-			}
-		});
 		Boat boat = new Boat(draw, 0, 0, 0, 0);
 		
 		draw.setXscale(-1.0, 1.0);
