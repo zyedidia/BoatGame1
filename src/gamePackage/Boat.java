@@ -1,6 +1,8 @@
 package gamePackage;
 
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Draw;
@@ -110,9 +112,7 @@ public class Boat extends Sprite {
     	//If no keypress, slow down the boat
     	if (keyUp == false && keyDown == false) {
     		if (mySpeed > 0) {
-    			mySpeed -= 0;
-    		} else if (mySpeed < 0) {
-    			mySpeed += 0;
+    			mySpeed -= mySpeed/30;
     		} else {
     			mySpeed = 0;
     		}
