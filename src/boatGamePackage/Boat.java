@@ -1,4 +1,4 @@
-package gamePackage;
+package boatGamePackage;
 
 import java.awt.Color;
 import java.awt.event.WindowAdapter;

@@ -1,4 +1,4 @@
-package gamePackage;
+package boatGamePackage;
 
 import edu.princeton.cs.introcs.Draw;
 
