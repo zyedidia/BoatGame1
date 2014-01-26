@@ -4,7 +4,21 @@ import edu.princeton.cs.introcs.Draw;
 
 public class Cannon extends Sprite {
 
-	public Cannon(Draw draw, String fileName, double x, double y, double speed, int angle, Boat boat) {
-		super(draw, fileName, speed, boat.myMaxSpeed, angle, x, y, 0.05, 0.1);
+	private Boat myBoat;
+	private int myOffSet;
+	
+	// Contrsuctor \\
+	public Cannon(Draw draw, String fileName, int offSet, Boat boat) {
+		super(draw, fileName, boat.mySpeed, boat.myMaxSpeed, boat.myAngle + offSet, boat.myX, boat.myY, 0.05, 0.1);
+		
+		myOffSet = offSet;
+		myBoat = boat;
+	}
+	
+	// Put the cannon at the correct coordinates
+	public void update() {
+		myX = myBoat.myX;
+		myY = myBoat.myY;
+		myAngle = myBoat.myAngle + myOffSet;
 	}
 }

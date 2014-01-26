@@ -14,7 +14,8 @@ public class Boat extends Sprite {
 	private int myPID;
 	private double myAccel;
 	
-	private ArrayList<Cannon> myGuns = new ArrayList<Cannon>();
+	private ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
+	private ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
 	
 	private boolean keyUp = false;
 	private boolean keyDown = false;
@@ -47,9 +48,15 @@ public class Boat extends Sprite {
 	public void initGuns() {
 		
 		for (int i = 0; i < myNumGuns; i++) {
-			Cannon cannon = new Cannon(myDraw, "tank0.png", myX, myY, mySpeed, myAngle+90, this);
+			Cannon cannon = new Cannon(myDraw, "tank0.png", -90, this);
 			
-			myGuns.add(cannon);
+			myRightGuns.add(cannon);
+		}
+		
+		for (int i = 0; i < myNumGuns; i++) {
+			Cannon cannon = new Cannon(myDraw, "tank0.png", 90, this);
+			
+			myLeftGuns.add(cannon);
 		}
 	}
 	
@@ -74,7 +81,7 @@ public class Boat extends Sprite {
    		keyRight = getPress(39, 68);
 	}
 	
-	//Take in key input booleans and change tank angle accordingly
+	// Take in key input booleans and change tank angle accordingly
 	public int changeAngle(boolean right, boolean left) {
 		if (left == true && myAngle >= 360) myAngle = 2;
     	if (left == true) myAngle += 2;
@@ -86,24 +93,27 @@ public class Boat extends Sprite {
 	
 	// Move the boat based on keyPresses
 	public void move() {
-		for (Cannon c : myGuns) {
-			c.myAngle = myAngle + 90;
-			c.myX = myX;
-			c.myY = myY;
+		for (Cannon c : myRightGuns) {
+			c.update();
+			c.visualize();
+		}
+		
+		for (Cannon c : myLeftGuns) {
+			c.update();
 			c.visualize();
 		}
 		
 		getKeyInputs();
 		
-		//Update angle
+		// Update angle
     	myAngle = changeAngle(keyRight, keyLeft);
     	
-    	//Forward Driving
+    	// Forward Driving
     	if (keyUp == true) {
     		mySpeed += myAccel;
     	}
     	
-    	//Backward Driving: boats don't go backwards
+    	// Backward Driving: boats don't go backwards
     	if (keyDown == true) {
     		//mySpeed -= myAccel;
     		
@@ -135,6 +145,8 @@ public class Boat extends Sprite {
 	public static void main(String[] args) {
 		Draw draw = new Draw();
 		
+		draw.setCanvasSize(768, 768);
+		
 		draw.frame.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e){
 					System.exit(0);
@@ -142,6 +154,7 @@ public class Boat extends Sprite {
 		});
 		
 		Boat boat = new Boat(draw, 0, 0, 0, 0);
+		Boat boat1 = new Boat(draw, 1, 0, 0, 0);
 		
 		draw.setXscale(-1.0, 1.0);
 		draw.setYscale(-1.0, 1.0);
@@ -153,6 +166,7 @@ public class Boat extends Sprite {
 			
 			// Update the boat
 			boat.updateSelf();
+			boat1.updateSelf();
 			
 			draw.show(20);
 		}
