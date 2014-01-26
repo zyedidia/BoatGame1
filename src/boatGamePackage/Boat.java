@@ -1,6 +1,8 @@
 package boatGamePackage;
 
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Draw;
@@ -132,6 +134,12 @@ public class Boat extends Sprite {
 	// Local main function used for testing and debugging
 	public static void main(String[] args) {
 		Draw draw = new Draw();
+		
+		draw.frame.addWindowListener(new WindowAdapter() {
+			public void windowClosed(WindowEvent e){
+					System.exit(0);
+			}
+		});
 		
 		Boat boat = new Boat(draw, 0, 0, 0, 0);
 		
