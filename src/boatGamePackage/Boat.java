@@ -129,6 +129,16 @@ public class Boat extends Sprite {
     	}
 	}
 	
+	public ArrayList<CannonBall> fire() {
+		ArrayList<CannonBall> cbs = new ArrayList<CannonBall>();
+		
+		for (Cannon c : myRightGuns) {
+			cbs.add(c.fire());
+		}
+		
+		return cbs;
+	}
+	
 	// Update the boat
 	public void updateSelf() {
 		
@@ -154,15 +164,25 @@ public class Boat extends Sprite {
 		
 		draw.setXscale(-1.0, 1.0);
 		draw.setYscale(-1.0, 1.0);
+		
+		ArrayList<CannonBall> cbs = new ArrayList<CannonBall>();
 				
 		while (true) {
 			// Draw the blue background
-			draw.setPenColor(Color.blue);
+			draw.setPenColor(Color.white);
 			draw.filledSquare(0.0, 0.0, 1.5);
 			
 			// Update the boat
 			boat.updateSelf();
 			boat1.updateSelf();
+			
+			cbs = boat.fire();
+			
+			for (CannonBall c : cbs) {
+				System.out.println("Updating bullet");
+				c.updatePosition();
+				c.visualize();
+			}
 			
 			draw.show(20);
 		}
