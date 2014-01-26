@@ -1,9 +1,9 @@
 package boatGamePackage;
 
 import java.awt.Color;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
 
 import edu.princeton.cs.introcs.Draw;
 
@@ -135,11 +135,7 @@ public class Boat extends Sprite {
 	public static void main(String[] args) {
 		Draw draw = new Draw();
 		
-		draw.frame.addWindowListener(new WindowAdapter() {
-			public void windowClosed(WindowEvent e){
-					System.exit(0);
-			}
-		});
+		draw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Boat boat = new Boat(draw, 0, 0, 0, 0);
 		
