@@ -30,27 +30,11 @@ public class Sprite {
 	}
 	
 	public Sprite(Draw draw, String fileName, int angle, double x, double y, double width, double height) {
-		myDraw = draw;
-		myAngle = angle;
-		myX = x;
-		myY = y;
-		myMaxSpeed = 0.01;
-		mySpeed = 0;
-		myFileName = fileName;
-		myWidth = width;
-		myHeight = height;
+		this(draw, fileName, 0, 0.01, angle, x, y, width, height);
 	}
 	
 	public Sprite(Draw draw, String fileName) {
-		myDraw = draw;
-		myAngle = 0;
-		myX = 0;
-		myY = 0;
-		myMaxSpeed = 0.01;
-		mySpeed = 0;
-		myFileName = fileName;
-		myWidth = 0.2;
-		myHeight = 0.2;
+		this(draw, fileName, 0, 0.01, 0, 0, 0, 0.2, 0.2);
 	}
 	
 	// Draw the sprite to the screen
