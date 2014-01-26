@@ -1,8 +1,6 @@
 package boatGamePackage;
 
 import java.awt.Color;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Draw;
