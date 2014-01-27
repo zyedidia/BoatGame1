@@ -8,8 +8,9 @@ import javax.swing.JFrame;
 import edu.princeton.cs.introcs.Draw;
 
 public class Game {
-	public static void main(String[] args) {
-		Draw draw = new Draw();
+	
+	public void loop() {
+Draw draw = new Draw();
 		
 		draw.setCanvasSize(768, 768);
 		
@@ -62,4 +63,10 @@ public class Game {
 			draw.show(20);
 		}
 	}
+	
+	public static void main(String[] args) {
+		Game game = new Game();
+		game.loop();
+	}
+		
 }
