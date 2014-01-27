@@ -21,6 +21,8 @@ public class Boat extends Sprite {
 	private boolean keyDown = false;
 	private boolean keyLeft = false;
 	private boolean keyRight = false;
+	private boolean keyRightFire = false;
+	private boolean keyLeftFire = false;
 
 	// Constructors \\
 	public Boat(Draw draw, int numGuns, int numCrew, int health, int pID, double x, double y, int angle, double accel) {
@@ -45,6 +47,7 @@ public class Boat extends Sprite {
 		initGuns();
 	}
 	
+	// Add the guns to the ArrayLists
 	public void initGuns() {
 		
 		for (int i = 0; i < myNumGuns; i++) {
@@ -75,10 +78,12 @@ public class Boat extends Sprite {
 	
 	public void getKeyInputs() {
 		//Initialize keyPresses based on player
-		keyUp = getPress(38, 87);
-   		keyDown = getPress(40, 83);
-   		keyLeft = getPress(37, 65);
-   		keyRight = getPress(39, 68);
+		keyUp = getPress(38, 87); // Up Arrow and W
+   		keyDown = getPress(40, 83); // Down Arrow and S
+   		keyLeft = getPress(37, 65); // Left Arrow and A
+   		keyRight = getPress(39, 68); // Right Array and D
+   		keyRightFire = getPress(77, 86); // M and V
+   		keyLeftFire = getPress(78, 67); // N and C
 	}
 	
 	// Take in key input booleans and change tank angle accordingly
@@ -129,13 +134,48 @@ public class Boat extends Sprite {
     	}
 	}
 	
-	public ArrayList<CannonBall> fire(ArrayList<CannonBall> cbs) {
-		
+	// Fire the guns on the right side
+	public ArrayList<CannonBall> fireRightGuns(ArrayList<CannonBall> cbs) {
+		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
+		// Returns the ArrayList with the new CannonBalls
 		for (Cannon c : myRightGuns) {
 			cbs.add(c.fire());
 		}
 		
 		return cbs;
+	}
+	
+	// Fire the guns on the left side
+	public ArrayList<CannonBall> fireLeftGuns(ArrayList<CannonBall> cbs) {
+		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
+		// Returns the ArrayList with the new CannonBalls
+		for (Cannon c : myLeftGuns) {
+			cbs.add(c.fire());
+		}
+		
+		return cbs;
+	}
+	
+	public boolean shouldFireRight() {
+		boolean shouldFire = false;
+		
+		if (keyRightFire) {
+			shouldFire = true;
+			System.out.println("Right fire true");
+		}
+		
+		return shouldFire;
+	}
+	
+	public boolean shouldFireLeft() {
+		boolean shouldFire = false;
+		
+		if (keyLeftFire) {
+			shouldFire = true;
+			System.out.println("Left fire true");
+		}
+		
+		return shouldFire;
 	}
 	
 	// Update the boat
@@ -167,7 +207,6 @@ public class Boat extends Sprite {
 		ArrayList<CannonBall> cbs = new ArrayList<CannonBall>();
 				
 		while (true) {
-			System.out.println(cbs.size());
 			
 			// Draw the blue background
 			draw.setPenColor(Color.blue);
@@ -177,6 +216,20 @@ public class Boat extends Sprite {
 			// Update the boat
 			boat.updateSelf();
 			boat1.updateSelf();
+			
+			if (boat.shouldFireRight()) {
+				cbs = boat.fireRightGuns(cbs);
+			}
+			if (boat.shouldFireLeft()) {
+				cbs = boat.fireLeftGuns(cbs);
+			}
+			
+			if (boat1.shouldFireRight()) {
+				cbs = boat1.fireRightGuns(cbs);
+			}
+			if (boat1.shouldFireLeft()) {
+				cbs = boat1.fireLeftGuns(cbs);
+			}
 			
 			//cbs = boat.fire(cbs);
 			
