@@ -14,6 +14,9 @@ public class Boat extends Sprite {
 	private int myPID;
 	private double myAccel;
 	
+	private int reloadRightProgress = 0; // 0 is ready to shoot
+	private int reloadLeftProgress = 0;
+	
 	private ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	private ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
 	
@@ -141,8 +144,11 @@ public class Boat extends Sprite {
 	public ArrayList<CannonBall> fireRightGuns(ArrayList<CannonBall> cbs) {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
-		for (Cannon c : myRightGuns) {
-			cbs.add(c.fire());
+		if (reloadRightProgress == 0) {
+			for (Cannon c : myRightGuns) {
+				cbs.add(c.fire());
+				reloadRightProgress = 200;
+			}
 		}
 		
 		return cbs;
@@ -152,8 +158,12 @@ public class Boat extends Sprite {
 	public ArrayList<CannonBall> fireLeftGuns(ArrayList<CannonBall> cbs) {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
-		for (Cannon c : myLeftGuns) {
-			cbs.add(c.fire());
+		
+		if (reloadLeftProgress == 0) {
+			for (Cannon c : myLeftGuns) {
+				cbs.add(c.fire());
+				reloadLeftProgress = 200;
+			}
 		}
 		
 		return cbs;
@@ -188,6 +198,15 @@ public class Boat extends Sprite {
 		
 		if (myHealth == 0) die();
 		if (myNumCrew == 0) mySpeed = 0;
+		
+		if (reloadRightProgress > 0) {
+			reloadRightProgress--;
+			System.out.println("Reload progress right: " + reloadRightProgress);
+		}
+		if (reloadLeftProgress > 0) {
+			reloadLeftProgress--;
+			System.out.println("Reload progress left: " + reloadLeftProgress);
+		}
 		
 		updatePosition();
 		visualize();
