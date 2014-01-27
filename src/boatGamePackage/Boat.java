@@ -10,7 +10,7 @@ import edu.princeton.cs.introcs.Draw;
 public class Boat extends Sprite {
 	private int myNumGuns;
 	private int myNumCrew;
-	private int myHealth;
+	protected int myHealth;
 	private int myPID;
 	private double myAccel;
 	
@@ -98,6 +98,8 @@ public class Boat extends Sprite {
 	
 	// Move the boat based on keyPresses
 	public void move() {
+		
+		// Visualize and update the guns
 		for (Cannon c : myRightGuns) {
 			c.update();
 			c.visualize();
@@ -108,6 +110,7 @@ public class Boat extends Sprite {
 			c.visualize();
 		}
 		
+		// Get the key inputs
 		getKeyInputs();
 		
 		// Update angle
@@ -156,6 +159,7 @@ public class Boat extends Sprite {
 		return cbs;
 	}
 	
+	// Check if the right fire button is pressed
 	public boolean shouldFireRight() {
 		boolean shouldFire = false;
 		
@@ -167,6 +171,7 @@ public class Boat extends Sprite {
 		return shouldFire;
 	}
 	
+	// Check if the left fire button is pressed
 	public boolean shouldFireLeft() {
 		boolean shouldFire = false;
 		
@@ -181,7 +186,6 @@ public class Boat extends Sprite {
 	// Update the boat
 	public void updateSelf() {
 		
-		
 		if (myHealth == 0) die();
 		if (myNumCrew == 0) mySpeed = 0;
 		
@@ -189,18 +193,21 @@ public class Boat extends Sprite {
 		visualize();
 		move();
 	}
-	
+		
 	// Local main function used for testing and debugging
 	public static void main(String[] args) {
 		Draw draw = new Draw();
 		
 		draw.setCanvasSize(768, 768);
 		
+		// Close the window when the exit button is pressed
 		draw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		// Initialize the boats
 		Boat boat = new Boat(draw, 0, 0, 0, 0);
 		Boat boat1 = new Boat(draw, 1, 0, 0, 0);
 		
+		// Set the coordinate system
 		draw.setXscale(-1.0, 1.0);
 		draw.setYscale(-1.0, 1.0);
 		
@@ -234,8 +241,9 @@ public class Boat extends Sprite {
 			//cbs = boat.fire(cbs);
 			
 			for (CannonBall c : cbs) {
-				c.updatePosition();
-				c.visualize();
+				c.updateSelf();
+				//c.didCollideWithBoat(boat);
+				//c.didCollideWithBoat(boat1);
 			}
 			
 			draw.show(20);

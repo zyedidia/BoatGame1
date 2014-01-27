@@ -24,8 +24,10 @@ public class Cannon extends Sprite {
 	
 	// Return a new CannonBall
 	public CannonBall fire() {
-		CannonBall cb = new CannonBall(myDraw, "BlackDot.png", myX, myY, 0.05, 0.05, myAngle);
 		
+		CannonBall cb = new CannonBall(myDraw, "BlackDot.png", myX, 
+				myY, 0.05, 0.05, myAngle);
+				
 		return cb;
 	}
 }
