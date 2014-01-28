@@ -146,6 +146,7 @@ public class Boat extends Sprite {
 		if (reloadRightProgress == 0) {
 			for (Cannon c : myRightGuns) {
 				sprites.add(c.fire());
+				sprites.add(c.fireSmoke());
 				reloadRightProgress = reloadTime;
 			}
 		}
@@ -161,6 +162,7 @@ public class Boat extends Sprite {
 		if (reloadLeftProgress == 0) {
 			for (Cannon c : myLeftGuns) {
 				sprites.add(c.fire());
+				sprites.add(c.fireSmoke());
 				reloadLeftProgress = reloadTime;
 			}
 		}
@@ -200,11 +202,11 @@ public class Boat extends Sprite {
 		
 		if (reloadRightProgress > 0) {
 			reloadRightProgress--;
-			System.out.println("Reload progress right: " + reloadRightProgress);
+			//System.out.println("Reload progress right: " + reloadRightProgress);
 		}
 		if (reloadLeftProgress > 0) {
 			reloadLeftProgress--;
-			System.out.println("Reload progress left: " + reloadLeftProgress);
+			//System.out.println("Reload progress left: " + reloadLeftProgress);
 		}
 		
 		updatePosition();

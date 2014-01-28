@@ -30,4 +30,10 @@ public class Cannon extends Sprite {
 				
 		return cb;
 	}
+	
+	public Smoke fireSmoke() {
+		Smoke smoke = new Smoke(myDraw, "ExplosionAtlasFolder", 0, myX, myY);
+		
+		return smoke;
+	}
 }

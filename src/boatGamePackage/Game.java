@@ -49,11 +49,27 @@ public class Game {
 							sprites = ((Boat) s).fireRightGuns(sprites);
 						}
 					}
-					if(s instanceof CannonBall){
+					
+					if (s instanceof CannonBall) {
 						//((CannonBall) s).didCollideWithBoat((Boat) sprites.get(0));
 						//((CannonBall) s).didCollideWithBoat((Boat) sprites.get(1));
 					}
-					sprites.set(i, s);
+					
+					if (s instanceof Smoke) {
+						//System.out.println(((Smoke) s).iteration);
+						if (((Smoke) s).isFinished) {
+							sprites.remove(s);
+							//System.out.println("Removed");
+						} else {
+							((Smoke) s).animate();
+							//System.out.println("Animating");
+						}
+						
+						
+					}
+					
+					//sprites.set(i, s);
+					
 				}
 			} catch(ArrayIndexOutOfBoundsException e){
 				System.out.println("Deleted object requested. Ignoring.");
