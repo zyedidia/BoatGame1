@@ -28,7 +28,7 @@ public class Boat extends Sprite {
 	// Constructors \\
 	public Boat(Draw draw, int numGuns, int numCrew, int health, int pID, double x, double y, int angle, double accel) {
 		super(draw, "boat.png", angle, x, y, 0.2, 0.5);
-		myMaxSpeed = 0.0075;
+		myMaxSpeed = 0.005;
 		myNumCrew = numCrew;
 		myNumGuns = numGuns;
 		myHealth = health;
@@ -44,7 +44,7 @@ public class Boat extends Sprite {
 		myNumGuns = 5; // Guns per side
 		myHealth = 100;
 		myPID = pID;
-		myAccel = 0.001;
+		myAccel = 0.0005;
 		initGuns();
 	}
 	
@@ -116,7 +116,7 @@ public class Boat extends Sprite {
 		
 		// Update angle
     	myAngle = changeAngle(keyRight, keyLeft);
-    	
+    	mySpeed = 0;
     	// Forward Driving
     	if (keyUp == true) {
     		mySpeed += myAccel;
@@ -136,6 +136,8 @@ public class Boat extends Sprite {
     			mySpeed = 0;
     		}
     	}
+    	myVx -= myVx/60;
+    	myVy -= myVy/60;
 	}
 	
 	// Fire the guns on the right side
@@ -211,5 +213,25 @@ public class Boat extends Sprite {
 		move();
 	}
 		
-	
+	public void updatePosition() {
+		// Set speed to maxSpeed if speed is greater than maxSpeed
+		if (mySpeed > myMaxSpeed) {
+    		mySpeed = myMaxSpeed;
+    	}
+    	
+    	// Convert speed and angle to vx and vy
+    	myVx += mySpeed * Math.cos((myAngle - 270) * Math.PI / 180);
+		myVy += mySpeed * Math.sin((myAngle - 270) * Math.PI / 180);
+		if(Math.sqrt(Math.pow(myVx,2) + Math.pow(myVy, 2)) > myMaxSpeed){
+			double myNewVx = myMaxSpeed * Math.cos((myAngle - 270) * Math.PI / 180);
+			double myNewVy = myMaxSpeed * Math.sin((myAngle - 270) * Math.PI / 180);
+			double weight = 20;
+			myVx = (weight*myVx + myNewVx)/(weight+1);
+			myVy = (weight*myVy + myNewVy)/(weight+1);
+		}
+		
+		// Update the position
+		myX += myVx;
+		myY += myVy;
+	}
 }
