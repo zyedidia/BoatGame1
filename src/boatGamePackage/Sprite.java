@@ -2,7 +2,7 @@ package boatGamePackage;
 
 import edu.princeton.cs.introcs.Draw;
 
-public class Sprite {
+public abstract class Sprite {
 	protected Draw myDraw;
 	protected double mySpeed;
 	protected int myAngle;
@@ -67,4 +67,7 @@ public class Sprite {
 		myX = 10;
 		myY = 10;
 	}
+	
+	//For type-safety
+	public abstract void updateSelf();
 }

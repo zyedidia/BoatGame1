@@ -104,12 +104,12 @@ public class Boat extends Sprite {
 		
 		// Visualize and update the guns
 		for (Cannon c : myRightGuns) {
-			c.update();
+			c.updateSelf();
 			c.visualize();
 		}
 		
 		for (Cannon c : myLeftGuns) {
-			c.update();
+			c.updateSelf();
 			c.visualize();
 		}
 		
@@ -141,32 +141,28 @@ public class Boat extends Sprite {
 	}
 	
 	// Fire the guns on the right side
-	public ArrayList<CannonBall> fireRightGuns(ArrayList<CannonBall> cbs) {
+	public void fireRightGuns() {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
 		if (reloadRightProgress == 0) {
 			for (Cannon c : myRightGuns) {
-				cbs.add(c.fire());
+				Game.sprites.add(c.fire());
 				reloadRightProgress = 200;
 			}
 		}
-		
-		return cbs;
 	}
 	
 	// Fire the guns on the left side
-	public ArrayList<CannonBall> fireLeftGuns(ArrayList<CannonBall> cbs) {
+	public void fireLeftGuns() {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
 		
 		if (reloadLeftProgress == 0) {
 			for (Cannon c : myLeftGuns) {
-				cbs.add(c.fire());
+				Game.sprites.add(c.fire());
 				reloadLeftProgress = 200;
 			}
 		}
-		
-		return cbs;
 	}
 	
 	// Check if the right fire button is pressed
@@ -211,6 +207,9 @@ public class Boat extends Sprite {
 		updatePosition();
 		visualize();
 		move();
+		
+		if(shouldFireLeft()) fireLeftGuns();
+		if(shouldFireRight()) fireRightGuns();
 	}
 		
 	
