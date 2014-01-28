@@ -1,9 +1,6 @@
 package boatGamePackage;
 
-import java.awt.Color;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
 
 import edu.princeton.cs.introcs.Draw;
 
@@ -16,6 +13,7 @@ public class Boat extends Sprite {
 	
 	private int reloadRightProgress = 0; // 0 is ready to shoot
 	private int reloadLeftProgress = 0;
+	private final int reloadTime = 0;
 	
 	private ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	private ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
@@ -147,7 +145,7 @@ public class Boat extends Sprite {
 		if (reloadRightProgress == 0) {
 			for (Cannon c : myRightGuns) {
 				cbs.add(c.fire());
-				reloadRightProgress = 200;
+				reloadRightProgress = reloadTime;
 			}
 		}
 		
@@ -162,7 +160,7 @@ public class Boat extends Sprite {
 		if (reloadLeftProgress == 0) {
 			for (Cannon c : myLeftGuns) {
 				cbs.add(c.fire());
-				reloadLeftProgress = 200;
+				reloadLeftProgress = reloadTime;
 			}
 		}
 		
