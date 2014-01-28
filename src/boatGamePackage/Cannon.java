@@ -16,7 +16,7 @@ public class Cannon extends Sprite {
 	}
 	
 	// Put the cannon at the correct coordinates
-	public void update() {
+	public void updateSelf() {
 		myX = myBoat.myX;
 		myY = myBoat.myY;
 		myAngle = myBoat.myAngle + myOffSet;
