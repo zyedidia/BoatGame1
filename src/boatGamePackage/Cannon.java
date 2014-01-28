@@ -9,7 +9,7 @@ public class Cannon extends Sprite {
 	
 	// Contrsuctor \\
 	public Cannon(Draw draw, int offSet, Boat boat) {
-		super(draw, "Resources/tank0.png", boat.mySpeed, boat.myMaxSpeed, boat.myAngle + offSet, boat.myX, boat.myY, 0.05, 0.1);
+		super(draw, "Resources/tank0.png", boat.mySpeed, boat.myMaxSpeed, boat.myAngle + offSet, boat.myX, boat.myY, 0.05, 0.05);
 		
 		myOffSet = offSet;
 		myBoat = boat;
@@ -32,7 +32,10 @@ public class Cannon extends Sprite {
 	}
 	
 	public Smoke fireSmoke() {
-		Smoke smoke = new Smoke(myDraw, "ExplosionAtlasFolder", 0, myX, myY);
+		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
+		
+		Smoke smoke = new Smoke(myDraw, "ExplosionAtlasFolder", 0, myX + myWidth * 2 * Math.cos(angleInRadians), 
+				myY + myHeight * Math.sin(angleInRadians));
 		
 		return smoke;
 	}
