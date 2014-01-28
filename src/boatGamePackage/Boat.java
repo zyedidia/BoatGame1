@@ -13,7 +13,7 @@ public class Boat extends Sprite {
 	
 	private int reloadRightProgress = 0; // 0 is ready to shoot
 	private int reloadLeftProgress = 0;
-	private final int reloadTime = 0;
+	private final int reloadTime = 5;
 	
 	private ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	private ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
@@ -139,28 +139,32 @@ public class Boat extends Sprite {
 	}
 	
 	// Fire the guns on the right side
-	public void fireRightGuns(ArrayList<CannonBall> cbs) {
+	public ArrayList<Sprite> fireRightGuns(ArrayList<Sprite> sprites) {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
 		if (reloadRightProgress == 0) {
 			for (Cannon c : myRightGuns) {
-				cbs.add(c.fire());
+				sprites.add(c.fire());
 				reloadRightProgress = reloadTime;
 			}
 		}
+		
+		return sprites;
 	}
 	
 	// Fire the guns on the left side
-	public void fireLeftGuns(ArrayList<CannonBall> cbs) {
+	public ArrayList<Sprite> fireLeftGuns(ArrayList<Sprite> sprites) {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
 		
 		if (reloadLeftProgress == 0) {
 			for (Cannon c : myLeftGuns) {
-				cbs.add(c.fire());
+				sprites.add(c.fire());
 				reloadLeftProgress = reloadTime;
 			}
 		}
+		
+		return sprites;
 	}
 	
 	// Check if the right fire button is pressed

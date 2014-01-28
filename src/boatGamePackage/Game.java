@@ -41,6 +41,14 @@ public class Game {
 				for (int i = 0; i < sprites.size(); i++) {
 					Sprite s = sprites.get(i);
 					s.updateSelf();
+					if (s instanceof Boat) {
+						if (((Boat) s).shouldFireLeft()) {
+							sprites = ((Boat) s).fireLeftGuns(sprites); 
+						}
+						if (((Boat) s).shouldFireRight()) {
+							sprites = ((Boat) s).fireRightGuns(sprites);
+						}
+					}
 					if(s instanceof CannonBall){
 						//c.didCollideWithBoat(boat);
 						//c.didCollideWithBoat(boat1);
