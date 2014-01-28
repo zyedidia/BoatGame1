@@ -27,7 +27,7 @@ public class Boat extends Sprite {
 
 	// Constructors \\
 	public Boat(Draw draw, int numGuns, int numCrew, int health, int pID, double x, double y, int angle, double accel) {
-		super(draw, "boat.png", angle, x, y, 0.2, 0.5);
+		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
 		myNumCrew = numCrew;
 		myNumGuns = numGuns;
@@ -38,7 +38,7 @@ public class Boat extends Sprite {
 	}
 	
 	public Boat(Draw draw, int pID, double x, double y, int angle) {
-		super(draw, "boat.png", angle, x, y, 0.2, 0.5);
+		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
 		myNumCrew = 100;
 		myNumGuns = 5; // Guns per side
@@ -52,13 +52,13 @@ public class Boat extends Sprite {
 	public void initGuns() {
 		
 		for (int i = 0; i < myNumGuns; i++) {
-			Cannon cannon = new Cannon(myDraw, "tank0.png", -90, this);
+			Cannon cannon = new Cannon(myDraw, -90, this);
 			
 			myRightGuns.add(cannon);
 		}
 		
 		for (int i = 0; i < myNumGuns; i++) {
-			Cannon cannon = new Cannon(myDraw, "tank0.png", 90, this);
+			Cannon cannon = new Cannon(myDraw, 90, this);
 			
 			myLeftGuns.add(cannon);
 		}

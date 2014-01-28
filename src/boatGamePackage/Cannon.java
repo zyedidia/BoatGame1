@@ -8,8 +8,8 @@ public class Cannon extends Sprite {
 	private int myOffSet;
 	
 	// Contrsuctor \\
-	public Cannon(Draw draw, String fileName, int offSet, Boat boat) {
-		super(draw, fileName, boat.mySpeed, boat.myMaxSpeed, boat.myAngle + offSet, boat.myX, boat.myY, 0.05, 0.1);
+	public Cannon(Draw draw, int offSet, Boat boat) {
+		super(draw, "Resources/tank0.png", boat.mySpeed, boat.myMaxSpeed, boat.myAngle + offSet, boat.myX, boat.myY, 0.05, 0.1);
 		
 		myOffSet = offSet;
 		myBoat = boat;
@@ -26,7 +26,7 @@ public class Cannon extends Sprite {
 	public CannonBall fire() {
 		double angleInRadians = (myAngle + myOffSet) * Math.PI / 180.;
 		
-		CannonBall cb = new CannonBall(myDraw, "BlackDot.png", myX, 
+		CannonBall cb = new CannonBall(myDraw, myX, 
 				myY, 0.05, 0.05, myAngle);
 				
 		return cb;

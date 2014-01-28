@@ -29,8 +29,8 @@ public class Game {
 		sprites = new ArrayList<Sprite>();
 
 		// Initialize the boats
-		sprites.add(new Boat(draw, 0, 0, 0, 0));
-		sprites.add(new Boat(draw, 1, 0, 0, 0));
+		sprites.add(new Boat(draw, 0, 0.75, 0.75, 180));
+		sprites.add(new Boat(draw, 1, -0.75, -0.75, 0));
 
 		draw.setPenColor(Color.blue);
 		while (true) {
@@ -50,8 +50,8 @@ public class Game {
 						}
 					}
 					if(s instanceof CannonBall){
-						//c.didCollideWithBoat(boat);
-						//c.didCollideWithBoat(boat1);
+						//((CannonBall) s).didCollideWithBoat((Boat) sprites.get(0));
+						//((CannonBall) s).didCollideWithBoat((Boat) sprites.get(1));
 					}
 					sprites.set(i, s);
 				}

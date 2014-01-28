@@ -6,9 +6,9 @@ import edu.princeton.cs.introcs.Draw;
 public class CannonBall extends Sprite {
 	
 	// Constructor \\
-	public CannonBall(Draw draw, String fileName, double x, double y, double speed, double maxSpeed, int angle) {
+	public CannonBall(Draw draw, double x, double y, double speed, double maxSpeed, int angle) {
 		
-		super(draw, fileName, speed, maxSpeed, angle, x, y, 0.015, 0.015);
+		super(draw, "Resources/BlackDot.png", speed, maxSpeed, angle, x, y, 0.015, 0.015);
 	}
 	
 	public void didCollideWithBoat(Boat b) {
