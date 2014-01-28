@@ -125,7 +125,6 @@ public class Boat extends Sprite {
     	// Backward Driving: boats don't go backwards
     	if (keyDown == true) {
     		//mySpeed -= myAccel;
-    		
     	}
     	
     	//If no keypress, slow down the boat
@@ -222,12 +221,13 @@ public class Boat extends Sprite {
     	// Convert speed and angle to vx and vy
     	myVx += mySpeed * Math.cos((myAngle - 270) * Math.PI / 180);
 		myVy += mySpeed * Math.sin((myAngle - 270) * Math.PI / 180);
-		if(Math.sqrt(Math.pow(myVx,2) + Math.pow(myVy, 2)) > myMaxSpeed){
+		
+		if (Math.sqrt(Math.pow(myVx,2) + Math.pow(myVy, 2)) > myMaxSpeed) {
 			double myNewVx = myMaxSpeed * Math.cos((myAngle - 270) * Math.PI / 180);
 			double myNewVy = myMaxSpeed * Math.sin((myAngle - 270) * Math.PI / 180);
 			double weight = 20;
-			myVx = (weight*myVx + myNewVx)/(weight+1);
-			myVy = (weight*myVy + myNewVy)/(weight+1);
+			myVx = (weight * myVx + myNewVx) / (weight+1);
+			myVy = (weight * myVy + myNewVy) / (weight+1);
 		}
 		
 		// Update the position
