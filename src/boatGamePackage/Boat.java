@@ -11,6 +11,8 @@ public class Boat extends Sprite {
 	private int myPID;
 	private double myAccel;
 	
+	//test
+	
 	private int reloadRightProgress = 0; // 0 is ready to shoot
 	private int reloadLeftProgress = 0;
 	private final int reloadTime = 5;
