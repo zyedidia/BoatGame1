@@ -63,11 +63,10 @@ public class Game {
 						//System.out.println(((Smoke) s).iteration);
 						if (((Smoke) s).isFinished) {
 							sprites.remove(s);
-							//System.out.println("Removed");
+							System.out.println("Removed");
 						}
 					}
 					
-					//sprites.set(i, s);
 					
 				}
 			} catch(ArrayIndexOutOfBoundsException e){

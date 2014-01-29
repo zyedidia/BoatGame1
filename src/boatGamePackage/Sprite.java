@@ -66,6 +66,7 @@ public abstract class Sprite {
 		mySpeed = 0;
 		myX = 10;
 		myY = 10;
+		//Game.sprites.remove(this);
 	}
 	
 	//For type-safety
