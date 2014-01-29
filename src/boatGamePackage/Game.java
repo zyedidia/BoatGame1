@@ -29,10 +29,9 @@ public class Game {
 		sprites = new ArrayList<Sprite>();
 
 		// Initialize the boats
-		//sprites.add(new Waves(draw, -0.75, -0.75, 0));
-		sprites.add(new Boat(draw, 0, 0.75, 0.75, 180));
-		sprites.add(new Boat(draw, 1, -0.75, -0.75, 0));
-		
+		sprites.add(new PlayerBoat(draw, 0, 0.75, 0.75, 180));
+		sprites.add(new PlayerBoat(draw, 1, -0.75, -0.75, 0));
+
 		draw.setPenColor(Color.blue);
 		while (true) {
 
