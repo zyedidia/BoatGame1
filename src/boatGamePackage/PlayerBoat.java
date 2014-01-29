@@ -18,12 +18,12 @@ public class PlayerBoat extends Boat {
 
 	public void getKeyInputs() {
 		//Initialize keyPresses based on player
-		forward = getPress(38, 87); // Up Arrow and W
-		back = getPress(40, 83); // Down Arrow and S
-		left = getPress(37, 65); // Left Arrow and A
-		right = getPress(39, 68); // Right Array and D
-		rightFire = getPress(77, 86); // M and V
-		leftFire = getPress(78, 67); // N and C
+		myForward = getPress(38, 87); // Up Arrow and W
+		myBack = getPress(40, 83); // Down Arrow and S
+		myLeft = getPress(37, 65); // Left Arrow and A
+		myRight = getPress(39, 68); // Right Array and D
+		myRightFire = getPress(77, 86); // M and V
+		myLeftFire = getPress(78, 67); // N and C
 	}
 
 	//Parameters: keyPress for player1 and keyPress for player2 Returns: whether the correct 
@@ -43,7 +43,7 @@ public class PlayerBoat extends Boat {
 	public boolean shouldFireRight() {
 		boolean shouldFire = false;
 
-		if (rightFire) {
+		if (myRightFire) {
 			shouldFire = true;
 			System.out.println("Right fire true");
 		}
@@ -55,7 +55,7 @@ public class PlayerBoat extends Boat {
 	public boolean shouldFireLeft() {
 		boolean shouldFire = false;
 
-		if (leftFire) {
+		if (myLeftFire) {
 			shouldFire = true;
 			System.out.println("Left fire true");
 		}

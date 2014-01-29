@@ -6,21 +6,21 @@ import java.util.ArrayList;
 import edu.princeton.cs.introcs.Draw;
 
 public class Boat extends Sprite {
-	protected boolean forward = false;
-	protected boolean back = false;
-	protected boolean left = false;
-	protected boolean right = false;
-	protected boolean rightFire = false;
-	protected boolean leftFire = false;
+	protected boolean myForward = false;
+	protected boolean myBack = false;
+	protected boolean myLeft = false;
+	protected boolean myRight = false;
+	protected boolean myRightFire = false;
+	protected boolean myLeftFire = false;
 
 	protected int myNumGuns;
 	protected int myNumCrew;
 	protected int myHealth;
 	protected double myAccel;
 
-	private int reloadRightProgress = 0; // 0 is ready to shoot
-	private int reloadLeftProgress = 0;
-	private final int reloadTime = 100;
+	private int myReloadRightProgress = 0; // 0 is ready to shoot
+	private int myReloadLeftProgress = 0;
+	private final int myReloadTime = 100;
 
 	protected ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	protected ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
@@ -91,20 +91,20 @@ public class Boat extends Sprite {
 		//getKeyInputs();
 
 		// Update angle
-		myAngle = changeAngle(right, left);
+		myAngle = changeAngle(myRight, myLeft);
 		mySpeed = 0;
 		// Forward Driving
-		if (forward == true) {
+		if (myForward == true) {
 			mySpeed += myAccel;
 		}
 
 		// Backward Driving: boats don't go backwards
-		if (back == true) {
+		if (myBack == true) {
 			//mySpeed -= myAccel;
 		}
 
 		//If no keypress, slow down the boat
-		if (forward == false && back == false) {
+		if (myForward == false && myBack == false) {
 			if (mySpeed > 0) {
 				mySpeed -= mySpeed/60;
 			} else {
@@ -119,11 +119,11 @@ public class Boat extends Sprite {
 	public ArrayList<Sprite> fireRightGuns(ArrayList<Sprite> sprites) {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
-		if (reloadRightProgress == 0) {
+		if (myReloadRightProgress == 0) {
 			for (Cannon c : myRightGuns) {
 				sprites.add(c.fire());
 				sprites.add(c.fireSmoke());
-				reloadRightProgress = reloadTime;
+				myReloadRightProgress = myReloadTime;
 			}
 		}
 
@@ -135,11 +135,11 @@ public class Boat extends Sprite {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
 
-		if (reloadLeftProgress == 0) {
+		if (myReloadLeftProgress == 0) {
 			for (Cannon c : myLeftGuns) {
 				sprites.add(c.fire());
 				sprites.add(c.fireSmoke());
-				reloadLeftProgress = reloadTime;
+				myReloadLeftProgress = myReloadTime;
 			}
 		}
 
@@ -162,12 +162,12 @@ public class Boat extends Sprite {
 		if (myHealth == 0) die();
 		if (myNumCrew == 0) mySpeed = 0;
 
-		if (reloadRightProgress > 0) {
-			reloadRightProgress--;
+		if (myReloadRightProgress > 0) {
+			myReloadRightProgress--;
 			//System.out.println("Reload progress right: " + reloadRightProgress);
 		}
-		if (reloadLeftProgress > 0) {
-			reloadLeftProgress--;
+		if (myReloadLeftProgress > 0) {
+			myReloadLeftProgress--;
 			//System.out.println("Reload progress left: " + reloadLeftProgress);
 		}
 		
@@ -176,6 +176,10 @@ public class Boat extends Sprite {
 		visualize();
 		move();
 		
+		updateHUD();
+	}
+	
+	public void updateHUD() {
 		myDraw.setPenColor(Color.GREEN);
 		myDraw.filledRectangle(myX, myY + 0.1, myHealth * 0.001, 0.0075);
 		
@@ -184,13 +188,13 @@ public class Boat extends Sprite {
 		double cannonAngleInRadians = (rightCannon.myAngle + 90) * Math.PI / 180.;
 		myDraw.filledCircle(rightCannon.myX + rightCannon.myWidth * 2 * Math.cos(cannonAngleInRadians), 
 				rightCannon.myY + rightCannon.myHeight * 2 * Math.sin(cannonAngleInRadians), 
-				reloadRightProgress * 0.001);
+				myReloadRightProgress * 0.001);
 		
 		Cannon leftCannon = myLeftGuns.get(0);
 		double leftCannonAngleInRadians = (leftCannon.myAngle + 90) * Math.PI / 180.;
 		myDraw.filledCircle(leftCannon.myX + leftCannon.myWidth * 2 * Math.cos(leftCannonAngleInRadians), 
 				leftCannon.myY + leftCannon.myHeight * 2 * Math.sin(leftCannonAngleInRadians), 
-				reloadLeftProgress * 0.001);
+				myReloadLeftProgress * 0.001);
 	}
 
 	public void updatePosition() {
