@@ -52,13 +52,13 @@ public class Boat extends Sprite {
 	public void initGuns() {
 		
 		for (int i = 0; i < myNumGuns; i++) {
-			Cannon cannon = new Cannon(myDraw, -90, this);
+			Cannon cannon = new Cannon(myDraw, -90, myWidth, 0, this);
 			
 			myRightGuns.add(cannon);
 		}
 		
 		for (int i = 0; i < myNumGuns; i++) {
-			Cannon cannon = new Cannon(myDraw, 90, this);
+			Cannon cannon = new Cannon(myDraw, 90, -myWidth, 0, this);
 			
 			myLeftGuns.add(cannon);
 		}
@@ -228,8 +228,8 @@ public class Boat extends Sprite {
 			double myNewVx = myMaxSpeed * Math.cos((myAngle - 270) * Math.PI / 180);
 			double myNewVy = myMaxSpeed * Math.sin((myAngle - 270) * Math.PI / 180);
 			double weight = 20;
-			myVx = (weight * myVx + myNewVx) / (weight+1);
-			myVy = (weight * myVy + myNewVy) / (weight+1);
+			myVx = (weight * myVx + myNewVx) / (weight + 1);
+			myVy = (weight * myVy + myNewVy) / (weight + 1);
 		}
 		
 		// Update the position

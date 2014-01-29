@@ -73,7 +73,7 @@ public class Game {
 			} catch(ArrayIndexOutOfBoundsException e){
 				System.out.println("Deleted object requested. Ignoring.");
 			}
-			draw.show(10);
+			draw.show(20);
 		}
 	}
 
