@@ -11,14 +11,13 @@ public class Boat extends Sprite {
 	private int myPID;
 	private double myAccel;
 	
-	//test
-	
 	private int reloadRightProgress = 0; // 0 is ready to shoot
 	private int reloadLeftProgress = 0;
 	private final int reloadTime = 5;
 	
 	private ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	private ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
+	private Waves myWave;
 	
 	private boolean keyUp = false;
 	private boolean keyDown = false;
@@ -30,6 +29,8 @@ public class Boat extends Sprite {
 	// Constructors \\
 	public Boat(Draw draw, int numGuns, int numCrew, int health, int pID, double x, double y, int angle, double accel) {
 		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
+		
+		
 		myMaxSpeed = 0.0075;
 		myNumCrew = numCrew;
 		myNumGuns = numGuns;
@@ -48,6 +49,7 @@ public class Boat extends Sprite {
 		myPID = pID;
 		myAccel = 0.0005;
 		initGuns();
+		
 	}
 	
 	// Add the guns to the ArrayLists
@@ -101,7 +103,10 @@ public class Boat extends Sprite {
 	
 	// Move the boat based on keyPresses
 	public void move() {
-		
+//		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
+//		myWave= new Waves(myDraw,myX + (-0.2 + 0.065) * 2 * Math.cos(angleInRadians), 
+//				myY + (-0.2 + 0.065) * 2 * Math.sin(angleInRadians), myAngle);
+//		myWave.visualize();
 		// Visualize and update the guns
 		for (Cannon c : myRightGuns) {
 			c.updateSelf();
@@ -211,7 +216,13 @@ public class Boat extends Sprite {
 			//System.out.println("Reload progress left: " + reloadLeftProgress);
 		}
 		
+		
+		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
+		myWave= new Waves(myDraw,myX + (-0.2 + 0.065) * 2 * Math.cos(angleInRadians), 
+				myY + (-0.2 + 0.065) * 2 * Math.sin(angleInRadians), myAngle);
 		updatePosition();
+		myWave.visualize();
+		
 		visualize();
 		move();
 	}
@@ -233,6 +244,8 @@ public class Boat extends Sprite {
 			myVx = (weight * myVx + myNewVx) / (weight + 1);
 			myVy = (weight * myVy + myNewVy) / (weight + 1);
 		}
+		myWave.checkwave(mySpeed);
+		
 		
 		// Update the position
 		myX += myVx;

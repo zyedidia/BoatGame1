@@ -29,14 +29,14 @@ public class Game {
 		sprites = new ArrayList<Sprite>();
 
 		// Initialize the boats
+		//sprites.add(new Waves(draw, -0.75, -0.75, 0));
 		sprites.add(new Boat(draw, 0, 0.75, 0.75, 180));
 		sprites.add(new Boat(draw, 1, -0.75, -0.75, 0));
-
+		
 		draw.setPenColor(Color.blue);
 		while (true) {
 
 			// Draw the blue background
-			draw.setPenColor(Color.BLUE);
 			draw.filledSquare(0.0, 0.0, 1.5);
 			try {
 				for (int i = 0; i < sprites.size(); i++) {
@@ -50,7 +50,7 @@ public class Game {
 							sprites = ((Boat) s).fireRightGuns(sprites);
 						}
 					}
-					
+
 					if (s instanceof CannonBall) {
 						if (((CannonBall) s).didCollideWithBoat((Boat) sprites.get(0))) {
 							sprites.add(((CannonBall) s).onHit((Boat) sprites.get(0)));
@@ -59,34 +59,21 @@ public class Game {
 							sprites.add(((CannonBall) s).onHit((Boat) sprites.get(1)));
 						}
 					}
-					
+
 					if (s instanceof Smoke) {
 						//System.out.println(((Smoke) s).iteration);
 						if (((Smoke) s).isFinished) {
 							sprites.remove(s);
-							System.out.println("Removed");
+							//System.out.println("Removed");
 						}
 					}
-					
-					
-					
-					
+
+					//sprites.set(i, s);
+
 				}
 			} catch(ArrayIndexOutOfBoundsException e){
 				System.out.println("Deleted object requested. Ignoring.");
 			}
-			
-			if (draw.isKeyPressed(79)) {
-				while (true) {
-					draw.setPenColor(Color.RED);
-					draw.text(0, 0, "Game Paused");
-					draw.show();
-					if (draw.isKeyPressed(80)) {
-						break;
-					}
-				}
-			}
-			
 			draw.show(20);
 		}
 	}
