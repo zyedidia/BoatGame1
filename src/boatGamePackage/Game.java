@@ -36,6 +36,7 @@ public class Game {
 		while (true) {
 
 			// Draw the blue background
+			draw.setPenColor(Color.BLUE);
 			draw.filledSquare(0.0, 0.0, 1.5);
 			try {
 				for (int i = 0; i < sprites.size(); i++) {
@@ -68,10 +69,24 @@ public class Game {
 					}
 					
 					
+					
+					
 				}
 			} catch(ArrayIndexOutOfBoundsException e){
 				System.out.println("Deleted object requested. Ignoring.");
 			}
+			
+			if (draw.isKeyPressed(79)) {
+				while (true) {
+					draw.setPenColor(Color.RED);
+					draw.text(0, 0, "Game Paused");
+					draw.show();
+					if (draw.isKeyPressed(80)) {
+						break;
+					}
+				}
+			}
+			
 			draw.show(20);
 		}
 	}
