@@ -20,7 +20,7 @@ public class Boat extends Sprite {
 
 	private int reloadRightProgress = 0; // 0 is ready to shoot
 	private int reloadLeftProgress = 0;
-	private final int reloadTime = 5;
+	private final int reloadTime = 100;
 
 	protected ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	protected ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
@@ -178,6 +178,19 @@ public class Boat extends Sprite {
 		
 		myDraw.setPenColor(Color.GREEN);
 		myDraw.filledRectangle(myX, myY + 0.1, myHealth * 0.001, 0.0075);
+		
+		myDraw.setPenColor(new Color(0, 255, 0, 100));
+		Cannon rightCannon = myRightGuns.get(0);
+		double cannonAngleInRadians = (rightCannon.myAngle + 90) * Math.PI / 180.;
+		myDraw.filledCircle(rightCannon.myX + rightCannon.myWidth * 2 * Math.cos(cannonAngleInRadians), 
+				rightCannon.myY + rightCannon.myHeight * 2 * Math.sin(cannonAngleInRadians), 
+				reloadRightProgress * 0.001);
+		
+		Cannon leftCannon = myLeftGuns.get(0);
+		double leftCannonAngleInRadians = (leftCannon.myAngle + 90) * Math.PI / 180.;
+		myDraw.filledCircle(leftCannon.myX + leftCannon.myWidth * 2 * Math.cos(leftCannonAngleInRadians), 
+				leftCannon.myY + leftCannon.myHeight * 2 * Math.sin(leftCannonAngleInRadians), 
+				reloadLeftProgress * 0.001);
 	}
 
 	public void updatePosition() {
