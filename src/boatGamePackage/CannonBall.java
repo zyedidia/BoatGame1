@@ -31,6 +31,7 @@ public class CannonBall extends Sprite {
         		&& deltaObstacleY <= b.myHeight/2 
         		&& deltaObstacleY >= -b.myHeight/2) {
         	didCollide = true;
+        	Game.sprites.remove(this);
         }
         
         return didCollide;

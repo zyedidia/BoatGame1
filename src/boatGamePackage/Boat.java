@@ -1,5 +1,6 @@
 package boatGamePackage;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Draw;
@@ -20,7 +21,6 @@ public class Boat extends Sprite {
 	private int reloadRightProgress = 0; // 0 is ready to shoot
 	private int reloadLeftProgress = 0;
 	private final int reloadTime = 5;
-	private Waves myWave;
 
 	protected ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	protected ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
@@ -28,8 +28,6 @@ public class Boat extends Sprite {
 	// Constructors \\
 	public Boat(Draw draw, int numGuns, int numCrew, int health, double x, double y, int angle, double accel) {
 		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
-		
-		
 		myMaxSpeed = 0.0075;
 		myNumCrew = numCrew;
 		myNumGuns = numGuns;
@@ -77,11 +75,7 @@ public class Boat extends Sprite {
 
 	// Move the boat based on keyPresses
 	public void move() {
-//		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
-//		myWave= new Waves(myDraw,myX + (-0.2 + 0.065) * 2 * Math.cos(angleInRadians), 
-//				myY + (-0.2 + 0.065) * 2 * Math.sin(angleInRadians), myAngle);
-//		myWave.visualize();
-
+		
 		// Visualize and update the guns
 		for (Cannon c : myRightGuns) {
 			c.updateSelf();
@@ -177,15 +171,13 @@ public class Boat extends Sprite {
 			//System.out.println("Reload progress left: " + reloadLeftProgress);
 		}
 		
-		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
-		myWave= new Waves(myDraw,myX + (-0.2 + 0.065) * 2 * Math.cos(angleInRadians), 
-				myY + (-0.2 + 0.065) * 2 * Math.sin(angleInRadians), myAngle);
-
 		updatePosition();
-		myWave.visualize();
 		
 		visualize();
 		move();
+		
+		myDraw.setPenColor(Color.GREEN);
+		myDraw.filledRectangle(myX, myY + 0.1, myHealth * 0.001, 0.0075);
 	}
 
 	public void updatePosition() {
@@ -205,7 +197,6 @@ public class Boat extends Sprite {
 			myVx = (weight * myVx + myNewVx) / (weight + 1);
 			myVy = (weight * myVy + myNewVy) / (weight + 1);
 		}
-		myWave.checkwave(mySpeed);
 		
 
 		// Update the position
