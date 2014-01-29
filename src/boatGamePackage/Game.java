@@ -51,8 +51,12 @@ public class Game {
 					}
 					
 					if (s instanceof CannonBall) {
-						//((CannonBall) s).didCollideWithBoat((Boat) sprites.get(0));
-						//((CannonBall) s).didCollideWithBoat((Boat) sprites.get(1));
+						if (((CannonBall) s).didCollideWithBoat((Boat) sprites.get(0))) {
+							sprites.add(((CannonBall) s).onHit((Boat) sprites.get(0)));
+						}
+						if (((CannonBall) s).didCollideWithBoat((Boat) sprites.get(1))) {
+							sprites.add(((CannonBall) s).onHit((Boat) sprites.get(1)));
+						}
 					}
 					
 					if (s instanceof Smoke) {
@@ -60,12 +64,7 @@ public class Game {
 						if (((Smoke) s).isFinished) {
 							sprites.remove(s);
 							//System.out.println("Removed");
-						} else {
-							((Smoke) s).animate();
-							//System.out.println("Animating");
 						}
-						
-						
 					}
 					
 					//sprites.set(i, s);
@@ -74,7 +73,7 @@ public class Game {
 			} catch(ArrayIndexOutOfBoundsException e){
 				System.out.println("Deleted object requested. Ignoring.");
 			}
-			draw.show(20);
+			draw.show(10);
 		}
 	}
 

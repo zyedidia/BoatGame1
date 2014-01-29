@@ -24,9 +24,10 @@ public class Cannon extends Sprite {
 	
 	// Return a new CannonBall
 	public CannonBall fire() {
-		//double angleInRadians = (myAngle + myOffSet) * Math.PI / 180.;
+		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
 		
-		CannonBall cb = new CannonBall(myDraw, myX, myY, 0.05, 0.05, myAngle);
+		CannonBall cb = new CannonBall(myDraw, myX + (myWidth + 0.075) * 2 * Math.cos(angleInRadians), 
+				myY + (myHeight + 0.075) * 2 * Math.sin(angleInRadians), 0.05, 0.05, myAngle);
 				
 		return cb;
 	}
@@ -35,7 +36,7 @@ public class Cannon extends Sprite {
 		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
 		
 		Smoke smoke = new Smoke(myDraw, "ExplosionAtlasFolder", 0, myX + myWidth * 2 * Math.cos(angleInRadians), 
-				myY + myHeight * Math.sin(angleInRadians));
+				myY + myHeight * 2 * Math.sin(angleInRadians));
 		
 		return smoke;
 	}

@@ -11,18 +11,29 @@ public class CannonBall extends Sprite {
 		super(draw, "Resources/BlackDot.png", speed, maxSpeed, angle, x, y, 0.015, 0.015);
 	}
 	
-	public void didCollideWithBoat(Boat b) {
+	public Sprite onHit(Boat b) {
+		b.myHealth -= 5;
+    	System.out.println("Bullet collided with boat");
+    	Smoke smoke = new Smoke(myDraw, "ExplosionAtlasFolder", 0, myX, myY);
+    	this.die();
+    	
+    	return smoke;
+	}
+	
+	public boolean didCollideWithBoat(Boat b) {
+		
+		boolean didCollide = false;
 		
 		double deltaObstacleX = myX - b.myX;
         double deltaObstacleY = myY - b.myY;
-        
+                
         if (deltaObstacleX <= b.myWidth/2 && deltaObstacleX >= -b.myWidth/2 
         		&& deltaObstacleY <= b.myHeight/2 
         		&& deltaObstacleY >= -b.myHeight/2) {
-        	b.myHealth -= 5;
-        	this.die();
-        	System.out.println("Bullet collided with boat");
+        	didCollide = true;
         }
+        
+        return didCollide;
         
 	}
 	

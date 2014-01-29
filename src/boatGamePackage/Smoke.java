@@ -1,7 +1,6 @@
 package boatGamePackage;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Draw;
 
@@ -12,7 +11,7 @@ public class Smoke extends Sprite {
 	protected boolean isFinished = false;
 	
 	public Smoke(Draw draw, String fileAtlas, int angle, double x, double y) {
-		super(draw, "Resources/" + fileAtlas + "/explosion" + 0 + ".png", angle, x, y, 0.05, 0.05);
+		super(draw, "Resources/" + fileAtlas + "/explosion" + 0 + ".png", angle, x, y, 0.075, 0.075);
 		iteration += 0.5;
 		myFileAtlas = fileAtlas;
 	}
@@ -40,7 +39,6 @@ public class Smoke extends Sprite {
 		draw.setXscale(-1.0, 1.0);
 		draw.setYscale(-1.0, 1.0);
 		
-		ArrayList<Smoke> smokes = new ArrayList<Smoke>();
 		Smoke smoke = new Smoke(draw, "ExplosionAtlasFolder", 0, 0, 0);
 		Smoke smoke1 = new Smoke(draw, "ExplosionAtlasFolder", 0, 0.5, 0.5);
 		

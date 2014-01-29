@@ -41,7 +41,7 @@ public class Boat extends Sprite {
 		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
 		myNumCrew = 100;
-		myNumGuns = 5; // Guns per side
+		myNumGuns = 1; // Guns per side
 		myHealth = 100;
 		myPID = pID;
 		myAccel = 0.0005;
