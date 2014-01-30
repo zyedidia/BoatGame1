@@ -11,10 +11,10 @@ import edu.princeton.cs.introcs.Draw;
 public class Game {
 
 	public static ArrayList<Sprite> sprites;
-
-	public void loop() {
-		Draw draw = new Draw();
-
+	private Draw draw;
+	public Game() {
+		draw = new Draw();
+		
 		draw.setCanvasSize(768, 768);
 
 		// Close the window when the exit button is pressed
@@ -24,7 +24,9 @@ public class Game {
 		// Set the coordinate system
 		draw.setXscale(-1.0, 1.0);
 		draw.setYscale(-1.0, 1.0);
-
+	}
+	
+	public void loop() {
 		//Contains all sprites to be updated on loop
 		sprites = new ArrayList<Sprite>();
 
@@ -32,12 +34,39 @@ public class Game {
 		sprites.add(new PlayerBoat(draw, 0, 0.75, 0.75, 180));
 		sprites.add(new PlayerBoat(draw, 1, -0.75, -0.75, 0));
 
-		draw.setPenColor(Color.blue);
+		int frameCount = 0;
+		int framesPerSecond = 0;
+		
+		long oldTime = System.currentTimeMillis();
+		
+		int seconds = 0;
+		
 		while (true) {
-
+			frameCount++;
+			
+			long changeTime = System.currentTimeMillis() - oldTime;
+			
+			if (changeTime >= 1000) {
+				seconds++;
+				
+				framesPerSecond = frameCount;
+				frameCount = 0;
+				System.out.println(seconds);
+				oldTime = System.currentTimeMillis();
+			}
+			
 			// Draw the blue background
-			draw.setPenColor(Color.BLUE);
+			draw.setPenColor(new Color(25, 25, 255));
 			draw.filledSquare(0.0, 0.0, 1.5);
+			
+			// FPS counter
+			draw.setPenColor(Color.GREEN);
+			draw.text(-1, 1.05, "FPS: " + Integer.toString(framesPerSecond));
+			
+			if (draw.isKeyPressed(10)) {
+				loop();
+			}
+			
 			try {
 				for (int i = 0; i < sprites.size(); i++) {
 					Sprite s = sprites.get(i);

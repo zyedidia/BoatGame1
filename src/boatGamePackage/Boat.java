@@ -13,16 +13,16 @@ public class Boat extends Sprite {
 	protected boolean myRightFire = false;
 	protected boolean myLeftFire = false;
 
-	protected int myNumGuns;
-	protected int myNumCrew;
-	protected int myHealth;
-	protected double myAccel;
+	protected int myNumGuns = 5;	// Guns per side
+	protected int myNumCrew = 100;	//Crew
+	protected int myHealth = 100;
+	protected double myAccel = 0.0005;
 	
 	private final double myCannonDeadZone = 0.15;
 
 	private int myReloadRightProgress = 0; // 0 is ready to shoot
 	private int myReloadLeftProgress = 0;
-	private final int myReloadTime = 100;
+	private final int myReloadTime = myNumCrew / myNumGuns * 4;
 
 	protected ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	protected ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
@@ -41,10 +41,6 @@ public class Boat extends Sprite {
 	public Boat(Draw draw, double x, double y, int angle) {
 		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
-		myNumCrew = 100;
-		myNumGuns = 4; // Guns per side
-		myHealth = 100;
-		myAccel = 0.0005;
 		initGuns();
 		
 	}
@@ -60,7 +56,7 @@ public class Boat extends Sprite {
 			
 			double y = (myHeight - 2 * myCannonDeadZone) / 2 - i * deltaY;
 			
-			Cannon cannon = new Cannon(myDraw, -90, 0.1, y, this);
+			Cannon cannon = new Cannon(myDraw, -90, 0.05, y, this);
 
 			myRightGuns.add(cannon);
 		}
@@ -73,7 +69,7 @@ public class Boat extends Sprite {
 			
 			double y = (myHeight - 2 * myCannonDeadZone) / 2 - i * deltaY;
 			
-			Cannon cannon = new Cannon(myDraw, 90, -0.1, y, this);
+			Cannon cannon = new Cannon(myDraw, 90, -0.05, y, this);
 
 			myLeftGuns.add(cannon);
 		}
@@ -197,6 +193,9 @@ public class Boat extends Sprite {
 	
 	public void updateHUD() {
 		myDraw.setPenColor(Color.GREEN);
+		if (myHealth < 0) {
+			myHealth = 0;
+		}
 		myDraw.filledRectangle(myX, myY + 0.1, myHealth * 0.001, 0.0075);
 		
 		myDraw.setPenColor(new Color(0, 255, 0, 100));
@@ -211,6 +210,7 @@ public class Boat extends Sprite {
 		myDraw.filledCircle(leftCannon.myX + leftCannon.myWidth * 2 * Math.cos(leftCannonAngleInRadians), 
 				leftCannon.myY + leftCannon.myHeight * 2 * Math.sin(leftCannonAngleInRadians), 
 				myReloadLeftProgress * 0.001);
+		
 	}
 
 	public void updatePosition() {
