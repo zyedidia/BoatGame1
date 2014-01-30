@@ -15,14 +15,24 @@ public class Cannon extends Sprite {
 		
 		myRelativeX = relativeX;
 		myRelativeY = relativeY;
+		
 		myOffSet = offSet;
 		myBoat = boat;
 	}
 	
+	public void calcPosition() {
+		double boatAngleInRadians = 3 * Math.PI / 2 + myBoat.myAngle * Math.PI / 180.;
+		myY = myBoat.myY + myRelativeX * Math.sin(Math.PI/2 - boatAngleInRadians)
+					     - myRelativeY * Math.cos(Math.PI/2 - boatAngleInRadians);
+		myX = myBoat.myX - myRelativeX * Math.cos(Math.PI/2 - boatAngleInRadians)
+						 - myRelativeY * Math.sin(Math.PI/2 - boatAngleInRadians);
+	}
+	
+	
+	
 	// Put the cannon at the correct coordinates
 	public void updateSelf() {
-		myX = myBoat.myX;
-		myY = myBoat.myY;
+		calcPosition();
 		myAngle = myBoat.myAngle + myOffSet;
 	}
 	

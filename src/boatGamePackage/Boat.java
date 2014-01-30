@@ -17,6 +17,8 @@ public class Boat extends Sprite {
 	protected int myNumCrew;
 	protected int myHealth;
 	protected double myAccel;
+	
+	private final double myCannonDeadZone = 0.15;
 
 	private int myReloadRightProgress = 0; // 0 is ready to shoot
 	private int myReloadLeftProgress = 0;
@@ -40,7 +42,7 @@ public class Boat extends Sprite {
 		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
 		myNumCrew = 100;
-		myNumGuns = 1; // Guns per side
+		myNumGuns = 4; // Guns per side
 		myHealth = 100;
 		myAccel = 0.0005;
 		initGuns();
@@ -51,13 +53,27 @@ public class Boat extends Sprite {
 	public void initGuns() {
 
 		for (int i = 0; i < myNumGuns; i++) {
-			Cannon cannon = new Cannon(myDraw, -90, myWidth, 0, this);
+			double deltaY = (myHeight - 2 * myCannonDeadZone) / 2;
+			if (myNumGuns > 1) {
+				deltaY = (myHeight - 2 * myCannonDeadZone) / (myNumGuns - 1);
+			}
+			
+			double y = (myHeight - 2 * myCannonDeadZone) / 2 - i * deltaY;
+			
+			Cannon cannon = new Cannon(myDraw, -90, 0.1, y, this);
 
 			myRightGuns.add(cannon);
 		}
 
 		for (int i = 0; i < myNumGuns; i++) {
-			Cannon cannon = new Cannon(myDraw, 90, -myWidth, 0, this);
+			double deltaY = (myHeight - 2 * myCannonDeadZone) / 2;
+			if (myNumGuns > 1) {
+				deltaY = (myHeight - 2 * myCannonDeadZone) / (myNumGuns - 1);
+			}
+			
+			double y = (myHeight - 2 * myCannonDeadZone) / 2 - i * deltaY;
+			
+			Cannon cannon = new Cannon(myDraw, 90, -0.1, y, this);
 
 			myLeftGuns.add(cannon);
 		}
