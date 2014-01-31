@@ -1,5 +1,7 @@
 package boatGamePackage;
 
+import java.awt.event.KeyEvent;
+
 import edu.princeton.cs.introcs.Draw;
 
 public class PlayerBoat extends Boat {
@@ -18,12 +20,12 @@ public class PlayerBoat extends Boat {
 
 	public void getKeyInputs() {
 		//Initialize keyPresses based on player
-		myForward = getPress(38, 87); // Up Arrow and W
-		myBack = getPress(40, 83); // Down Arrow and S
-		myLeft = getPress(37, 65); // Left Arrow and A
-		myRight = getPress(39, 68); // Right Array and D
-		myRightFire = getPress(77, 90); // M and 2
-		myLeftFire = getPress(78, 16); // N and 1
+		myForward = getPress(KeyEvent.VK_UP, KeyEvent.VK_W); // Up Arrow and W
+		myBack = getPress(KeyEvent.VK_DOWN, KeyEvent.VK_S); // Down Arrow and S
+		myLeft = getPress(KeyEvent.VK_LEFT, KeyEvent.VK_A); // Left Arrow and A
+		myRight = getPress(KeyEvent.VK_RIGHT, KeyEvent.VK_D); // Right Array and D
+		myRightFire = getPress(KeyEvent.VK_M, KeyEvent.VK_2); // M and 2
+		myLeftFire = getPress(KeyEvent.VK_N, KeyEvent.VK_1); // N and 1
 	}
 
 	//Parameters: keyPress for player1 and keyPress for player2 Returns: whether the correct 
