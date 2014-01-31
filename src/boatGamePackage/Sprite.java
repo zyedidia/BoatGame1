@@ -63,9 +63,10 @@ public abstract class Sprite {
 	
 	// Put the sprite off the screen
 	public void die() {
+		Game.sprites.remove(this);
 		mySpeed = 0;
-		myX = 10;
-		myY = 10;
+		myX = 0;
+		myY = 0;
 	}
 	
 	//For type-safety

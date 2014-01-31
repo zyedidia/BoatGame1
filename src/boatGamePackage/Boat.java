@@ -19,6 +19,8 @@ public class Boat extends Sprite {
 	protected int myHealth = 100;
 	protected double myAccel = 0.0005;
 	
+	protected int myPID;
+	
 	private final double myCannonDeadZone = 0.15;
 
 	private int myReloadRightProgress = 0; // 0 is ready to shoot
@@ -29,21 +31,52 @@ public class Boat extends Sprite {
 	protected ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
 
 	// Constructors \\
-	public Boat(Draw draw, int numGuns, int numCrew, int health, double x, double y, int angle, double accel) {
+	public Boat(Draw draw, int numGuns, int numCrew, int health, double x, double y, int angle, double accel, int PID) {
 		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
 		myNumCrew = numCrew;
 		myNumGuns = numGuns;
 		myHealth = health;
 		myAccel = accel;
+		myPID = PID;
+		myZoomOut = false;
+		myNumGuns = 5;	// Guns per side
+		myNumCrew = 100;	//Crew
+		myHealth = 100;
+		myAccel = 0.0005;
 		initGuns();
+		setStartingPos();
 	}
 
-	public Boat(Draw draw, double x, double y, int angle) {
-		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
+	public Boat(Draw draw, int PID) {
+		super(draw, "Resources/boat.png", 0, 0, 0, 0.2, 0.5);
 		myMaxSpeed = 0.0075;
+		myPID = PID;
+		myZoomOut = false;
+		myNumGuns = 5;	// Guns per side
+		myNumCrew = 100;	//Crew
+		myHealth = 100;
+		myAccel = 0.0005;
 		initGuns();
-		
+		setStartingPos();
+	}
+	
+	public void setStartingPos() {
+		if (myPID == 0) {
+			myX = 0.75; myY = 0.75; myAngle = 180;
+		}
+		else if (myPID == 1) {
+			myX = -0.75; myY = -0.75; myAngle = 0;
+		}
+		else if (myPID == 2) {
+			myX = -0.75; myY = 0.75; myAngle = 180;
+		}
+		else if (myPID == 3) {
+			myX = 0.75; myY = -0.75; myAngle = 0;
+		} else {
+			System.out.println("Error with Player ID");
+			myX = 0; myY = 0; myAngle = 0;
+		}
 	}
 
 	// Add the guns to the ArrayLists
@@ -219,16 +252,16 @@ public class Boat extends Sprite {
 		if (mySpeed > myMaxSpeed) {
 			mySpeed = myMaxSpeed;
 		}
-		if (myX > Game.zoomX - Game.zoomX / 6) {
+		if (myX > Game.zoom - Game.zoom / 6) {
 			myZoomOut = true;
 		}
-		else if (myX < -Game.zoomX + Game.zoomX / 6) {
+		else if (myX < -Game.zoom + Game.zoom / 6) {
 			myZoomOut = true;
 		}
-		else if (myY > Game.zoomY - Game.zoomX / 6) {
+		else if (myY > Game.zoom - Game.zoom / 6) {
 			myZoomOut = true;
 		} 
-		else if (myY < -Game.zoomY + Game.zoomX / 6) {
+		else if (myY < -Game.zoom + Game.zoom / 6) {
 			myZoomOut = true;
 		} else {
 			myZoomOut = false;
@@ -246,9 +279,17 @@ public class Boat extends Sprite {
 			myVy = (weight * myVy + myNewVy) / (weight + 1);
 		}
 		
-
 		// Update the position
 		myX += myVx;
 		myY += myVy;
+	}
+	
+	// Overriding die() to remove boat from myBoats
+	public void die() {
+		Game.sprites.remove(this);
+		Game.myBoats.remove(this);
+		mySpeed = 0;
+		myX = 0;
+		myY = 0;
 	}
 }

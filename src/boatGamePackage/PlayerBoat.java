@@ -5,17 +5,12 @@ import java.awt.event.KeyEvent;
 import edu.princeton.cs.introcs.Draw;
 
 public class PlayerBoat extends Boat {
-
-	private int myPID;
-
-	public PlayerBoat(Draw draw, int pID, double x, double y, int angle) {
-		super(draw, x, y, angle);
-		myPID = pID;
+	public PlayerBoat(Draw draw, int pID) {
+		super(draw, pID);
 	}
 
 	public PlayerBoat(Draw draw, int numGuns, int numCrew, int health, int pID, double x, double y, int angle, double accel) {
-		super(draw, numGuns, numCrew, health, x, y, angle, accel);
-		myPID = pID;
+		super(draw, numGuns, numCrew, health, x, y, angle, accel, pID);
 	}
 
 	public void getKeyInputs() {

@@ -11,9 +11,9 @@ import edu.princeton.cs.introcs.Draw;
 public class Game {
 
 	public static ArrayList<Sprite> sprites;
-	public static double zoomX = 1.0;
-	public static double zoomY = 1.0;
+	public static double zoom = 1.0;
 	private Draw draw;
+	public static ArrayList<Boat> myBoats; 
 	
 	public Game() {
 		draw = new Draw();
@@ -25,37 +25,49 @@ public class Game {
 		draw.frame.setJMenuBar(new JMenuBar());
 
 		// Set the coordinate system
-		draw.setXscale(-zoomX, zoomX);
-		draw.setYscale(-zoomY, zoomY);
+		draw.setXscale(-zoom, zoom);
+		draw.setYscale(-zoom, zoom);
 	}
 	
 	public void adjustZoom(ArrayList<Boat> boats) {
-		
+		for (Boat b : myBoats) {
+			if (b.myZoomOut) {
+				zoom += 0.015;
+				System.out.println("Zoom Out");
+				draw.setXscale(-zoom, zoom);
+				draw.setYscale(-zoom, zoom);
+			}
+			else if (zoom >= 1.0) {	
+				zoom -= 0.005;
+				System.out.println("Zoom In");
+				draw.setXscale(-zoom, zoom);
+				draw.setYscale(-zoom, zoom);
+			}
+		}
 	}
 	
 	public void init(int numPlayerBoats, int numAiBoats) {
-		//Contains all sprites to be updated on loop
+		// Contains all sprites to be updated on loop
 		sprites = new ArrayList<Sprite>();
-
-		// Initialize the boats
-		Boat boat = new PlayerBoat(draw, 0, 0.75, 0.75, 180);
-		Boat boat1 = new PlayerBoat(draw, 1, -0.75, -0.75, 0);
+		myBoats = new ArrayList<Boat>();
 		
-		sprites.add(boat);
-		sprites.add(boat1);
+		zoom = 1.0;
+		zoom = 1.0;
 		
-		ArrayList<Boat> boats = new ArrayList<Boat>();
+		// Create Player Boats
+		for (int i = 0; i < numPlayerBoats; i++) {
+			Boat boat = new PlayerBoat(draw, i);
+			myBoats.add(boat);
+			sprites.add(boat);
+			
+		}
 		
-		boats.add(boat);
-		boats.add(boat1);
+		// Create AI Boats here
 		
-		/*for (int i = 0; i < numAiBoats; i++) {
-			// Create AI boats here
-		}*/
 	}
 	
 	public void loop() {
-		init(0, 0);
+		init(2, 0);
 		
 		int frameCount = 0;
 		int framesPerSecond = 0;
@@ -66,21 +78,11 @@ public class Game {
 		int seconds = 0;
 		
 		while (true) {
-			frameCount++;
 			
-			if (((Boat) sprites.get(0)).myZoomOut) {
-				zoomX += 0.01;
-				zoomY += 0.01;
-				System.out.println("Zoom");
-				draw.setXscale(-zoomX, zoomX);
-				draw.setYscale(-zoomY, zoomY);
-			} else if (!((Boat) sprites.get(0)).myZoomOut && zoomX > 1.0 && zoomY > 1.0) {
-				zoomX -= 0.005;
-				zoomY -= 0.005;
-				System.out.println("Unzoom");
-				draw.setXscale(-zoomX, zoomX);
-				draw.setYscale(-zoomY, zoomY);
-			}
+			System.out.println(myBoats.get(0).myX);
+			System.out.println(sprites.size());
+			
+			frameCount++;
 			
 			changeTime = System.currentTimeMillis() - oldTime;
 			
@@ -93,13 +95,15 @@ public class Game {
 				oldTime = System.currentTimeMillis();
 			}
 			
+			adjustZoom(myBoats);
+			
 			// Draw the blue background
 			draw.setPenColor(new Color(25, 25, 255));
 			draw.filledSquare(0.0, 0.0, 20);
 			
 			// FPS counter
 			draw.setPenColor(Color.GREEN);
-			draw.text(-1, 1.05, "FPS: " + Integer.toString(framesPerSecond));
+			draw.text(-zoom, zoom, "FPS: " + Integer.toString(framesPerSecond));
 			
 			if (draw.isKeyPressed(10)) {
 				loop();
@@ -119,11 +123,13 @@ public class Game {
 					}
 
 					if (s instanceof CannonBall) {
-						if (((CannonBall) s).didCollideWithBoat((Boat) sprites.get(0))) {
-							sprites.add(((CannonBall) s).onHit((Boat) sprites.get(0)));
-						}
-						if (((CannonBall) s).didCollideWithBoat((Boat) sprites.get(1))) {
-							sprites.add(((CannonBall) s).onHit((Boat) sprites.get(1)));
+						for (Boat b : myBoats) {
+							if (((CannonBall) s).didCollideWithBoat(b)) {
+								sprites.add(((CannonBall) s).onHit(b));
+							}
+							if (((CannonBall) s).didCollideWithBoat(b)) {
+								sprites.add(((CannonBall) s).onHit(b));
+							}
 						}
 					}
 
