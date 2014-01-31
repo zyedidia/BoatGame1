@@ -22,8 +22,8 @@ public class PlayerBoat extends Boat {
 		myBack = getPress(40, 83); // Down Arrow and S
 		myLeft = getPress(37, 65); // Left Arrow and A
 		myRight = getPress(39, 68); // Right Array and D
-		myRightFire = getPress(77, 86); // M and V
-		myLeftFire = getPress(78, 67); // N and C
+		myRightFire = getPress(77, 90); // M and 2
+		myLeftFire = getPress(78, 16); // N and 1
 	}
 
 	//Parameters: keyPress for player1 and keyPress for player2 Returns: whether the correct 

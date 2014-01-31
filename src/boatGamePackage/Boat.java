@@ -12,6 +12,7 @@ public class Boat extends Sprite {
 	protected boolean myRight = false;
 	protected boolean myRightFire = false;
 	protected boolean myLeftFire = false;
+	protected boolean myZoomOut = false;
 
 	protected int myNumGuns = 5;	// Guns per side
 	protected int myNumCrew = 100;	//Crew
@@ -218,7 +219,21 @@ public class Boat extends Sprite {
 		if (mySpeed > myMaxSpeed) {
 			mySpeed = myMaxSpeed;
 		}
-
+		if (myX > Game.zoomX - Game.zoomX / 6) {
+			myZoomOut = true;
+		}
+		else if (myX < -Game.zoomX + Game.zoomX / 6) {
+			myZoomOut = true;
+		}
+		else if (myY > Game.zoomY - Game.zoomX / 6) {
+			myZoomOut = true;
+		} 
+		else if (myY < -Game.zoomY + Game.zoomX / 6) {
+			myZoomOut = true;
+		} else {
+			myZoomOut = false;
+		}
+		
 		// Convert speed and angle to vx and vy
 		myVx += mySpeed * Math.cos((myAngle - 270) * Math.PI / 180);
 		myVy += mySpeed * Math.sin((myAngle - 270) * Math.PI / 180);

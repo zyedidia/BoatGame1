@@ -11,7 +11,10 @@ import edu.princeton.cs.introcs.Draw;
 public class Game {
 
 	public static ArrayList<Sprite> sprites;
+	public static double zoomX = 1.0;
+	public static double zoomY = 1.0;
 	private Draw draw;
+	
 	public Game() {
 		draw = new Draw();
 		
@@ -22,29 +25,64 @@ public class Game {
 		draw.frame.setJMenuBar(new JMenuBar());
 
 		// Set the coordinate system
-		draw.setXscale(-1.0, 1.0);
-		draw.setYscale(-1.0, 1.0);
+		draw.setXscale(-zoomX, zoomX);
+		draw.setYscale(-zoomY, zoomY);
 	}
 	
-	public void loop() {
+	public void adjustZoom(ArrayList<Boat> boats) {
+		
+	}
+	
+	public void init(int numPlayerBoats, int numAiBoats) {
 		//Contains all sprites to be updated on loop
 		sprites = new ArrayList<Sprite>();
 
 		// Initialize the boats
-		sprites.add(new PlayerBoat(draw, 0, 0.75, 0.75, 180));
-		sprites.add(new PlayerBoat(draw, 1, -0.75, -0.75, 0));
-
+		Boat boat = new PlayerBoat(draw, 0, 0.75, 0.75, 180);
+		Boat boat1 = new PlayerBoat(draw, 1, -0.75, -0.75, 0);
+		
+		sprites.add(boat);
+		sprites.add(boat1);
+		
+		ArrayList<Boat> boats = new ArrayList<Boat>();
+		
+		boats.add(boat);
+		boats.add(boat1);
+		
+		/*for (int i = 0; i < numAiBoats; i++) {
+			// Create AI boats here
+		}*/
+	}
+	
+	public void loop() {
+		init(0, 0);
+		
 		int frameCount = 0;
 		int framesPerSecond = 0;
 		
 		long oldTime = System.currentTimeMillis();
+		long changeTime = 0;
 		
 		int seconds = 0;
 		
 		while (true) {
 			frameCount++;
 			
-			long changeTime = System.currentTimeMillis() - oldTime;
+			if (((Boat) sprites.get(0)).myZoomOut) {
+				zoomX += 0.01;
+				zoomY += 0.01;
+				System.out.println("Zoom");
+				draw.setXscale(-zoomX, zoomX);
+				draw.setYscale(-zoomY, zoomY);
+			} else if (!((Boat) sprites.get(0)).myZoomOut && zoomX > 1.0 && zoomY > 1.0) {
+				zoomX -= 0.005;
+				zoomY -= 0.005;
+				System.out.println("Unzoom");
+				draw.setXscale(-zoomX, zoomX);
+				draw.setYscale(-zoomY, zoomY);
+			}
+			
+			changeTime = System.currentTimeMillis() - oldTime;
 			
 			if (changeTime >= 1000) {
 				seconds++;
@@ -57,7 +95,7 @@ public class Game {
 			
 			// Draw the blue background
 			draw.setPenColor(new Color(25, 25, 255));
-			draw.filledSquare(0.0, 0.0, 1.5);
+			draw.filledSquare(0.0, 0.0, 20);
 			
 			// FPS counter
 			draw.setPenColor(Color.GREEN);
