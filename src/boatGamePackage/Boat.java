@@ -230,8 +230,8 @@ public class Boat extends Sprite {
 		if (myHealth < 0) {
 			myHealth = 0;
 		}
-		myDraw.filledRectangle(myX, myY + 0.1, myHealth * 0.001, 0.0075);
-		
+		//myDraw.filledRectangle(myX, myY + 0.1, myHealth * 0.001, 0.0075);
+		myDraw.picture(myX, myY+0.1, "resources/healthbar.png", myHealth * 0.002, 0.05);
 		myDraw.setPenColor(new Color(0, 255, 0, 100));
 		Cannon rightCannon = myRightGuns.get(0);
 		double cannonAngleInRadians = (rightCannon.myAngle + 90) * Math.PI / 180.;
