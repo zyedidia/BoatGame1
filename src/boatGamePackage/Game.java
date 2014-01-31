@@ -146,6 +146,8 @@ public class Game {
 				while (true) {
 					draw.setPenColor(Color.RED);
 					draw.text(0, 0, "Game Paused");
+					draw.text(0, -0.125, "Options");
+					draw.text(0, -0.250, "Quit");					
 					draw.show();
 					if (draw.isKeyPressed(80)) {
 						break;
