@@ -19,8 +19,8 @@ public class PlayerBoat extends Boat {
 		myBack = getPress(KeyEvent.VK_DOWN, KeyEvent.VK_S); // Down Arrow and S
 		myLeft = getPress(KeyEvent.VK_LEFT, KeyEvent.VK_A); // Left Arrow and A
 		myRight = getPress(KeyEvent.VK_RIGHT, KeyEvent.VK_D); // Right Array and D
-		myRightFire = getPress(KeyEvent.VK_M, KeyEvent.VK_2); // M and 2
-		myLeftFire = getPress(KeyEvent.VK_N, KeyEvent.VK_1); // N and 1
+		myRightFire = getPress(KeyEvent.VK_M, KeyEvent.VK_Z); // M and Z
+		myLeftFire = getPress(KeyEvent.VK_N, KeyEvent.VK_SHIFT); // N and Shift
 	}
 
 	//Parameters: keyPress for player1 and keyPress for player2 Returns: whether the correct 

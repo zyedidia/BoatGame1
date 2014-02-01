@@ -78,10 +78,7 @@ public class Game {
 		int seconds = 0;
 		
 		while (true) {
-			
-			System.out.println(myBoats.get(0).myX);
-			System.out.println(sprites.size());
-			
+						
 			frameCount++;
 			
 			changeTime = System.currentTimeMillis() - oldTime;
@@ -91,7 +88,7 @@ public class Game {
 				
 				framesPerSecond = frameCount;
 				frameCount = 0;
-				System.out.println(seconds);
+				System.out.println("Seconds since start: " + seconds);
 				oldTime = System.currentTimeMillis();
 			}
 			
@@ -149,12 +146,29 @@ public class Game {
 			}
 			
 			if (draw.isKeyPressed(79)) {
+				Button paused = new Button(draw, "Unpause Game", 0, 0, Color.RED);
+				Button options = new Button(draw, "Options (Will Close Game)", 0, -0.125, Color.RED);
+				Button quit = new Button(draw, "Quit", 0, -0.250, Color.RED);
 				while (true) {
-					draw.setPenColor(Color.RED);
-					draw.text(0, 0, "Game Paused");
-					draw.text(0, -0.125, "Options");
-					draw.text(0, -0.250, "Quit");					
+					if (options.isClicked()) {
+						draw.frame.setVisible(false);
+						draw.frame.dispose();
+						Menu menu = new Menu();
+						menu.loop();
+					}
+					else if (quit.isClicked()) {
+						System.out.println("Closing Program: quit button clicked");
+						System.exit(0);
+					}
+					else if (paused.isClicked()) {
+						System.out.println("Pause Clicked");
+						break;
+					}
+					paused.render();
+					options.render();
+					quit.render();
 					draw.show();
+					
 					if (draw.isKeyPressed(80)) {
 						break;
 					}
@@ -165,9 +179,9 @@ public class Game {
 		}
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Game game = new Game();
 		game.loop();
-	}
+	}*/
 
 }
