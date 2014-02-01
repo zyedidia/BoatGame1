@@ -16,7 +16,7 @@ public class Game {
 	public static ArrayList<Boat> myBoats; 
 	
 	public Game() {
-		draw = new Draw();
+		draw = new Draw("Boat Game");
 		
 		draw.setCanvasSize(768, 768);
 
