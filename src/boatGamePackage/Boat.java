@@ -1,6 +1,9 @@
 package boatGamePackage;
 
 import java.awt.Color;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Draw;
@@ -44,6 +47,7 @@ public class Boat extends Sprite {
 		myNumCrew = 100;	//Crew
 		myHealth = 100;
 		myAccel = 0.0005;
+		readOptions();
 		initGuns();
 		setStartingPos();
 	}
@@ -57,10 +61,12 @@ public class Boat extends Sprite {
 		myNumCrew = 100;	//Crew
 		myHealth = 100;
 		myAccel = 0.0005;
+		readOptions();
 		initGuns();
 		setStartingPos();
 	}
 	
+	// Set the starting position and angle of the boat based on the player id
 	public void setStartingPos() {
 		if (myPID == 0) {
 			myX = 0.75; myY = 0.75; myAngle = 180;
@@ -78,9 +84,31 @@ public class Boat extends Sprite {
 			myX = 0; myY = 0; myAngle = 0;
 		}
 	}
+	
+	public void readOptions() {
+		FileInputStream fileIn;
+		//Read in options from options.ser
+		try {
+			fileIn = new FileInputStream("options.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+	        double[] values = (double[]) in.readObject();
+	        myNumGuns = (int) values[0];
+	        in.close();
+	        fileIn.close();
+	    // Got an error, set all values to defaults
+		} catch (IOException e) {
+			myNumGuns = 5; // Default amount of cannons
+			System.out.println("Could not read from options.ser: " + e);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error reading from options.ser: " + e);
+		}
+	}
 
 	// Add the guns to the ArrayLists
 	public void initGuns() {
+		
+		
 
 		for (int i = 0; i < myNumGuns; i++) {
 			double deltaY = (myHeight - 2 * myCannonDeadZone) / 2;
@@ -206,6 +234,7 @@ public class Boat extends Sprite {
 	public void updateSelf() {
 
 		if (myHealth == 0) die();
+		// Boat can't move if there is no crew
 		if (myNumCrew == 0) mySpeed = 0;
 
 		if (myReloadRightProgress > 0) {
@@ -226,14 +255,16 @@ public class Boat extends Sprite {
 	}
 	
 	public void updateHUD() {
-		myDraw.setPenColor(Color.GREEN);
 		if (myHealth < 0) {
 			myHealth = 0;
 		}
 		//myDraw.filledRectangle(myX, myY + 0.1, myHealth * 0.001, 0.0075);
 		myDraw.picture(myX, myY+0.1, "resources/healthbar.png", myHealth * 0.002, 0.05);
+		
 		myDraw.setPenColor(new Color(0, 255, 0, 100));
 		Cannon rightCannon = myRightGuns.get(0);
+		
+		// Draws the reload indicators
 		double cannonAngleInRadians = (rightCannon.myAngle + 90) * Math.PI / 180.;
 		myDraw.filledCircle(rightCannon.myX + rightCannon.myWidth * 2 * Math.cos(cannonAngleInRadians), 
 				rightCannon.myY + rightCannon.myHeight * 2 * Math.sin(cannonAngleInRadians), 
@@ -247,11 +278,15 @@ public class Boat extends Sprite {
 		
 	}
 
+	// Update the position of the boat
 	public void updatePosition() {
 		// Set speed to maxSpeed if speed is greater than maxSpeed
 		if (mySpeed > myMaxSpeed) {
 			mySpeed = myMaxSpeed;
 		}
+		
+		// Check if the boat is nearing the edge of the screen
+			// If so, the Game will zoom out (adjustZoom() in Game class)
 		if (myX > Game.zoom - Game.zoom / 6) {
 			myZoomOut = true;
 		}
@@ -271,6 +306,7 @@ public class Boat extends Sprite {
 		myVx += mySpeed * Math.cos((myAngle - 270) * Math.PI / 180);
 		myVy += mySpeed * Math.sin((myAngle - 270) * Math.PI / 180);
 
+		// Gliding on the boats
 		if (Math.sqrt(Math.pow(myVx,2) + Math.pow(myVy, 2)) > myMaxSpeed) {
 			double myNewVx = myMaxSpeed * Math.cos((myAngle - 270) * Math.PI / 180);
 			double myNewVy = myMaxSpeed * Math.sin((myAngle - 270) * Math.PI / 180);

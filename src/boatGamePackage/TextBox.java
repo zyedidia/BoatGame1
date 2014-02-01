@@ -9,7 +9,7 @@ public class TextBox {
 	private Draw myDraw;
 	private double myX;
 	private double myY;
-	private String myText;
+	public String myText;
 	private double myWidth;
 	private double myHeight;
 	private Color myColor;
@@ -20,7 +20,7 @@ public class TextBox {
 		myDraw = draw;
 		myX = x;
 		myY = y;
-		myText = "goodbye";
+		myText = " ";
 		myWidth = 0.025 * myText.length();
 		myHeight = 0.045;
 		myColor = color;

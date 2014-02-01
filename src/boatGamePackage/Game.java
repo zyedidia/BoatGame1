@@ -66,7 +66,7 @@ public class Game {
 		
 	}
 	
-	public void loop() {
+	public void loop() throws ClassNotFoundException {
 		init(2, 0);
 		
 		int frameCount = 0;
@@ -102,86 +102,89 @@ public class Game {
 			draw.setPenColor(Color.GREEN);
 			draw.text(-zoom, zoom, "FPS: " + Integer.toString(framesPerSecond));
 			
+			updateSprites();
+			
 			if (draw.isKeyPressed(10)) {
 				loop();
 			}
 			
-			try {
-				for (int i = 0; i < sprites.size(); i++) {
-					Sprite s = sprites.get(i);
-					s.updateSelf();
-					if (s instanceof Boat) {
-						if (((Boat) s).shouldFireLeft()) {
-							sprites = ((Boat) s).fireLeftGuns(sprites); 
-						}
-						if (((Boat) s).shouldFireRight()) {
-							sprites = ((Boat) s).fireRightGuns(sprites);
-						}
-					}
-
-					if (s instanceof CannonBall) {
-						for (Boat b : myBoats) {
-							if (((CannonBall) s).didCollideWithBoat(b)) {
-								sprites.add(((CannonBall) s).onHit(b));
-							}
-							if (((CannonBall) s).didCollideWithBoat(b)) {
-								sprites.add(((CannonBall) s).onHit(b));
-							}
-						}
-					}
-
-					if (s instanceof Smoke) {
-						//System.out.println(((Smoke) s).iteration);
-						if (((Smoke) s).isFinished) {
-							sprites.remove(s);
-							//System.out.println("Removed");
-						}
-					}
-
-					//sprites.set(i, s);
-
-				}
-			} catch(ArrayIndexOutOfBoundsException e){
-				System.out.println("Deleted object requested. Ignoring.");
-			}
-			
 			if (draw.isKeyPressed(79)) {
-				Button paused = new Button(draw, "Unpause Game", 0, 0, Color.RED);
-				Button options = new Button(draw, "Options (Will Close Game)", 0, -0.125, Color.RED);
-				Button quit = new Button(draw, "Quit", 0, -0.250, Color.RED);
-				while (true) {
-					if (options.isClicked()) {
-						draw.frame.setVisible(false);
-						draw.frame.dispose();
-						Menu menu = new Menu();
-						menu.loop();
-					}
-					else if (quit.isClicked()) {
-						System.out.println("Closing Program: quit button clicked");
-						System.exit(0);
-					}
-					else if (paused.isClicked()) {
-						System.out.println("Pause Clicked");
-						break;
-					}
-					paused.render();
-					options.render();
-					quit.render();
-					draw.show();
-					
-					if (draw.isKeyPressed(80)) {
-						break;
-					}
-				}
+					onPause();
 			}
 			
 			draw.show(20);
+		}		
+	}
+	
+	// When the game is paused
+	public void onPause() throws ClassNotFoundException {
+		Button paused = new Button(draw, "Unpause Game", 0, 0, Color.RED);
+		Button options = new Button(draw, "Options (Will End Game)", 0, -0.125, Color.RED);
+		Button quit = new Button(draw, "Quit", 0, -0.250, Color.RED);
+		while (true) {
+			if (options.isClicked()) {
+				draw.frame.setVisible(false);
+				draw.frame.dispose();
+				OptionsMenu om = new OptionsMenu();
+				om.loop();
+			}
+			else if (quit.isClicked()) {
+				System.out.println("Closing Program: quit button clicked");
+				System.exit(0);
+			}
+			else if (paused.isClicked()) {
+				System.out.println("Pause Clicked");
+				break;
+			}
+			paused.render();
+			options.render();
+			quit.render();
+			draw.show();
+			
+			if (draw.isKeyPressed(80)) {
+				break;
+			}
 		}
 	}
+	
+	public void updateSprites() {
+		try {
+			for (int i = 0; i < sprites.size(); i++) {
+				Sprite s = sprites.get(i);
+				s.updateSelf();
+				if (s instanceof Boat) {
+					if (((Boat) s).shouldFireLeft()) {
+						sprites = ((Boat) s).fireLeftGuns(sprites); 
+					}
+					if (((Boat) s).shouldFireRight()) {
+						sprites = ((Boat) s).fireRightGuns(sprites);
+					}
+				}
 
-	/*public static void main(String[] args) {
-		Game game = new Game();
-		game.loop();
-	}*/
+				if (s instanceof CannonBall) {
+					for (Boat b : myBoats) {
+						if (((CannonBall) s).didCollideWithBoat(b)) {
+							sprites.add(((CannonBall) s).onHit(b));
+						}
+						if (((CannonBall) s).didCollideWithBoat(b)) {
+							sprites.add(((CannonBall) s).onHit(b));
+						}
+					}
+				}
 
+				if (s instanceof Smoke) {
+					//System.out.println(((Smoke) s).iteration);
+					if (((Smoke) s).isFinished) {
+						sprites.remove(s);
+						//System.out.println("Removed");
+					}
+				}
+
+				//sprites.set(i, s);
+
+			}
+		} catch(ArrayIndexOutOfBoundsException e){
+			System.out.println("Deleted object requested. Ignoring.");
+		}
+	}
 }

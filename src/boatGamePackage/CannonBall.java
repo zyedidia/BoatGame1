@@ -15,12 +15,13 @@ public class CannonBall extends Sprite {
 	// Run this when a bullet hits a boat
 	public Sprite onHit(Boat b) {
 		b.myHealth -= 5;
-		if (StdRandom.uniform(0, 10) < 2) {
+		// 1/15 chance you will lose a gun
+		if (StdRandom.uniform(0, 15) < 2) {
 			if (b.myRightGuns.size() > 1) {
 				b.myRightGuns.remove(StdRandom.uniform(0, b.myRightGuns.size()));
 			}
 		}
-		if (StdRandom.uniform(0, 10) < 2) {
+		if (StdRandom.uniform(0, 15) < 2) {
 			if (b.myLeftGuns.size() > 1) {
 				b.myLeftGuns.remove(StdRandom.uniform(0, b.myLeftGuns.size()));
 			}
