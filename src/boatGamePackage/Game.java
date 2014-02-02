@@ -14,7 +14,7 @@ public class Game {
 	public static double zoom = 1.0;
 	private Draw draw;
 	public static ArrayList<Boat> myBoats;
-	public static double FPS;
+	public static double FPS = 1;
 	private final double targetFPS = 60;
 	
 	public Game() {
@@ -71,54 +71,52 @@ public class Game {
 	public void loop() throws ClassNotFoundException {
 		init(2, 0);
 		
-		FPS = 0;
+		FPS = 1;
 		
 		double oldTime = System.currentTimeMillis();
-		double changeTime = 0;
+		double beginTime = System.currentTimeMillis();
+		double changeTime = 1;
 		
 		
 		while (true) {
-						
-			
-			
 			changeTime = System.currentTimeMillis() - oldTime;
 			
-			if (changeTime >= 1 / targetFPS * 1000 / 2) {
 				
-				//System.out.println(changeTime + " since last update");
-				
+			//System.out.println(changeTime + " since last update");
+			
+			if (changeTime > 0) {
 				FPS = 1 / changeTime * 1000;
 				System.out.println("FPS: " + FPS);
 				
 				oldTime = System.currentTimeMillis();
-				
-				// Draw the blue background
-				draw.setPenColor(new Color(25, 25, 255));
-				draw.filledSquare(0.0, 0.0, 20);
-				
-				adjustZoom(myBoats);
-				
-				updateSprites();
-				
-				// FPS counter
-				draw.setPenColor(Color.GREEN);
-				draw.text(-zoom, zoom, "FPS: " + Integer.toString((int) FPS));
-				
-				if (draw.isKeyPressed(10)) { // Enter key (restart game button
-					loop();
-				}
-				
-				if (draw.isKeyPressed(79)) { // o key (pause button)
-						onPause();
-				}
-				
+			}
+			
+			// Draw the blue background
+			draw.setPenColor(new Color(25, 25, 255));
+			draw.filledSquare(0.0, 0.0, 20);
+			
+			adjustZoom(myBoats);
+			
+			updateSprites();
+			
+			// FPS counter
+			draw.setPenColor(Color.GREEN);
+			draw.text(-zoom, zoom, "FPS: " + Integer.toString((int) FPS));
+			
+			if (draw.isKeyPressed(10)) { // Enter key (restart game button
+				loop();
+			}
+			
+			if (draw.isKeyPressed(79)) { // o key (pause button)
+					onPause();
 			}
 			
 			
+			draw.show(0);
 			
-			
-			
-			draw.show( (int) (1 / targetFPS * 1000 / 2));
+			while((System.currentTimeMillis() - beginTime) % 10 != 0) {
+				
+			}
 		}		
 	}
 	

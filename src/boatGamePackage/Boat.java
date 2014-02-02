@@ -46,7 +46,7 @@ public class Boat extends Sprite {
 		myNumGuns = 5;	// Guns per side
 		myNumCrew = 100;	//Crew
 		myHealth = 100;
-		myAccel = 0.0005;
+		myAccel = 0.0005 * 40.0 / Game.FPS;
 		readOptions();
 		initGuns();
 		setStartingPos();
@@ -60,7 +60,7 @@ public class Boat extends Sprite {
 		myNumGuns = 5;	// Guns per side
 		myNumCrew = 100;	//Crew
 		myHealth = 100;
-		myAccel = 0.0005;
+		myAccel = 0.0005 * 40.0 / Game.FPS;
 		readOptions();
 		initGuns();
 		setStartingPos();
@@ -138,11 +138,11 @@ public class Boat extends Sprite {
 	}
 
 	// Take in key input booleans and change tank angle accordingly
-	public int changeAngle(boolean right, boolean left) {
+	public double changeAngle(boolean right, boolean left) {
 		if (left == true && myAngle >= 360) myAngle = 2;
-		if (left == true) myAngle += 2;
+		if (left == true) myAngle += (int) 2 * 40 / Game.FPS;
 		if (right == true && myAngle <= 2) myAngle = 360;
-		if (right == true) myAngle -= 2;
+		if (right == true) myAngle -= (int) 2 * 40 / Game.FPS;
 
 		return myAngle;
 	}
@@ -231,7 +231,9 @@ public class Boat extends Sprite {
 	}
 
 	// Update the boat
-	public void updateSelf() {		
+	public void updateSelf() {
+		myAccel = 0.0005 * 40 / Game.FPS;
+		
 		if (myHealth == 0) die();
 		// Boat can't move if there is no crew
 		if (myNumCrew == 0) mySpeed = 0;

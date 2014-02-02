@@ -3,6 +3,8 @@ package boatGamePackage;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JFrame;
+
 import edu.princeton.cs.introcs.Draw;
 
 public class TextBox {
@@ -94,6 +96,7 @@ public class TextBox {
 		Draw draw = new Draw("TextBox Test");
 		draw.setXscale(-1.0, 1.0);
 		draw.setYscale(-1.0, 1.0);
+		draw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		TextBox tb = new TextBox(draw, 0, 0, Color.BLUE);
 		
 		while (true) {
@@ -101,7 +104,7 @@ public class TextBox {
 			draw.filledSquare(0, 0, 1.0);
 			
 			if (tb.isClicked()) {
-				//System.out.println("TextBox Selected");
+				//System.out.println("TextBox selected");
 			}
 			tb.render();
 			

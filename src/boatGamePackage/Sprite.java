@@ -5,7 +5,7 @@ import edu.princeton.cs.introcs.Draw;
 public abstract class Sprite {
 	protected Draw myDraw;
 	protected double mySpeed;
-	protected int myAngle;
+	protected double myAngle;
 	protected double myMaxSpeed;
 	protected double myX;
 	protected double myY;
@@ -44,10 +44,6 @@ public abstract class Sprite {
 	
 	// Update the position of the sprite
 	public void updatePosition() {
-		
-		System.out.println(mySpeed / Game.FPS);
-		//double x = Game.FPS / mySpeed;
-		//mySpeed = Game.FPS / (Game.FPS * (x / Game.FPS));
 		
 		// Set speed to maxSpeed if speed is greater than maxSpeed
 		if (mySpeed > myMaxSpeed) {
