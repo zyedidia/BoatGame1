@@ -44,6 +44,11 @@ public abstract class Sprite {
 	
 	// Update the position of the sprite
 	public void updatePosition() {
+		
+		System.out.println(mySpeed / Game.FPS);
+		//double x = Game.FPS / mySpeed;
+		//mySpeed = Game.FPS / (Game.FPS * (x / Game.FPS));
+		
 		// Set speed to maxSpeed if speed is greater than maxSpeed
 		if (mySpeed > myMaxSpeed) {
     		mySpeed = myMaxSpeed;

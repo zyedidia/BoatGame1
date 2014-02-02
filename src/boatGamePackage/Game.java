@@ -13,7 +13,9 @@ public class Game {
 	public static ArrayList<Sprite> sprites;
 	public static double zoom = 1.0;
 	private Draw draw;
-	public static ArrayList<Boat> myBoats; 
+	public static ArrayList<Boat> myBoats;
+	public static double FPS;
+	private final double targetFPS = 60;
 	
 	public Game() {
 		draw = new Draw("Boat Game");
@@ -69,50 +71,54 @@ public class Game {
 	public void loop() throws ClassNotFoundException {
 		init(2, 0);
 		
-		int frameCount = 0;
-		int framesPerSecond = 0;
+		FPS = 0;
 		
-		long oldTime = System.currentTimeMillis();
-		long changeTime = 0;
+		double oldTime = System.currentTimeMillis();
+		double changeTime = 0;
 		
-		int seconds = 0;
 		
 		while (true) {
 						
-			frameCount++;
+			
 			
 			changeTime = System.currentTimeMillis() - oldTime;
 			
-			if (changeTime >= 1000) {
-				seconds++;
+			if (changeTime >= 1 / targetFPS * 1000 / 2) {
 				
-				framesPerSecond = frameCount;
-				frameCount = 0;
-				System.out.println("Seconds since start: " + seconds);
+				//System.out.println(changeTime + " since last update");
+				
+				FPS = 1 / changeTime * 1000;
+				System.out.println("FPS: " + FPS);
+				
 				oldTime = System.currentTimeMillis();
+				
+				// Draw the blue background
+				draw.setPenColor(new Color(25, 25, 255));
+				draw.filledSquare(0.0, 0.0, 20);
+				
+				adjustZoom(myBoats);
+				
+				updateSprites();
+				
+				// FPS counter
+				draw.setPenColor(Color.GREEN);
+				draw.text(-zoom, zoom, "FPS: " + Integer.toString((int) FPS));
+				
+				if (draw.isKeyPressed(10)) { // Enter key (restart game button
+					loop();
+				}
+				
+				if (draw.isKeyPressed(79)) { // o key (pause button)
+						onPause();
+				}
+				
 			}
 			
-			adjustZoom(myBoats);
 			
-			// Draw the blue background
-			draw.setPenColor(new Color(25, 25, 255));
-			draw.filledSquare(0.0, 0.0, 20);
 			
-			// FPS counter
-			draw.setPenColor(Color.GREEN);
-			draw.text(-zoom, zoom, "FPS: " + Integer.toString(framesPerSecond));
 			
-			updateSprites();
 			
-			if (draw.isKeyPressed(10)) {
-				loop();
-			}
-			
-			if (draw.isKeyPressed(79)) {
-					onPause();
-			}
-			
-			draw.show(20);
+			draw.show( (int) (1 / targetFPS * 1000 / 2));
 		}		
 	}
 	

@@ -231,8 +231,7 @@ public class Boat extends Sprite {
 	}
 
 	// Update the boat
-	public void updateSelf() {
-
+	public void updateSelf() {		
 		if (myHealth == 0) die();
 		// Boat can't move if there is no crew
 		if (myNumCrew == 0) mySpeed = 0;
