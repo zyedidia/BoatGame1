@@ -17,7 +17,9 @@ public class OptionsMenu {
 	private Button myBackButton;
 	private Button myDelete;
 	private TextBox myGuns;
-	private double[] values = new double[1];
+	private double[] values = new double[3];
+	private TextBox myNumPlayers;
+	private TextBox myNumAI;
 
 	public OptionsMenu() throws ClassNotFoundException {
 		
@@ -27,6 +29,10 @@ public class OptionsMenu {
 		myDraw.setXscale(-1.0, 1.0);
 		myDraw.setYscale(-1.0, 1.0);
 		myBackButton = new Button(myDraw, "Back to Main Menu", -0.7, 0.9, Color.BLUE);
+		myNumPlayers = new TextBox(myDraw, 0, -0.25, Color.BLUE);
+		//myNumPlayers.myText = Integer.toString((int) values[1]);
+		//myNumAI.myText = Integer.toString((int) values[2]);
+		myNumAI = new TextBox(myDraw, 0, -0.5, Color.BLUE);
 		myDelete = new Button(myDraw, "Clear Options File", -0.7, -0.8, Color.BLUE);
 		myGuns = new TextBox(myDraw, 0, 0.5, Color.BLUE);
 		myGuns.myText = Integer.toString((int) values[0]);
@@ -42,19 +48,28 @@ public class OptionsMenu {
 		return true;
 	}
 	
+	public void setValue(int index, String value, int min) {
+		if (isInteger(value)) {
+			if (Integer.parseInt(value) >= min) {
+				values[index] = Integer.parseInt(value);
+			} else {
+				System.out.println("Guns cannot be less than " + min + ". Resetting to: " + values[0]);
+			}
+		}
+	}
+	
 	public void render() throws ClassNotFoundException {
 		myBackButton.render();
 		myGuns.render();
 		myDelete.render();
+		myNumPlayers.render();
+		myNumAI.render();
 		
 		if (myBackButton.isClicked()) {
-			if (isInteger(myGuns.myText)) {
-				if (Integer.parseInt(myGuns.myText) > 1) {
-					values[0] = Integer.parseInt(myGuns.myText);
-				} else {
-					System.out.println("Guns cannot be less than 2. Resetting to: " + values[0]);
-				}
-			}
+			
+			setValue(0, myGuns.myText, 2);
+			setValue(1, myNumPlayers.myText, 0);
+			setValue(2, myNumAI.myText, 0);
 			
 			serialize(values, "options");
 			
@@ -70,6 +85,8 @@ public class OptionsMenu {
 		}
 		
 		myGuns.isClicked();
+		myNumPlayers.isClicked();
+		myNumAI.isClicked();
 	}
 	
 	public void loop() throws ClassNotFoundException {
@@ -100,7 +117,7 @@ public class OptionsMenu {
 	}
 	
 	public double[] readSerialized(String fileName) {
-		double[] arrayToReturn = new double[0];
+		double[] arrayToReturn = new double[3];
 		FileInputStream fileIn;
 		//Read in options from options.ser
 		try {
