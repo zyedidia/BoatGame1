@@ -70,7 +70,16 @@ public class AIBoat extends Boat {
 		return finishedComputing;
 	}
 	
-	public void updateSelf(Boat targetBoat) {
+	public void updateSelf() {
+		System.out.println("Instance of");
+		Boat targetBoat  = Game.myBoats.get(0);
+		
+		if (myLeftFire) {
+			fireLeftGuns(); 
+		}
+		if (myRightFire) {
+			fireRightGuns();
+		}
 		computeMove(targetBoat);
 		super.updateSelf();
 	}

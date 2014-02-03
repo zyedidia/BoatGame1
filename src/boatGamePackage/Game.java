@@ -16,10 +16,10 @@ public class Game {
 	public static ArrayList<Boat> myBoats;
 	public static double FPS = 1;
 	public static double targetFPS = 60;
-	
+
 	public Game() {
 		draw = new Draw("Boat Game");
-		
+
 		draw.setCanvasSize(768, 768);
 
 		// Close the window when the exit button is pressed
@@ -30,7 +30,7 @@ public class Game {
 		draw.setXscale(-zoom, zoom);
 		draw.setYscale(-zoom, zoom);
 	}
-	
+
 	public void adjustZoom(ArrayList<Boat> boats) {
 		for (Boat b : myBoats) {
 			if (b.myZoomOut) {
@@ -47,86 +47,86 @@ public class Game {
 			}
 		}
 	}
-	
+
 	public void init(int numPlayerBoats, int numAiBoats) {
 		// Contains all sprites to be updated on loop
 		sprites = new ArrayList<Sprite>();
 		myBoats = new ArrayList<Boat>();
-		
+
 		zoom = 1.0;
 		zoom = 1.0;
-		
+
 		int i = 0;
-		
+
 		// Create Player Boats
 		for (i = 0; i < numPlayerBoats; i++) {
 			Boat boat = new PlayerBoat(draw, i);
 			myBoats.add(boat);
 			sprites.add(boat);
-			
+
 		}
-		
+
 		// Create AI Boats
 		for (; i < numAiBoats + numPlayerBoats; i++) {
 			Boat boat = new AIBoat(draw, i);
 			myBoats.add(boat);
 			sprites.add(boat);
 		}
-		
+
 	}
-	
+
 	public void loop() throws ClassNotFoundException {
 		init(1, 1);
-		
+
 		FPS = 1;
-		
+
 		double oldTime = System.currentTimeMillis();
 		double beginTime = System.currentTimeMillis();
 		double changeTime = 1;
-		
-		
+
+
 		while (true) {
 			changeTime = System.currentTimeMillis() - oldTime;
-			
-				
+
+
 			//System.out.println(changeTime + " since last update");
-			
+
 			if (changeTime > 0) {
 				FPS = 1 / changeTime * 1000;
-				
+
 				oldTime = System.currentTimeMillis();
 			}
-			
+
 			// Draw the blue background
 //			draw.setPenColor(new Color(25, 25, 255));
 //			draw.filledSquare(0.0, 0.0, 20);
 			draw.picture(0, 0, "resources/Ocean.png", 100, 100);
 			
 			adjustZoom(myBoats);
-			
+
 			updateSprites();
-			
+
 			// FPS counter
 			draw.setPenColor(Color.GREEN);
 			draw.text(-zoom, zoom, "FPS: " + Integer.toString((int) FPS));
-			
+
 			if (draw.isKeyPressed(10)) { // Enter key (restart game button
 				loop();
 			}
-			
+
 			if (draw.isKeyPressed(79)) { // o key (pause button)
-					onPause();
+				onPause();
 			}
-			
-			
+
+
 			draw.show(0);
-			
+
 			while((System.currentTimeMillis() - beginTime) % 16 != 0) {
-				
+
 			}
 		}		
 	}
-	
+
 	// When the game is paused
 	public void onPause() throws ClassNotFoundException {
 		Button paused = new Button(draw, "Unpause Game", 0, 0, Color.RED);
@@ -151,63 +151,18 @@ public class Game {
 			options.render();
 			quit.render();
 			draw.show();
-			
+
 			if (draw.isKeyPressed(80)) {
 				break;
 			}
 		}
 	}
-	
+
 	public void updateSprites() {
 		try {
 			for (int i = 0; i < sprites.size(); i++) {
 				Sprite s = sprites.get(i);
-				
-				if (s instanceof AIBoat) {
-					System.out.println("Instance of");
-					((AIBoat) s).updateSelf(myBoats.get(0));
-					
-					if (((Boat) s).myLeftFire) {
-						sprites = ((Boat) s).fireLeftGuns(sprites); 
-					}
-					if (((Boat) s).myRightFire) {
-						sprites = ((Boat) s).fireRightGuns(sprites);
-					}
-					
-				} else {
-					s.updateSelf();
-				}
-				
-				if (s instanceof Boat) {
-					if (((Boat) s).shouldFireLeft()) {
-						sprites = ((Boat) s).fireLeftGuns(sprites); 
-					}
-					if (((Boat) s).shouldFireRight()) {
-						sprites = ((Boat) s).fireRightGuns(sprites);
-					}
-				}
-
-				if (s instanceof CannonBall) {
-					for (Boat b : myBoats) {
-						if (((CannonBall) s).didCollideWithBoat(b)) {
-							sprites.add(((CannonBall) s).onHit(b));
-						}
-						if (((CannonBall) s).didCollideWithBoat(b)) {
-							sprites.add(((CannonBall) s).onHit(b));
-						}
-					}
-				}
-
-				if (s instanceof Smoke) {
-					//System.out.println(((Smoke) s).iteration);
-					if (((Smoke) s).isFinished) {
-						sprites.remove(s);
-						//System.out.println("Removed");
-					}
-				}
-
-				//sprites.set(i, s);
-
+				s.updateSelf();
 			}
 		} catch(ArrayIndexOutOfBoundsException e){
 			System.out.println("Deleted object requested. Ignoring.");

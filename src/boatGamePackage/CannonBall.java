@@ -59,6 +59,12 @@ public class CannonBall extends Sprite {
 		}
 		updatePosition();
 		visualize();
+		if (didCollideWithBoat((Boat) Game.sprites.get(0))) {
+			Game.sprites.add(onHit((Boat) Game.sprites.get(0)));
+		}
+		if (didCollideWithBoat((Boat) Game.sprites.get(1))) {
+			Game.sprites.add(onHit((Boat) Game.sprites.get(1)));
+		}
 	}
 	
 }
