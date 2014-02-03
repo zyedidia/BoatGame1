@@ -11,7 +11,7 @@ public class Cannon extends Sprite {
 	
 	// Contrsuctor \\
 	public Cannon(Draw draw, int offSet, double relativeX, double relativeY, Boat boat) {
-		super(draw, "Resources/tank0.png", boat.mySpeed, boat.myMaxSpeed, boat.myAngle + offSet, boat.myX, boat.myY, 0.05, 0.05);
+		super(draw, "Resources/tank0.png", boat.mySpeed, boat.myMaxSpeed, (int) (boat.myAngle + offSet), boat.myX, boat.myY, 0.05, 0.05);
 		
 		myRelativeX = relativeX;
 		myRelativeY = relativeY;
@@ -41,7 +41,14 @@ public class Cannon extends Sprite {
 		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
 		
 		CannonBall cb = new CannonBall(myDraw, myX + (myWidth + 0.065) * 2 * Math.cos(angleInRadians), 
-				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 0.05, 0.05, myAngle);
+				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
+				
+		return cb;
+	}
+	
+	public CannonBall fire(double angleInRadians) {
+		CannonBall cb = new CannonBall(myDraw, myX + (myWidth + 0.065) * 2 * Math.cos(angleInRadians), 
+				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
 				
 		return cb;
 	}

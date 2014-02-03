@@ -5,7 +5,7 @@ import edu.princeton.cs.introcs.Draw;
 public abstract class Sprite {
 	protected Draw myDraw;
 	protected double mySpeed;
-	protected int myAngle;
+	protected double myAngle;
 	protected double myMaxSpeed;
 	protected double myX;
 	protected double myY;
@@ -14,6 +14,7 @@ public abstract class Sprite {
 	protected double myHeight;
 	protected double myVx;
 	protected double myVy;
+	protected boolean isDead;
 	
 	// Constructors \\
 	public Sprite(Draw draw, String fileName, double speed, double maxSpeed, 
@@ -44,6 +45,7 @@ public abstract class Sprite {
 	
 	// Update the position of the sprite
 	public void updatePosition() {
+		
 		// Set speed to maxSpeed if speed is greater than maxSpeed
 		if (mySpeed > myMaxSpeed) {
     		mySpeed = myMaxSpeed;
@@ -63,9 +65,11 @@ public abstract class Sprite {
 	
 	// Put the sprite off the screen
 	public void die() {
+		isDead = true;
+		Game.sprites.remove(this);
 		mySpeed = 0;
-		myX = 10;
-		myY = 10;
+		myX = 0;
+		myY = 0;
 	}
 	
 	//For type-safety
