@@ -13,7 +13,7 @@ public class CannonBall extends Sprite {
 	}
 	
 	// Run this when a bullet hits a boat
-	public Sprite onHit(Boat b) {
+	public Smoke onHit(Boat b) {
 		b.myHealth -= 5;
 		if (StdRandom.uniform(0, 10) < 2) {
 			if (b.myRightGuns.size() > 1) {
@@ -55,6 +55,12 @@ public class CannonBall extends Sprite {
 	public void updateSelf() {
 		updatePosition();
 		visualize();
+		if (didCollideWithBoat((Boat) Game.sprites.get(0))) {
+			Game.sprites.add(onHit((Boat) Game.sprites.get(0)));
+		}
+		if (didCollideWithBoat((Boat) Game.sprites.get(1))) {
+			Game.sprites.add(onHit((Boat) Game.sprites.get(1)));
+		}
 	}
 	
 }

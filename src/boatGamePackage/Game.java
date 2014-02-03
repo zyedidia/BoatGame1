@@ -109,34 +109,6 @@ public class Game {
 				for (int i = 0; i < sprites.size(); i++) {
 					Sprite s = sprites.get(i);
 					s.updateSelf();
-					if (s instanceof Boat) {
-						if (((Boat) s).shouldFireLeft()) {
-							sprites = ((Boat) s).fireLeftGuns(sprites); 
-						}
-						if (((Boat) s).shouldFireRight()) {
-							sprites = ((Boat) s).fireRightGuns(sprites);
-						}
-					}
-
-					if (s instanceof CannonBall) {
-						if (((CannonBall) s).didCollideWithBoat((Boat) sprites.get(0))) {
-							sprites.add(((CannonBall) s).onHit((Boat) sprites.get(0)));
-						}
-						if (((CannonBall) s).didCollideWithBoat((Boat) sprites.get(1))) {
-							sprites.add(((CannonBall) s).onHit((Boat) sprites.get(1)));
-						}
-					}
-
-					if (s instanceof Smoke) {
-						//System.out.println(((Smoke) s).iteration);
-						if (((Smoke) s).isFinished) {
-							sprites.remove(s);
-							//System.out.println("Removed");
-						}
-					}
-
-					//sprites.set(i, s);
-
 				}
 			} catch(ArrayIndexOutOfBoundsException e){
 				System.out.println("Deleted object requested. Ignoring.");

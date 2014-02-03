@@ -129,34 +129,30 @@ public class Boat extends Sprite {
 	}
 
 	// Fire the guns on the right side
-	public ArrayList<Sprite> fireRightGuns(ArrayList<Sprite> sprites) {
+	public void fireRightGuns() {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
 		if (myReloadRightProgress == 0) {
 			for (Cannon c : myRightGuns) {
-				sprites.add(c.fire());
-				sprites.add(c.fireSmoke());
+				Game.sprites.add(c.fire());
+				Game.sprites.add(c.fireSmoke());
 				myReloadRightProgress = myReloadTime;
 			}
 		}
-
-		return sprites;
 	}
 
 	// Fire the guns on the left side
-	public ArrayList<Sprite> fireLeftGuns(ArrayList<Sprite> sprites) {
+	public void fireLeftGuns() {
 		// Takes an ArrayList of CannonBalls and adds as many CannonBalls as guns
 		// Returns the ArrayList with the new CannonBalls
 
 		if (myReloadLeftProgress == 0) {
 			for (Cannon c : myLeftGuns) {
-				sprites.add(c.fire());
-				sprites.add(c.fireSmoke());
+				Game.sprites.add(c.fire());
+				Game.sprites.add(c.fireSmoke());
 				myReloadLeftProgress = myReloadTime;
 			}
 		}
-
-		return sprites;
 	}
 
 	// Should be overridden
@@ -171,7 +167,6 @@ public class Boat extends Sprite {
 
 	// Update the boat
 	public void updateSelf() {
-
 		if (myHealth == 0) die();
 		if (myNumCrew == 0) mySpeed = 0;
 
@@ -190,6 +185,13 @@ public class Boat extends Sprite {
 		move();
 		
 		updateHUD();
+		
+		if (shouldFireLeft()) {
+			fireLeftGuns(); 
+		}
+		if (shouldFireRight()) {
+			fireRightGuns();
+		}
 	}
 	
 	public void updateHUD() {

@@ -19,6 +19,9 @@ public class Smoke extends Sprite {
 	@Override
 	public void updateSelf() {
 		animate();
+		if (isFinished) {
+			Game.sprites.remove(this);
+		}
 	}
 	
 	public void animate() {
