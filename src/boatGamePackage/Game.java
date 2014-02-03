@@ -15,7 +15,7 @@ public class Game {
 	private Draw draw;
 	public static ArrayList<Boat> myBoats;
 	public static double FPS = 1;
-	private final double targetFPS = 60;
+	public static double targetFPS = 60;
 	
 	public Game() {
 		draw = new Draw("Boat Game");
@@ -56,20 +56,27 @@ public class Game {
 		zoom = 1.0;
 		zoom = 1.0;
 		
+		int i = 0;
+		
 		// Create Player Boats
-		for (int i = 0; i < numPlayerBoats; i++) {
+		for (i = 0; i < numPlayerBoats; i++) {
 			Boat boat = new PlayerBoat(draw, i);
 			myBoats.add(boat);
 			sprites.add(boat);
 			
 		}
 		
-		// Create AI Boats here
+		// Create AI Boats
+		for (; i < numAiBoats + numPlayerBoats; i++) {
+			Boat boat = new AIBoat(draw, i);
+			myBoats.add(boat);
+			sprites.add(boat);
+		}
 		
 	}
 	
 	public void loop() throws ClassNotFoundException {
-		init(2, 0);
+		init(1, 1);
 		
 		FPS = 1;
 		
@@ -86,7 +93,6 @@ public class Game {
 			
 			if (changeTime > 0) {
 				FPS = 1 / changeTime * 1000;
-				System.out.println("FPS: " + FPS);
 				
 				oldTime = System.currentTimeMillis();
 			}
@@ -114,7 +120,7 @@ public class Game {
 			
 			draw.show(0);
 			
-			while((System.currentTimeMillis() - beginTime) % 10 != 0) {
+			while((System.currentTimeMillis() - beginTime) % 16 != 0) {
 				
 			}
 		}		
@@ -155,7 +161,22 @@ public class Game {
 		try {
 			for (int i = 0; i < sprites.size(); i++) {
 				Sprite s = sprites.get(i);
-				s.updateSelf();
+				
+				if (s instanceof AIBoat) {
+					System.out.println("Instance of");
+					((AIBoat) s).updateSelf(myBoats.get(0));
+					
+					if (((Boat) s).myLeftFire) {
+						sprites = ((Boat) s).fireLeftGuns(sprites); 
+					}
+					if (((Boat) s).myRightFire) {
+						sprites = ((Boat) s).fireRightGuns(sprites);
+					}
+					
+				} else {
+					s.updateSelf();
+				}
+				
 				if (s instanceof Boat) {
 					if (((Boat) s).shouldFireLeft()) {
 						sprites = ((Boat) s).fireLeftGuns(sprites); 

@@ -28,7 +28,7 @@ public class Boat extends Sprite {
 
 	private int myReloadRightProgress = 0; // 0 is ready to shoot
 	private int myReloadLeftProgress = 0;
-	private final int myReloadTime = myNumCrew / myNumGuns * 4;
+	private final int myReloadTime = (int) (100 * 1.5);
 
 	protected ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	protected ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
@@ -36,17 +36,12 @@ public class Boat extends Sprite {
 	// Constructors \\
 	public Boat(Draw draw, int numGuns, int numCrew, int health, double x, double y, int angle, double accel, int PID) {
 		super(draw, "Resources/boat.png", angle, x, y, 0.2, 0.5);
-		myMaxSpeed = 0.0075;
+		init();
 		myNumCrew = numCrew;
 		myNumGuns = numGuns;
 		myHealth = health;
 		myAccel = accel;
 		myPID = PID;
-		myZoomOut = false;
-		myNumGuns = 5;	// Guns per side
-		myNumCrew = 100;	//Crew
-		myHealth = 100;
-		myAccel = 0.0005 * 40.0 / Game.FPS;
 		readOptions();
 		initGuns();
 		setStartingPos();
@@ -54,16 +49,20 @@ public class Boat extends Sprite {
 
 	public Boat(Draw draw, int PID) {
 		super(draw, "Resources/boat.png", 0, 0, 0, 0.2, 0.5);
-		myMaxSpeed = 0.0075;
+		init();
 		myPID = PID;
+		readOptions();
+		initGuns();
+		setStartingPos();
+	}
+	
+	public void init() {
+		myMaxSpeed = 0.0075;
 		myZoomOut = false;
 		myNumGuns = 5;	// Guns per side
 		myNumCrew = 100;	//Crew
 		myHealth = 100;
 		myAccel = 0.0005 * 40.0 / Game.FPS;
-		readOptions();
-		initGuns();
-		setStartingPos();
 	}
 	
 	// Set the starting position and angle of the boat based on the player id

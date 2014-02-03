@@ -54,6 +54,9 @@ public class CannonBall extends Sprite {
 	
 	// Update self
 	public void updateSelf() {
+		if (Math.abs(myX) > Game.zoom || Math.abs(myY) > Game.zoom) {
+			Game.sprites.remove(this); 
+		}
 		updatePosition();
 		visualize();
 	}

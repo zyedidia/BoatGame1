@@ -14,6 +14,7 @@ public abstract class Sprite {
 	protected double myHeight;
 	protected double myVx;
 	protected double myVy;
+	protected boolean isDead;
 	
 	// Constructors \\
 	public Sprite(Draw draw, String fileName, double speed, double maxSpeed, 
@@ -64,6 +65,7 @@ public abstract class Sprite {
 	
 	// Put the sprite off the screen
 	public void die() {
+		isDead = true;
 		Game.sprites.remove(this);
 		mySpeed = 0;
 		myX = 0;
