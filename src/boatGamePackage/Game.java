@@ -100,7 +100,7 @@ public class Game {
 			// Draw the blue background
 			draw.setPenColor(new Color(25, 25, 255));
 			draw.filledSquare(0.0, 0.0, 20);
-			//draw.picture(0, 0, "resources/Ocean.png", 50, 50);
+			//draw.picture(0, 0, "resources/Ocean.png", 10, 10);
 			
 			adjustZoom(myBoats);
 
