@@ -12,7 +12,9 @@ public class AIBoat extends Boat {
 	public AIBoat(Draw draw, int PID) {
 		super(draw, PID);
 	}
-	
+	public AIBoat(Draw draw, int PID, String filename) {
+		super(draw, PID, filename);
+	}
 	public void computeMove(Boat targetBoat) {
 		if (!targetBoat.isDead) {
 		

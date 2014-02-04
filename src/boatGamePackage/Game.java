@@ -68,7 +68,7 @@ public class Game {
 
 		// Create AI Boats
 		for (; i < numAiBoats + numPlayerBoats; i++) {
-			Boat boat = new AIBoat(draw, i);
+			Boat boat = new AIBoat(draw, i, "Resources/boat2.png");
 			myBoats.add(boat);
 			sprites.add(boat);
 		}

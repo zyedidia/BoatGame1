@@ -55,6 +55,14 @@ public class Boat extends Sprite {
 		initGuns();
 		setStartingPos();
 	}
+	public Boat(Draw draw, int PID, String filename) {
+		super(draw, filename, 0, 0, 0, 0.2, 0.5);
+		init();
+		myPID = PID;
+		readOptions();
+		initGuns();
+		setStartingPos();
+	}
 	
 	public void init() {
 		myMaxSpeed = 0.0075;
