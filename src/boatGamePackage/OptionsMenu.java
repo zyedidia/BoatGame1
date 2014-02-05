@@ -58,7 +58,7 @@ public class OptionsMenu {
 		}
 	}
 	
-	public void render() throws ClassNotFoundException {
+	public void render() throws ClassNotFoundException, IOException {
 		myBackButton.render();
 		myGuns.render();
 		myDelete.render();
@@ -89,7 +89,7 @@ public class OptionsMenu {
 		myNumAI.isClicked();
 	}
 	
-	public void loop() throws ClassNotFoundException {
+	public void loop() throws ClassNotFoundException, IOException {
 		myDraw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		while (true) {
 			myDraw.setPenColor(Color.white);

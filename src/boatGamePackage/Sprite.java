@@ -1,8 +1,10 @@
 package boatGamePackage;
 
+import java.io.Serializable;
+
 import edu.princeton.cs.introcs.Draw;
 
-public abstract class Sprite {
+public abstract class Sprite implements Serializable {
 	protected Draw myDraw;
 	protected double mySpeed;
 	protected double myAngle;

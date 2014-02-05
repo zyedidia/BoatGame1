@@ -1,6 +1,7 @@
 package boatGamePackage;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -23,7 +24,7 @@ public class Menu {
 	}
 	
 	// Renders all the elements in the menu and draws a square to refresh the window
-	public void render() throws ClassNotFoundException {
+	public void render() throws ClassNotFoundException, IOException {
 		myDraw.setPenColor(Color.white);
 		myDraw.filledSquare(0, 0, 1.0);
 		myTitle.render();
@@ -36,7 +37,7 @@ public class Menu {
 			myDraw.frame.dispose();
 			// Create the game
 			Game game = new Game();
-			game.loop();
+			game.loop(false, null, null, 0);
 		}
 		
 		if (myOptions.isClicked()) {
@@ -53,7 +54,7 @@ public class Menu {
 	}
 	
 	// The loop
-	public void loop() throws ClassNotFoundException {
+	public void loop() throws ClassNotFoundException, IOException {
 		myDraw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		while (true) {
 			render();
@@ -61,7 +62,7 @@ public class Menu {
 	}
 	
 	// Main function of the entire BoatGame
-	public static void main(String[] args) throws ClassNotFoundException {
+	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		Menu menu = new Menu();
 		
 		menu.loop();

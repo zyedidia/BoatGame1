@@ -1,6 +1,9 @@
 package boatGamePackage;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -74,7 +77,8 @@ public class Game {
 		}
 	}
 
-	public void loop() throws ClassNotFoundException {
+	public void loop(boolean online,ObjectInputStream in1, ObjectOutputStream out1, int id) 
+					throws ClassNotFoundException, IOException {
 		init(2, 0);
 
 		FPS = 1;
@@ -85,8 +89,17 @@ public class Game {
 
 
 		while (true) {
+			if (online) {
+				for (Boat b : myBoats) {
+					if (b.myPID == id) {
+						out1.writeObject(b);
+					} else {
+						b = (Boat) in1.readObject();
+					}
+				}
+			}
+			
 			changeTime = System.currentTimeMillis() - oldTime;
-
 
 			//System.out.println(changeTime + " since last update");
 
@@ -110,7 +123,7 @@ public class Game {
 			draw.text(-zoom, zoom, "FPS: " + Integer.toString((int) FPS));
 
 			if (draw.isKeyPressed(10)) { // Enter key (restart game button
-				loop();
+				loop(false, null, null, 0);
 			}
 
 			if (draw.isKeyPressed(79)) { // o key (pause button)
@@ -127,7 +140,7 @@ public class Game {
 	}
 
 	// When the game is paused
-	public void onPause() throws ClassNotFoundException {
+	public void onPause() throws ClassNotFoundException, IOException {
 		Button paused = new Button(draw, "Unpause Game", 0, 0, Color.RED);
 		Button options = new Button(draw, "Options (Will End Game)", 0, -0.125/zoom, Color.RED);
 		Button quit = new Button(draw, "Quit", 0, -0.250/zoom, Color.RED);
