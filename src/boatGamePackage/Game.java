@@ -72,11 +72,10 @@ public class Game {
 			myBoats.add(boat);
 			sprites.add(boat);
 		}
-
 	}
 
 	public void loop() throws ClassNotFoundException {
-		init(1, 1);
+		init(2, 0);
 
 		FPS = 1;
 
@@ -99,7 +98,7 @@ public class Game {
 
 			// Draw the blue background
 			draw.setPenColor(new Color(25, 25, 255));
-			draw.filledSquare(0.0, 0.0, 20);
+			draw.filledSquare(0.0, 0.0, 100);
 		//	draw.picture(0, 0, "resources/Ocean.png", 10, 10);
 			
 			adjustZoom(myBoats);
@@ -130,8 +129,8 @@ public class Game {
 	// When the game is paused
 	public void onPause() throws ClassNotFoundException {
 		Button paused = new Button(draw, "Unpause Game", 0, 0, Color.RED);
-		Button options = new Button(draw, "Options (Will End Game)", 0, -0.125, Color.RED);
-		Button quit = new Button(draw, "Quit", 0, -0.250, Color.RED);
+		Button options = new Button(draw, "Options (Will End Game)", 0, -0.125/zoom, Color.RED);
+		Button quit = new Button(draw, "Quit", 0, -0.250/zoom, Color.RED);
 		while (true) {
 			if (options.isClicked()) {
 				draw.frame.setVisible(false);

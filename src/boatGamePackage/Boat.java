@@ -22,13 +22,15 @@ public class Boat extends Sprite {
 	protected int myHealth = 100;
 	protected double myAccel = 0.0005;
 	
+	private ArrayList<Waves> myWaves = new ArrayList<Waves>();
+	
 	protected int myPID;
 	
 	private final double myCannonDeadZone = 0.15;
 
 	private int myReloadRightProgress = 0; // 0 is ready to shoot
 	private int myReloadLeftProgress = 0;
-	private final int myReloadTime = (int) (100 * 1.5);
+	private int myReloadTime = (int) (100 * 1.5 );
 
 	protected ArrayList<Cannon> myRightGuns = new ArrayList<Cannon>();
 	protected ArrayList<Cannon> myLeftGuns = new ArrayList<Cannon>();
@@ -235,6 +237,17 @@ public class Boat extends Sprite {
 
 	// Update the boat
 	public void updateSelf() {
+		
+		Waves w = new Waves(myDraw, myX, myY, 0);
+		myWaves.add(w);
+		
+		for (int i = 0; i < myWaves.size(); i++) {
+			if (myWaves.get(i).isDead) {
+				myWaves.remove(myWaves.get(i));
+			} else {
+				myWaves.get(i).updateSelf();
+			}
+		}
 
 		myAccel = 0.0005 * 40 / Game.FPS;
 
@@ -330,6 +343,17 @@ public class Boat extends Sprite {
 		// Update the position
 		myX += myVx;
 		myY += myVy;
+	}
+	
+	public boolean didCollideWIthBoat(Boat b) {
+		boolean didCollide = false;
+		
+		if (myX > b.myX + b.myWidth && myX < b.myX - b.myWidth
+				&& myY > b.myY + b.myHeight && myY < b.myY - b.myHeight) {
+			
+		}
+		
+		return didCollide;
 	}
 	
 	// Overriding die() to remove boat from myBoats
