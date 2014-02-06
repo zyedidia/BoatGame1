@@ -4,12 +4,11 @@ import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Draw;
 
-public class Boat extends Sprite implements Serializable {
+public class Boat extends Sprite {
 	protected boolean myForward = false;
 	protected boolean myBack = false;
 	protected boolean myLeft = false;

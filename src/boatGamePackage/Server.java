@@ -31,6 +31,7 @@ public class Server {
 				
 				myOut = new ObjectOutputStream(mySocket.getOutputStream());
 				myIn = new ObjectInputStream(mySocket.getInputStream());
+				
 				System.out.println("Did this for the " + i + "th time");
 				
 				if (myUsers[i] == null) {
@@ -42,7 +43,6 @@ public class Server {
 				} else {
 					System.out.println("Not null");
 				}
-				
 			}
 		}
 	}
@@ -70,39 +70,50 @@ class User implements Runnable {
 	@Override
 	public void run() {
 		try {
-			myUsers[0].myOut.writeInt(myId);
+			myOut.writeInt(myId);
+			myOut.flush();
 			System.out.println("Sent ID");
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		
-		while (true) {
-			try {
-				System.out.println("Waiting for boat...");
-				Boat receivedBoat = (Boat) myIn.readObject();
-				System.out.println("Received boat");
-				
-				for (int i = 0; i < myUsers.length; i++) {
-					myUsers[i].myOut.writeObject(receivedBoat);
-					System.out.println("Sent boat");
-				}
-				
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				myUsers[myId] = null;
-				
+		try {
+			System.out.println("Outside while loop");
+			System.out.println(myIn.available());
+			while (true) {
 				try {
-					myUsers[myId].myIn.close();
-					myUsers[myId].myOut.close();
-				} catch (IOException e1) {
+					System.out.println("Waiting for boat...");
+					double[] receivedArray = (double[]) myIn.readObject();
+					System.out.println("Received boat");
+					
+					for (int i = 0; i < myUsers.length; i++) {
+						if (myUsers[i] != null) {
+							myUsers[i].myOut.writeObject(receivedArray);
+							myUsers[i].myOut.flush();
+							System.out.println("Sent boat");
+						}
+					}
+					
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					e.printStackTrace();
+					System.out.println("IOException thrown");
+					/*try {
+						myUsers[myId].myIn.close();
+						myUsers[myId].myOut.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					myUsers[myId] = null;*/
 				}
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

@@ -18,24 +18,29 @@ public class Client {
 		myIpAddress = ip;
 	}
 	
-	public void connect() throws UnknownHostException, IOException {
+	public void connect() throws UnknownHostException, IOException, ClassNotFoundException {
+		myIpAddress = JOptionPane.showInputDialog("Enter the ip to connect to");
 		JOptionPane.showMessageDialog(null, "Connecting to " + myIpAddress + "...");
 		mySocket = new Socket(myIpAddress, 4545);
 		System.out.println("Connection successful");
 		
 		myIn = new ObjectInputStream(mySocket.getInputStream());
+		System.out.println("Created myIn");
 		myOut = new ObjectOutputStream(mySocket.getOutputStream());
+		System.out.println("Created myOut");
 		
-		Input input = new Input(myOut, myIn);
-		
-		Thread t = new Thread(input);
-		t.start();
+		update();
 	}
 	
-	public static void main(String[] args) throws UnknownHostException, IOException {
+	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
 		Client c = new Client("localhost");
 		
 		c.connect();
+	}
+	
+	public void update() throws IOException, ClassNotFoundException {
+		Game game = new Game();
+		game.loop(true, myIn, myOut, 1);
 	}
 }
 
@@ -50,13 +55,12 @@ class Input implements Runnable {
 	
 	@Override
 	public void run() {
-		Game game = new Game();
 		try {
 			System.out.println("Waiting for ID...");
-			//int id = myIn.readInt();
-			System.out.println("Received ID");
-
-			game.loop(true, myIn, myOut, 0);
+			int id = myIn.readInt();
+			System.out.println("Received ID: " + id);
+			Game game = new Game();
+			game.loop(true, myIn, myOut, id);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

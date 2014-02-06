@@ -77,7 +77,7 @@ public class Game {
 		}
 	}
 
-	public void loop(boolean online,ObjectInputStream in1, ObjectOutputStream out1, int id) 
+	public void loop(boolean online,ObjectInputStream in, ObjectOutputStream out, int id) 
 					throws ClassNotFoundException, IOException {
 		init(2, 0);
 
@@ -92,11 +92,26 @@ public class Game {
 			if (online) {
 				for (Boat b : myBoats) {
 					if (b.myPID == id) {
-						out1.writeObject(b);
+						double[] arrayToSend = {b.myX, b.myY, b.myPID, b.myAngle};
+						out.writeObject(arrayToSend);
+						out.flush();
+						System.out.println("Sent boat");
 					} else {
-						b = (Boat) in1.readObject();
+						System.out.println("Received boat");
+						double[] receivedArray = (double[]) in.readObject();
+						for (Boat b1 : myBoats) {
+							if (b1.myPID == receivedArray[2]) {
+								b1.myX = receivedArray[0];
+								b1.myY = receivedArray[1];
+								b1.myAngle = receivedArray[3];
+							}
+						}
 					}
 				}
+				
+				out.reset();
+			} else {
+				System.out.println("Online false");
 			}
 			
 			changeTime = System.currentTimeMillis() - oldTime;
