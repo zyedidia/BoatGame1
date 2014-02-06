@@ -38,13 +38,11 @@ public class Game {
 		for (Boat b : myBoats) {
 			if (b.myZoomOut) {
 				zoom += 0.015;
-				System.out.println("Zoom Out");
 				draw.setXscale(-zoom, zoom);
 				draw.setYscale(-zoom, zoom);
 			}
 			else if (zoom >= 1.0) {	
 				zoom -= 0.005;
-				System.out.println("Zoom In");
 				draw.setXscale(-zoom, zoom);
 				draw.setYscale(-zoom, zoom);
 			}
@@ -89,30 +87,39 @@ public class Game {
 
 
 		while (true) {
-			if (online) {
+			/*if (online) {
 				for (Boat b : myBoats) {
 					if (b.myPID == id) {
 						double[] arrayToSend = {b.myX, b.myY, b.myPID, b.myAngle};
 						out.writeObject(arrayToSend);
+						out.writeBoolean(b.shouldFireLeft());
+						out.writeBoolean(b.shouldFireRight());
 						out.flush();
 						System.out.println("Sent boat");
 					} else {
 						System.out.println("Received boat");
 						double[] receivedArray = (double[]) in.readObject();
+						boolean left = in.readBoolean();
+						boolean right = in.readBoolean();
 						for (Boat b1 : myBoats) {
 							if (b1.myPID == receivedArray[2]) {
 								b1.myX = receivedArray[0];
 								b1.myY = receivedArray[1];
 								b1.myAngle = receivedArray[3];
+								if (right) {
+									b1.fireRightGuns();
+								}
+								
+								if (left) {
+									b1.fireLeftGuns();
+								}
 							}
 						}
 					}
 				}
 				
 				out.reset();
-			} else {
-				System.out.println("Online false");
-			}
+			}*/
 			
 			changeTime = System.currentTimeMillis() - oldTime;
 

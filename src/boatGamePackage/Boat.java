@@ -22,7 +22,7 @@ public class Boat extends Sprite {
 	protected int myHealth = 100;
 	protected double myAccel = 0.0005;
 	
-	private ArrayList<Waves> myWaves = new ArrayList<Waves>();
+	//private ArrayList<Waves> myWaves = new ArrayList<Waves>();
 	
 	protected int myPID;
 	
@@ -238,7 +238,7 @@ public class Boat extends Sprite {
 	// Update the boat
 	public void updateSelf() {
 		
-		Waves w = new Waves(myDraw, myX, myY, 0);
+		/*Waves w = new Waves(myDraw, myX, myY, 0);
 		myWaves.add(w);
 		
 		for (int i = 0; i < myWaves.size(); i++) {
@@ -247,7 +247,7 @@ public class Boat extends Sprite {
 			} else {
 				myWaves.get(i).updateSelf();
 			}
-		}
+		}*/
 
 		myAccel = 0.0005 * 40 / Game.FPS;
 

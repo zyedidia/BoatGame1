@@ -12,6 +12,8 @@ public class Menu {
 	private Button myTitle;
 	private Draw myDraw;
 	private Button myOptions;
+	private Button myHostServer;
+	private Button myJoinServer;
 	
 	// Constructor \\
 	public Menu() {
@@ -21,6 +23,8 @@ public class Menu {
 		myPlayButton = new Button(myDraw, "Play!", 0, 0, Color.BLUE);
 		myOptions = new Button(myDraw, "Options", 0, -0.25, Color.BLUE);
 		myTitle = new Button(myDraw, "The Boat Game", 0, 0.75, Color.BLUE);
+		myHostServer = new Button(myDraw, "Host Server", 0, -.5, Color.BLUE);
+		myJoinServer = new Button(myDraw, "Join Server", 0, -.75, Color.BLUE);
 	}
 	
 	// Renders all the elements in the menu and draws a square to refresh the window
@@ -30,6 +34,8 @@ public class Menu {
 		myTitle.render();
 		myPlayButton.render();
 		myOptions.render();
+		myHostServer.render();
+		myJoinServer.render();
 		
 		if (myPlayButton.isClicked()) {
 			// Destroy the menu frame
@@ -46,6 +52,16 @@ public class Menu {
 			
 			OptionsMenu om = new OptionsMenu();
 			om.loop();
+		}
+		
+		if (myHostServer.isClicked()) {
+			GameServer gs = new GameServer();
+			gs.beginServer();
+		}
+		
+		if (myJoinServer.isClicked()) {
+			Client c = new Client("");
+			c.connect();
 		}
 		
 		// Render all other elements too
