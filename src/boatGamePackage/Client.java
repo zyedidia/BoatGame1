@@ -33,7 +33,9 @@ public class Client {
 	}
 	
 	public void update() throws IOException, ClassNotFoundException {
-		Game game = new Game();
-		game.loop(true, myIn, myOut, 1);
+		Game game = new Game(true, myIn, myOut, 1);
+		//Thread t = new Thread(game);
+		//t.start();
+		game.loop();
 	}
 }

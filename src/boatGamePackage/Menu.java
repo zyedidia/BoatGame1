@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import edu.princeton.cs.introcs.Draw;
 
-public class Menu {
+public class Menu implements Runnable {
 	private Button myPlayButton;
 	private Button myTitle;
 	private Draw myDraw;
@@ -42,8 +42,10 @@ public class Menu {
 			myDraw.frame.setVisible(false);
 			myDraw.frame.dispose();
 			// Create the game
-			Game game = new Game();
-			game.loop(false, null, null, 0);
+			Game game = new Game(false, null, null, 0);
+			//Thread t = new Thread(game);
+			//t.start();
+			game.loop();
 		}
 		
 		if (myOptions.isClicked()) {
@@ -83,10 +85,25 @@ public class Menu {
 		}
 	}
 	
+	@Override
+	public void run() {
+		try {
+			loop();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	// Main function of the entire BoatGame
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		Menu menu = new Menu();
 		
 		menu.loop();
 	}
+
+	
 }

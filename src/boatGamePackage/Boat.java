@@ -232,19 +232,7 @@ public class Boat extends Sprite {
 
 	// Update the boat
 	public void updateSelf() {
-		
-		/*Waves w = new Waves(myDraw, myX, myY, 0);
-		myWaves.add(w);
-		
-		for (int i = 0; i < myWaves.size(); i++) {
-			if (myWaves.get(i).isDead) {
-				myWaves.remove(myWaves.get(i));
-			} else {
-				myWaves.get(i).updateSelf();
-			}
-		}*/
-
-		myAccel = 0.0005 * 40 / Game.FPS;
+		myAccel = 0.0005 * 40/Game.FPS;
 
 		if (myHealth == 0) die();
 		// Boat can't move if there is no crew
@@ -304,7 +292,6 @@ public class Boat extends Sprite {
 		if (mySpeed > myMaxSpeed) {
 			mySpeed = myMaxSpeed;
 		}
-		System.out.println(mySpeed * 1000);
 		
 		// Check if the boat is nearing the edge of the screen
 			// If so, the Game will zoom out (adjustZoom() in Game class)

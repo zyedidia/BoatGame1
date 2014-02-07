@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 
 import edu.princeton.cs.introcs.Draw;
 
-public class OptionsMenu {
+public class OptionsMenu implements Runnable {
 	private Draw myDraw;
 	private Button myBackButton;
 	private Button myDelete;
@@ -20,6 +20,7 @@ public class OptionsMenu {
 	private double[] values = new double[3];
 	private TextBox myNumPlayers;
 	private TextBox myNumAI;
+	private Button myBackToGame;
 
 	public OptionsMenu() throws ClassNotFoundException {
 		
@@ -34,6 +35,7 @@ public class OptionsMenu {
 		//myNumAI.myText = Integer.toString((int) values[2]);
 		myNumAI = new TextBox(myDraw, 0, -0.5, Color.BLUE);
 		myDelete = new Button(myDraw, "Clear Options File", -0.7, -0.8, Color.BLUE);
+		myBackToGame = new Button(myDraw, "Back To Game", 0.7, 0.9, Color.BLUE);
 		myGuns = new TextBox(myDraw, 0, 0.5, Color.BLUE);
 		myGuns.myText = Integer.toString((int) values[0]);
 	}
@@ -64,6 +66,14 @@ public class OptionsMenu {
 		myDelete.render();
 		myNumPlayers.render();
 		myNumAI.render();
+		
+		if (Thread.activeCount() > 5) {
+			myBackToGame.render();
+			if (myBackToGame.isClicked()) {
+				myDraw.frame.setVisible(false);
+				myDraw.frame.dispose();
+			}
+		}
 		
 		if (myBackButton.isClicked()) {
 			
@@ -136,5 +146,16 @@ public class OptionsMenu {
 		}
 		
 		return arrayToReturn;
+	}
+
+	@Override
+	public void run() {
+		try {
+			loop();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

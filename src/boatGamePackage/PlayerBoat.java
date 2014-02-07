@@ -9,7 +9,8 @@ public class PlayerBoat extends Boat {
 		super(draw, pID);
 	}
 
-	public PlayerBoat(Draw draw, int numGuns, int numCrew, int health, int pID, double x, double y, int angle, double accel) {
+	public PlayerBoat(Draw draw, int numGuns, int numCrew, int health, int pID, 
+			double x, double y, int angle, double accel) {
 		super(draw, numGuns, numCrew, health, x, y, angle, accel, pID);
 	}
 
@@ -31,8 +32,9 @@ public class PlayerBoat extends Boat {
 			keyPress = myDraw.isKeyPressed(firstPlayer);
 		} else {
 			keyPress = myDraw.isKeyPressed(alternate);
+			
 		}
-
+		
 		return keyPress;
 	}
 

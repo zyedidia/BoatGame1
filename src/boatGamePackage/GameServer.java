@@ -29,8 +29,10 @@ public class GameServer {
 		myOut = new ObjectOutputStream(mySocket.getOutputStream());
 		myIn = new ObjectInputStream(mySocket.getInputStream());
 		
-		Game game = new Game();
-		game.loop(true, myIn, myOut, 0);
+		Game game = new Game(true, myIn, myOut, 0);
+		//Thread t = new Thread(game);
+		//t.start();
+		game.loop();
 		
 	}
 }

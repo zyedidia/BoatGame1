@@ -12,40 +12,49 @@ import javax.swing.JMenuBar;
 
 import edu.princeton.cs.introcs.Draw;
 
-public class Game {
+public class Game implements Runnable {
 
 	public static ArrayList<Sprite> sprites;
 	public static double zoom = 1.0;
-	private Draw draw;
+	private Draw myDraw;
 	public static ArrayList<Boat> myBoats;
 	public static double FPS = 1;
 	public static double targetFPS = 60;
+	private ObjectOutputStream myOut;
+	private ObjectInputStream myIn;
+	private int myOnlineBoatId;
+	private boolean myOnline;
 
-	public Game() {
-		draw = new Draw("Boat Game");
+	public Game(boolean online, ObjectInputStream in, ObjectOutputStream out, int id) {
+		myOut = out;
+		myIn = in;
+		myOnlineBoatId = id;
+		myOnline = online;
+		
+		myDraw = new Draw("Boat Game");
 
-		draw.setCanvasSize(768, 768);
+		myDraw.setCanvasSize(768, 768);
 
 		// Close the window when the exit button is pressed
-		draw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		draw.frame.setJMenuBar(new JMenuBar());
+		myDraw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		myDraw.frame.setJMenuBar(new JMenuBar());
 
 		// Set the coordinate system
-		draw.setXscale(-zoom, zoom);
-		draw.setYscale(-zoom, zoom);
+		myDraw.setXscale(-zoom, zoom);
+		myDraw.setYscale(-zoom, zoom);
 	}
 
 	public void adjustZoom(ArrayList<Boat> boats) {
 		for (Boat b : myBoats) {
 			if (b.myZoomOut) {
 				zoom += 0.015;
-				draw.setXscale(-zoom, zoom);
-				draw.setYscale(-zoom, zoom);
+				myDraw.setXscale(-zoom, zoom);
+				myDraw.setYscale(-zoom, zoom);
 			}
 			else if (zoom >= 1.0) {	
 				zoom -= 0.005;
-				draw.setXscale(-zoom, zoom);
-				draw.setYscale(-zoom, zoom);
+				myDraw.setXscale(-zoom, zoom);
+				myDraw.setYscale(-zoom, zoom);
 			}
 		}
 	}
@@ -62,7 +71,7 @@ public class Game {
 
 		// Create Player Boats
 		for (i = 0; i < numPlayerBoats; i++) {
-			Boat boat = new PlayerBoat(draw, i);
+			Boat boat = new PlayerBoat(myDraw, i);
 			myBoats.add(boat);
 			sprites.add(boat);
 
@@ -70,13 +79,13 @@ public class Game {
 
 		// Create AI Boats
 		for (; i < numAiBoats + numPlayerBoats; i++) {
-			Boat boat = new AIBoat(draw, i, "Resources/boat2.png");
+			Boat boat = new AIBoat(myDraw, i, "Resources/boat2.png");
 			myBoats.add(boat);
 			sprites.add(boat);
 		}
 	}
 
-	public void loop(boolean online, ObjectInputStream in, ObjectOutputStream out, int id) 
+	public void loop() 
 					throws ClassNotFoundException, IOException {
 		init(2, 0);
 
@@ -88,20 +97,20 @@ public class Game {
 
 
 		while (true) {
-			if (online) {
+			if (myOnline) {
 				for (Boat b : myBoats) {
-					if (b.myPID == id) {
+					if (b.myPID == myOnlineBoatId) {
 						double[] arrayToSend = {b.myX, b.myY, b.myPID, b.myAngle};
-						out.writeObject(arrayToSend);
-						out.writeBoolean(b.shouldFireLeft());
-						out.writeBoolean(b.shouldFireRight());
-						out.flush();
+						myOut.writeObject(arrayToSend);
+						myOut.writeBoolean(b.shouldFireLeft());
+						myOut.writeBoolean(b.shouldFireRight());
+						myOut.flush();
 						System.out.println("Sent boat");
 					} else {
 						System.out.println("Received boat");
-						double[] receivedArray = (double[]) in.readObject();
-						boolean left = in.readBoolean();
-						boolean right = in.readBoolean();
+						double[] receivedArray = (double[]) myIn.readObject();
+						boolean left = myIn.readBoolean();
+						boolean right = myIn.readBoolean();
 						for (Boat b1 : myBoats) {
 							if (b1.myPID == receivedArray[2]) {
 								b1.myX = receivedArray[0];
@@ -131,8 +140,8 @@ public class Game {
 			}
 
 			// Draw the blue background
-			draw.setPenColor(new Color(25, 25, 255));
-			draw.filledSquare(0.0, 0.0, 100);
+			myDraw.setPenColor(new Color(25, 25, 255));
+			myDraw.filledSquare(0.0, 0.0, 100);
 		//	draw.picture(0, 0, "resources/Ocean.png", 10, 10);
 			
 			adjustZoom(myBoats);
@@ -140,18 +149,18 @@ public class Game {
 			updateSprites();
 
 			// FPS counter
-			draw.setPenColor(Color.GREEN);
-			draw.text(-zoom, zoom, "FPS: " + Integer.toString((int) FPS));
+			myDraw.setPenColor(Color.GREEN);
+			myDraw.text(-zoom, zoom, "FPS: " + Integer.toString((int) FPS));
 
-			if (draw.isKeyPressed(KeyEvent.VK_ENTER)) { // Enter key (restart game button)
-				loop(online, in, out, id);
+			if (myDraw.isKeyPressed(KeyEvent.VK_ENTER)) { // Enter key (restart game button)
+				loop();
 			}
 
-			if (draw.isKeyPressed(KeyEvent.VK_O)) { // o key (pause button)
+			if (myDraw.isKeyPressed(KeyEvent.VK_O)) { // o key (pause button)
 				onPause();
 			}
 
-			draw.show(0);
+			myDraw.show(0);
 
 			while((System.currentTimeMillis() - beginTime) % 16 != 0) {
 
@@ -161,15 +170,20 @@ public class Game {
 
 	// When the game is paused
 	public void onPause() throws ClassNotFoundException, IOException {
-		Button paused = new Button(draw, "Unpause Game", 0, 0, Color.RED);
-		Button options = new Button(draw, "Options (Will End Game)", 0, -0.125/zoom, Color.RED);
-		Button quit = new Button(draw, "Quit", 0, -0.250/zoom, Color.RED);
+		Button paused = new Button(myDraw, "Unpause Game", 0, 0, Color.RED);
+		Button options = new Button(myDraw, "Options", 0, -0.125/zoom, Color.RED);
+		Button quit = new Button(myDraw, "Quit", 0, -0.250/zoom, Color.RED);
 		while (true) {
 			if (options.isClicked()) {
-				draw.frame.setVisible(false);
-				draw.frame.dispose();
-				OptionsMenu om = new OptionsMenu();
-				om.loop();
+				//draw.frame.setVisible(false);
+				//draw.frame.dispose();
+				System.out.println(Thread.activeCount());
+				if (Thread.activeCount() < 6) {
+					OptionsMenu om = new OptionsMenu();
+					Thread t = new Thread(om);
+					t.start();
+				}
+				//om.loop();
 			}
 			else if (quit.isClicked()) {
 				System.out.println("Closing Program: quit button clicked");
@@ -182,9 +196,9 @@ public class Game {
 			paused.render();
 			options.render();
 			quit.render();
-			draw.show();
+			myDraw.show();
 
-			if (draw.isKeyPressed(80)) {
+			if (myDraw.isKeyPressed(80)) {
 				break;
 			}
 		}
@@ -198,6 +212,17 @@ public class Game {
 			}
 		} catch(ArrayIndexOutOfBoundsException e){
 			System.out.println("Deleted object requested. Ignoring.");
+		}
+	}
+
+	@Override
+	public void run() {
+		try {
+			loop();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
