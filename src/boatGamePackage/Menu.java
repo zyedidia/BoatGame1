@@ -55,11 +55,17 @@ public class Menu {
 		}
 		
 		if (myHostServer.isClicked()) {
+			myDraw.frame.setVisible(false);
+			myDraw.frame.dispose();
+			
 			GameServer gs = new GameServer();
 			gs.beginServer();
 		}
 		
 		if (myJoinServer.isClicked()) {
+			myDraw.frame.setVisible(false);
+			myDraw.frame.dispose();
+			
 			Client c = new Client("");
 			c.connect();
 		}

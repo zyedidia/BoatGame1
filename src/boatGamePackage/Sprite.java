@@ -40,7 +40,7 @@ public abstract class Sprite {
 	
 	// Draw the sprite to the screen
 	public void visualize() {
-		myDraw.picture(myX, myY, myFileName, myWidth, myHeight, myAngle);
+		myDraw.picture(myX, myY, myFileName, myWidth, myHeight, (int) myAngle);
 	}
 	
 	// Update the position of the sprite

@@ -33,9 +33,4 @@ public class GameServer {
 		game.loop(true, myIn, myOut, 0);
 		
 	}
-	
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
-		GameServer server = new GameServer();
-		server.beginServer();
-	}
 }

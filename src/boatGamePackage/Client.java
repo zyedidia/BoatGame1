@@ -32,43 +32,8 @@ public class Client {
 		update();
 	}
 	
-	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
-		Client c = new Client("localhost");
-		
-		c.connect();
-	}
-	
 	public void update() throws IOException, ClassNotFoundException {
 		Game game = new Game();
 		game.loop(true, myIn, myOut, 1);
 	}
 }
-
-class Input implements Runnable {
-	private ObjectInputStream myIn;
-	private ObjectOutputStream myOut;
-	
-	public Input(ObjectOutputStream out, ObjectInputStream in) {
-		myIn = in;
-		myOut = out;
-	}
-	
-	@Override
-	public void run() {
-		try {
-			System.out.println("Waiting for ID...");
-			int id = myIn.readInt();
-			System.out.println("Received ID: " + id);
-			Game game = new Game();
-			game.loop(true, myIn, myOut, id);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-}
-
-

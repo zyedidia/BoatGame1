@@ -116,9 +116,6 @@ public class Boat extends Sprite {
 
 	// Add the guns to the ArrayLists
 	public void initGuns() {
-		
-		
-
 		for (int i = 0; i < myNumGuns; i++) {
 			double deltaY = (myHeight - 2 * myCannonDeadZone) / 2;
 			if (myNumGuns > 1) {
@@ -149,11 +146,11 @@ public class Boat extends Sprite {
 	// Take in key input booleans and change tank angle accordingly
 	public double changeAngle(boolean right, boolean left) {
 		if (left == true && myAngle >= 360) myAngle = 2;
-		if (left == true) myAngle += (int) 2 * 40 / Game.FPS;
+		if (left == true) myAngle += (int) 1;
 		if (right == true && myAngle <= 2) myAngle = 360;
-		if (right == true) myAngle -= (int) 2 * 40 / Game.FPS;
+		if (right == true) myAngle -= (int) 1;
 
-		return myAngle;
+		return (int) myAngle;
 	}
 
 	// Move the boat based on keyPresses
@@ -170,12 +167,10 @@ public class Boat extends Sprite {
 			c.visualize();
 		}
 
-		// Get the key inputs
-		//getKeyInputs();
-
 		// Update angle
 		myAngle = changeAngle(myRight, myLeft);
 		mySpeed = 0;
+		
 		// Forward Driving
 		if (myForward == true) {
 			mySpeed += myAccel;
@@ -309,6 +304,7 @@ public class Boat extends Sprite {
 		if (mySpeed > myMaxSpeed) {
 			mySpeed = myMaxSpeed;
 		}
+		System.out.println(mySpeed * 1000);
 		
 		// Check if the boat is nearing the edge of the screen
 			// If so, the Game will zoom out (adjustZoom() in Game class)

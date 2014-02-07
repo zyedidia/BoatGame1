@@ -1,6 +1,7 @@
 package boatGamePackage;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -75,7 +76,7 @@ public class Game {
 		}
 	}
 
-	public void loop(boolean online,ObjectInputStream in, ObjectOutputStream out, int id) 
+	public void loop(boolean online, ObjectInputStream in, ObjectOutputStream out, int id) 
 					throws ClassNotFoundException, IOException {
 		init(2, 0);
 
@@ -87,7 +88,7 @@ public class Game {
 
 
 		while (true) {
-			/*if (online) {
+			if (online) {
 				for (Boat b : myBoats) {
 					if (b.myPID == id) {
 						double[] arrayToSend = {b.myX, b.myY, b.myPID, b.myAngle};
@@ -117,9 +118,7 @@ public class Game {
 						}
 					}
 				}
-				
-				out.reset();
-			}*/
+			}
 			
 			changeTime = System.currentTimeMillis() - oldTime;
 
@@ -144,14 +143,13 @@ public class Game {
 			draw.setPenColor(Color.GREEN);
 			draw.text(-zoom, zoom, "FPS: " + Integer.toString((int) FPS));
 
-			if (draw.isKeyPressed(10)) { // Enter key (restart game button
-				loop(false, null, null, 0);
+			if (draw.isKeyPressed(KeyEvent.VK_ENTER)) { // Enter key (restart game button)
+				loop(online, in, out, id);
 			}
 
-			if (draw.isKeyPressed(79)) { // o key (pause button)
+			if (draw.isKeyPressed(KeyEvent.VK_O)) { // o key (pause button)
 				onPause();
 			}
-
 
 			draw.show(0);
 

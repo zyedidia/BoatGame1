@@ -9,7 +9,7 @@ public class CannonBall extends Sprite {
 	// Constructor \\
 	public CannonBall(Draw draw, double x, double y, double speed, double maxSpeed, int angle) {
 		
-		super(draw, "Resources/Bullet.png", speed, maxSpeed, angle, x, y, 0.015, 0.015);
+		super(draw, "Resources/BlackDot.png", speed, maxSpeed, angle, x, y, 0.015, 0.015);
 	}
 	
 	// Run this when a bullet hits a boat
