@@ -11,8 +11,10 @@ public class Waves extends Sprite {
 		myLife = 25;
 	}
 
+	// Update the waves
 	@Override
 	public void updateSelf() {
+		// Waves will only last a certain amount of time before getting destroyed
 		myLife--;
 		visualize();
 		

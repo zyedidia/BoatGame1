@@ -14,25 +14,22 @@ public class Client {
 	private ObjectInputStream myIn;
 	private ObjectOutputStream myOut;
 	
-	public Client(String ip) {
-		myIpAddress = ip;
-	}
-	
+	// Connect to a server
 	public void connect() throws UnknownHostException, IOException, ClassNotFoundException {
-		myIpAddress = JOptionPane.showInputDialog("Enter the ip to connect to");
+		// Show a popup which asks for the ip address
+		myIpAddress = JOptionPane.showInputDialog("Enter the IP Address to connect to");
 		JOptionPane.showMessageDialog(null, "Connecting to " + myIpAddress + "...");
+		
+		// Connect to the server at port 4545 (all boat game servers are hosted at this port)
 		mySocket = new Socket(myIpAddress, 4545);
 		System.out.println("Connection successful");
 		
+		// Create the input and output streams to communicate with the server
 		myIn = new ObjectInputStream(mySocket.getInputStream());
-		System.out.println("Created myIn");
 		myOut = new ObjectOutputStream(mySocket.getOutputStream());
-		System.out.println("Created myOut");
 		
-		update();
-	}
-	
-	public void update() throws IOException, ClassNotFoundException {
+		// Create a Game instance
+		// All client-server communications will be handled by the Game class
 		Game game = new Game(true, myIn, myOut, 1);
 		//Thread t = new Thread(game);
 		//t.start();

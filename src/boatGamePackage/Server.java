@@ -16,9 +16,12 @@ public class Server {
 	private ObjectInputStream myIn;
 	private User[] myUsers = new User[4];
 	
+	// Start hosting a server
 	public void beginServer() throws IOException {
+		// Show a popup
 		JOptionPane.showMessageDialog(null, "Hosting server on port: " + myPort);
 		
+		// Start the socketserver
 		myServerSocket = new ServerSocket(myPort);
 		
 		JOptionPane.showMessageDialog(null, "Successfully started server");

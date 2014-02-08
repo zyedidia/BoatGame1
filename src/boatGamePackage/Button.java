@@ -45,6 +45,7 @@ public class Button {
 				isClicked = true;
 			}
 		} else {
+			// Change the color back if the mouse isn't hovering over the button
 			myColor = myOriginalColor;
 		}
 		

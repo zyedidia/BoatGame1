@@ -48,14 +48,16 @@ public class Menu implements Runnable {
 			game.loop();
 		}
 		
+		// Open the options menu
 		if (myOptions.isClicked()) {
 			myDraw.frame.setVisible(false);
 			myDraw.frame.dispose();
 			
-			OptionsMenu om = new OptionsMenu();
+			OptionsMenu om = new OptionsMenu(false);
 			om.loop();
 		}
 		
+		// Start a server
 		if (myHostServer.isClicked()) {
 			myDraw.frame.setVisible(false);
 			myDraw.frame.dispose();
@@ -64,11 +66,12 @@ public class Menu implements Runnable {
 			gs.beginServer();
 		}
 		
+		// Join a server
 		if (myJoinServer.isClicked()) {
 			myDraw.frame.setVisible(false);
 			myDraw.frame.dispose();
 			
-			Client c = new Client("");
+			Client c = new Client();
 			c.connect();
 		}
 		
@@ -104,6 +107,4 @@ public class Menu implements Runnable {
 		
 		menu.loop();
 	}
-
-	
 }

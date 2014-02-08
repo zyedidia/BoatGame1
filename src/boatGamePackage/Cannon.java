@@ -20,6 +20,7 @@ public class Cannon extends Sprite {
 		myBoat = boat;
 	}
 	
+	// Calculate the position of the cannon in real space based on the relative coordinates
 	public void calcPosition() {
 		double boatAngleInRadians = 3 * Math.PI / 2 + myBoat.myAngle * Math.PI / 180.;
 		myY = myBoat.myY + myRelativeX * Math.sin(Math.PI/2 - boatAngleInRadians)
@@ -46,6 +47,7 @@ public class Cannon extends Sprite {
 		return cb;
 	}
 	
+	// Alternate fire method to fire at a specified angle
 	public CannonBall fire(double angleInRadians) {
 		CannonBall cb = new CannonBall(myDraw, myX + (myWidth + 0.065) * 2 * Math.cos(angleInRadians), 
 				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
@@ -53,6 +55,7 @@ public class Cannon extends Sprite {
 		return cb;
 	}
 	
+	// Make some smoke
 	public Smoke fireSmoke() {
 		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
 		

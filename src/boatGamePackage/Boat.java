@@ -66,6 +66,7 @@ public class Boat extends Sprite {
 		setStartingPos();
 	}
 	
+	// Initialize all the variables
 	public void init() {
 		myMaxSpeed = 0.0075;
 		myZoomOut = false;
@@ -94,6 +95,7 @@ public class Boat extends Sprite {
 		}
 	}
 	
+	// Read some serialized data
 	public void readOptions() {
 		FileInputStream fileIn;
 		//Read in options from options.ser
@@ -116,6 +118,8 @@ public class Boat extends Sprite {
 
 	// Add the guns to the ArrayLists
 	public void initGuns() {
+		
+		// Create the guns on the right side of the boat
 		for (int i = 0; i < myNumGuns; i++) {
 			double deltaY = (myHeight - 2 * myCannonDeadZone) / 2;
 			if (myNumGuns > 1) {
@@ -129,6 +133,7 @@ public class Boat extends Sprite {
 			myRightGuns.add(cannon);
 		}
 
+		// Create the guns on the left side of the boat
 		for (int i = 0; i < myNumGuns; i++) {
 			double deltaY = (myHeight - 2 * myCannonDeadZone) / 2;
 			if (myNumGuns > 1) {
@@ -328,12 +333,14 @@ public class Boat extends Sprite {
 		myY += myVy;
 	}
 	
+	// Check if the boat collided with the other boat
+	// Used for ramming
 	public boolean didCollideWIthBoat(Boat b) {
 		boolean didCollide = false;
 		
 		if (myX > b.myX + b.myWidth && myX < b.myX - b.myWidth
 				&& myY > b.myY + b.myHeight && myY < b.myY - b.myHeight) {
-			
+			System.out.println("Boat Collision!");
 		}
 		
 		return didCollide;

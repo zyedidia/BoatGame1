@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import edu.princeton.cs.introcs.Draw;
 
 public class PlayerBoat extends Boat {
+	public boolean myReceivesKeyInputs = true;
+	
 	public PlayerBoat(Draw draw, int pID) {
 		super(draw, pID);
 	}
@@ -63,7 +65,9 @@ public class PlayerBoat extends Boat {
 	}
 	
 	public void updateSelf(){
-		getKeyInputs();
+		if (myReceivesKeyInputs) {
+			getKeyInputs();
+		}
 		super.updateSelf();
 	}
 }

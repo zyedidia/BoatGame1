@@ -21,13 +21,19 @@ public class CannonBall extends Sprite {
 				b.myRightGuns.remove(StdRandom.uniform(0, b.myRightGuns.size()));
 			}
 		}
+		
 		if (StdRandom.uniform(0, 15) < 2) {
 			if (b.myLeftGuns.size() > 1) {
 				b.myLeftGuns.remove(StdRandom.uniform(0, b.myLeftGuns.size()));
 			}
 		}
+		
     	System.out.println("Bullet collided with boat");
+    	
+    	// Make the smoke
     	Smoke smoke = new Smoke(myDraw, "ExplosionAtlasFolder", 0, myX, myY);
+    	
+    	//Delete the bullet
     	this.die();
     	
     	return smoke;
@@ -54,6 +60,8 @@ public class CannonBall extends Sprite {
 	
 	// Update self
 	public void updateSelf() {
+		
+		// If the bullet is off the screen
 		if (Math.abs(myX) > Game.zoom || Math.abs(myY) > Game.zoom) {
 			Game.sprites.remove(this); 
 		}
