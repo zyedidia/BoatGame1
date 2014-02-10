@@ -22,11 +22,16 @@ public class OptionsMenu implements Runnable {
 	private TextBox myNumAI;
 	private Button myBackToGame;
 	private boolean myIsThread;
+	public static boolean isRunning;
 
 	// Constructor \\
 	public OptionsMenu(boolean isThread) throws ClassNotFoundException {
 		
 		//myDraw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		if (isThread) {
+			isRunning = true;
+		}
 		
 		values = readSerialized("options");
 		
@@ -81,10 +86,18 @@ public class OptionsMenu implements Runnable {
 		if (myIsThread) {
 			myBackToGame.render();
 			if (myBackToGame.isClicked()) {
+				setValue(0, myGuns.myText, 2);
+				setValue(1, myNumPlayers.myText, 0);
+				setValue(2, myNumAI.myText, 0);
+				
+				serialize(values, "options");
+				
 				myDraw.frame.setVisible(false);
 				myDraw.frame.dispose();
 				
 				serialize(values, "options");
+				
+				stop();
 			}
 		}
 		
@@ -120,12 +133,24 @@ public class OptionsMenu implements Runnable {
 	// Main options menu loop
 	public void loop() throws ClassNotFoundException, IOException {
 		myDraw.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		while (true) {
-			myDraw.setPenColor(Color.white);
-			myDraw.filledSquare(0, 0, 1.5);
-			render();
-			
-			myDraw.show(50);
+		
+		// If this is a thread only run while isRunning is true
+		if (myIsThread) {
+			while (isRunning) {
+				myDraw.setPenColor(Color.white);
+				myDraw.filledSquare(0, 0, 1.5);
+				render();
+				
+				myDraw.show(50);
+			}
+		} else {
+			while (true) {
+				myDraw.setPenColor(Color.white);
+				myDraw.filledSquare(0, 0, 1.5);
+				render();
+				
+				myDraw.show(50);
+			}
 		}
 	}
 	
@@ -170,6 +195,11 @@ public class OptionsMenu implements Runnable {
 		}
 		
 		return arrayToReturn;
+	}
+	
+	// Stop the thread
+	public void stop() {
+		isRunning = false;
 	}
 
 	@Override

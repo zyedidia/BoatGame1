@@ -87,10 +87,15 @@ public class Game implements Runnable {
 			myBoats.add(boat);
 			sprites.add(boat);
 		}
+		
+		// Create islands
+		for (int c = 0; c < 20; c++) {
+			Island il = new Island(myDraw);
+			sprites.add(il);
+		}
 	}
 
-	public void loop() 
-					throws ClassNotFoundException, IOException {
+	public void loop() throws ClassNotFoundException, IOException {
 		// Online games must initialize with 2 players and no AI
 		if (myOnline) {
 			init(2, 0);
@@ -204,10 +209,8 @@ public class Game implements Runnable {
 		Button quit = new Button(myDraw, "Quit", 0, -0.250, Color.RED);
 		while (true) {
 			if (options.isClicked()) {
-				//draw.frame.setVisible(false);
-				//draw.frame.dispose();
-				System.out.println(Thread.activeCount());
-				if (Thread.activeCount() < 6) {
+				System.out.println(OptionsMenu.isRunning);
+				if (!OptionsMenu.isRunning) {
 					OptionsMenu om = new OptionsMenu(true);
 					Thread t = new Thread(om);
 					

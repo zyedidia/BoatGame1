@@ -254,6 +254,8 @@ public class Boat extends Sprite {
 		
 		updatePosition();
 		
+		checkCollideWithIslands();
+		
 		visualize();
 		move();
 		
@@ -335,7 +337,7 @@ public class Boat extends Sprite {
 	
 	// Check if the boat collided with the other boat
 	// Used for ramming
-	public boolean didCollideWIthBoat(Boat b) {
+	public boolean didCollideWithBoat(Boat b) {
 		boolean didCollide = false;
 		
 		if (myX > b.myX + b.myWidth && myX < b.myX - b.myWidth
@@ -344,6 +346,23 @@ public class Boat extends Sprite {
 		}
 		
 		return didCollide;
+	}
+	
+	// Check if the boat collided with any islands
+	public void checkCollideWithIslands() {
+		for (Sprite i : Game.sprites) {
+			if (i instanceof Island) {
+				
+				double deltaObstacleX = myX - i.myX;
+		        double deltaObstacleY = myY - i.myY;
+		                
+		        if (deltaObstacleX <= i.myWidth/2 && deltaObstacleX >= -i.myWidth/2 
+		        		&& deltaObstacleY <= i.myHeight/2 
+		        		&& deltaObstacleY >= -i.myHeight/2) {
+		        	System.out.println("Boat collided with island");
+		        }
+			}
+		}
 	}
 	
 	// Overriding die() to remove boat from myBoats
