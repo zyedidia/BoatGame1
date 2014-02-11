@@ -21,6 +21,8 @@ public class OptionsMenu implements Runnable {
 	private TextBox myNumPlayers;
 	private TextBox myNumAI;
 	private Button myBackToGame;
+	private TextBox myOnlineName;
+	private String[] stringOptions;
 	private boolean myIsThread;
 	public static boolean isRunning;
 
@@ -33,7 +35,9 @@ public class OptionsMenu implements Runnable {
 			isRunning = true;
 		}
 		
-		values = readSerialized("options");
+		values = readDoubleSerialized("options");
+		
+		stringOptions = readStringSerialized("name");
 		
 		myIsThread = isThread; // Whether or not this optionsmenu is running in a thread
 		
@@ -42,14 +46,16 @@ public class OptionsMenu implements Runnable {
 		myDraw.setXscale(-1.0, 1.0);
 		myDraw.setYscale(-1.0, 1.0);
 		myNumAI = new TextBox(myDraw, 0, -0.5, Color.BLUE);
+		myOnlineName = new TextBox(myDraw, 0, 0.25, Color.BLUE);
 		myBackButton = new Button(myDraw, "Back to Main Menu", -0.7, 0.9, Color.BLUE);
 		myNumPlayers = new TextBox(myDraw, 0, -0.25, Color.BLUE);
 		myNumPlayers.myText = Integer.toString((int) values[1]);
-		myNumAI.myText = Integer.toString((int) values[1]);
+		myNumAI.myText = Integer.toString((int) values[2]);
 		myDelete = new Button(myDraw, "Clear Options File", -0.7, -0.8, Color.BLUE);
 		myBackToGame = new Button(myDraw, "Back To Game", 0.7, 0.9, Color.BLUE);
 		myGuns = new TextBox(myDraw, 0, 0.5, Color.BLUE);
 		myGuns.myText = Integer.toString((int) values[0]);
+		myOnlineName.myText = stringOptions[0];
 	}
 	
 	// Check if the given String is an integer
@@ -81,6 +87,7 @@ public class OptionsMenu implements Runnable {
 		myDelete.render();
 		myNumPlayers.render();
 		myNumAI.render();
+		myOnlineName.render();
 				
 		// If the game is currently running in another thread display the "Back to Game"
 		if (myIsThread) {
@@ -90,13 +97,14 @@ public class OptionsMenu implements Runnable {
 				setValue(1, myNumPlayers.myText, 0);
 				setValue(2, myNumAI.myText, 0);
 				
-				serialize(values, "options");
+				stringOptions[0] = myOnlineName.myText;
+				serializeString(stringOptions, "name");
+				
+				serializeDouble(values, "options");
 				
 				myDraw.frame.setVisible(false);
 				myDraw.frame.dispose();
-				
-				serialize(values, "options");
-				
+								
 				stop();
 			}
 		}
@@ -110,7 +118,10 @@ public class OptionsMenu implements Runnable {
 				setValue(1, myNumPlayers.myText, 0);
 				setValue(2, myNumAI.myText, 0);
 				
-				serialize(values, "options");
+				serializeDouble(values, "options");
+				
+				stringOptions[0] = myOnlineName.myText;
+				serializeString(stringOptions, "name"); 
 				
 				myDraw.frame.setVisible(false);
 				myDraw.frame.dispose();
@@ -128,6 +139,7 @@ public class OptionsMenu implements Runnable {
 		myGuns.isClicked();
 		myNumPlayers.isClicked();
 		myNumAI.isClicked();
+		myOnlineName.isClicked();
 	}
 	
 	// Main options menu loop
@@ -155,7 +167,7 @@ public class OptionsMenu implements Runnable {
 	}
 	
 	// Serialize data
-	public void serialize(double[] array, String fileName) {
+	public void serializeDouble(double[] array, String fileName) {
 		FileOutputStream fileOut;
 		try {
 			fileOut = new FileOutputStream(fileName + ".ser");
@@ -170,10 +182,25 @@ public class OptionsMenu implements Runnable {
 		}
 	}
 	
-	public double[] readSerialized(String fileName) {
+	public void serializeString(String[] array, String fileName) {
+		FileOutputStream fileOut;
+		try {
+			fileOut = new FileOutputStream(fileName + ".ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(array);
+			out.close();
+			fileOut.close();
+			System.out.println("Serialized data is saved in " + fileName + ".ser");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Could not write to " + fileName + ".ser: " + e1);
+		}
+	}
+	
+	public double[] readDoubleSerialized(String fileName) {
 		double[] arrayToReturn = new double[3];
 		FileInputStream fileIn;
-		//Read in options from options.ser
+		//Read in file from fileName.ser
 		try {
 			fileIn = new FileInputStream(fileName + ".ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -191,6 +218,29 @@ public class OptionsMenu implements Runnable {
 			arrayToReturn[0] = 5;
 			arrayToReturn[1] = 2;
 			arrayToReturn[2] = 0;
+			System.out.println("Could not read from " + fileName + ".ser: " + e);
+		}
+		
+		return arrayToReturn;
+	}
+	
+	public String[] readStringSerialized(String fileName) {
+		String[] arrayToReturn = new String[3];
+		FileInputStream fileIn;
+		//Read in file from fileName.ser
+		try {
+			fileIn = new FileInputStream(fileName + ".ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+	        arrayToReturn = (String[]) in.readObject();
+	        in.close();
+	        fileIn.close();
+	    // Got an error, set all values to defaults
+		} catch (IOException e) {
+			arrayToReturn[0] = "Player"; // Default settings
+			System.out.println("Could not read from " + fileName + ".ser: " + e);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			arrayToReturn[0] = "Player";
 			System.out.println("Could not read from " + fileName + ".ser: " + e);
 		}
 		

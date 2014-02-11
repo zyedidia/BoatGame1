@@ -360,6 +360,7 @@ public class Boat extends Sprite {
 		        		&& deltaObstacleY <= i.myHeight/2 
 		        		&& deltaObstacleY >= -i.myHeight/2) {
 		        	System.out.println("Boat collided with island");
+		        	
 		        }
 			}
 		}
@@ -367,6 +368,10 @@ public class Boat extends Sprite {
 	
 	// Overriding die() to remove boat from myBoats
 	public void die() {
+		Smoke s = new Smoke(myDraw, "ExplosionAtlasFolder", 0, myX, myY);
+		s.myWidth = 0.3;
+		s.myHeight = 0.3;
+		Game.sprites.add(s);
 		Game.sprites.remove(this);
 		Game.myBoats.remove(this);
 		mySpeed = 0;
