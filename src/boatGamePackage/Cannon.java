@@ -8,16 +8,29 @@ public class Cannon extends Sprite {
 	private int myOffSet;
 	private double myRelativeX;
 	private double myRelativeY;
+	private Fort myFort;
+	private boolean myHasBoat;
+	private boolean myHasFort;
 	
-	// Contrsuctor \\
+	// Constructors \\
 	public Cannon(Draw draw, int offSet, double relativeX, double relativeY, Boat boat) {
-		super(draw, "Resources/tank0.png", boat.mySpeed, boat.myMaxSpeed, (int) (boat.myAngle + offSet), boat.myX, boat.myY, 0.05, 0.05);
+		super(draw, "Resources/tank0.png", boat.mySpeed, boat.myMaxSpeed, 
+				(int) (boat.myAngle + offSet), boat.myX, boat.myY, 0.05, 0.05);
 		
 		myRelativeX = relativeX;
 		myRelativeY = relativeY;
 		
 		myOffSet = offSet;
 		myBoat = boat;
+		
+		myHasBoat = true;
+	}
+	
+	public Cannon(Draw draw, Fort fort) {
+		super(draw, "Resources/tank0.png", 0, fort.myX, fort.myY, 0.05, 0.05);
+		
+		myFort = fort;
+		myHasFort = true;
 	}
 	
 	// Calculate the position of the cannon in real space based on the relative coordinates
@@ -33,8 +46,12 @@ public class Cannon extends Sprite {
 	
 	// Put the cannon at the correct coordinates
 	public void updateSelf() {
-		calcPosition();
-		myAngle = myBoat.myAngle + myOffSet;
+		if (myHasBoat) {
+			calcPosition();
+			myAngle = myBoat.myAngle + myOffSet;
+		}
+		updatePosition();
+		visualize();
 	}
 	
 	// Return a new CannonBall
@@ -42,7 +59,8 @@ public class Cannon extends Sprite {
 		double angleInRadians = (myAngle + 90) * Math.PI / 180.;
 		
 		CannonBall cb = new CannonBall(myDraw, myX + (myWidth + 0.065) * 2 * Math.cos(angleInRadians), 
-				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
+				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 
+				0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
 				
 		return cb;
 	}
@@ -50,7 +68,8 @@ public class Cannon extends Sprite {
 	// Alternate fire method to fire at a specified angle
 	public CannonBall fire(double angleInRadians) {
 		CannonBall cb = new CannonBall(myDraw, myX + (myWidth + 0.065) * 2 * Math.cos(angleInRadians), 
-				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
+				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 
+				0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
 				
 		return cb;
 	}

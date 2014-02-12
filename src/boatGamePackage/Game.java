@@ -78,12 +78,12 @@ public class Game implements Runnable {
 		if (myOnline && myOnlineBoatId == 0) {
 			myOut.writeLong(seed);
 			System.out.println("Sent seed: " + seed);
+			StdRandom.setSeed(seed);
 		} else if (myOnline) {
 			seed = myIn.readLong();
 			System.out.println("Received seed: " + seed);
+			StdRandom.setSeed(seed);
 		}
-		
-		StdRandom.setSeed(seed);
 		
 		// Contains all sprites to be updated on loop
 		sprites = new ArrayList<Sprite>();
@@ -132,6 +132,7 @@ public class Game implements Runnable {
 		double beginTime = System.currentTimeMillis();
 		double changeTime = 1;
 
+		//hi zack this is Nicholas I know what a comment does :) 
 
 		while (true) {
 			

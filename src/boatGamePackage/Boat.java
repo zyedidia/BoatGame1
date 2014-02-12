@@ -164,12 +164,10 @@ public class Boat extends Sprite {
 		// Visualize and update the guns
 		for (Cannon c : myRightGuns) {
 			c.updateSelf();
-			c.visualize();
 		}
 
 		for (Cannon c : myLeftGuns) {
 			c.updateSelf();
-			c.visualize();
 		}
 
 		// Update angle
