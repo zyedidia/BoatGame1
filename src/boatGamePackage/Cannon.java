@@ -8,9 +8,7 @@ public class Cannon extends Sprite {
 	private int myOffSet;
 	private double myRelativeX;
 	private double myRelativeY;
-	private Fort myFort;
 	private boolean myHasBoat;
-	private boolean myHasFort;
 	
 	// Constructors \\
 	public Cannon(Draw draw, int offSet, double relativeX, double relativeY, Boat boat) {
@@ -28,9 +26,6 @@ public class Cannon extends Sprite {
 	
 	public Cannon(Draw draw, Fort fort) {
 		super(draw, "Resources/tank0.png", 0, fort.myX, fort.myY, 0.05, 0.05);
-		
-		myFort = fort;
-		myHasFort = true;
 	}
 	
 	// Calculate the position of the cannon in real space based on the relative coordinates

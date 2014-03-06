@@ -73,7 +73,7 @@ public class Game implements Runnable {
 	}
 
 	// Initialize everything
-	public void init(int numPlayerBoats, int numAiBoats) throws IOException {
+	public void init(int numPlayerBoats, int numAiBoats, boolean withIsland) throws IOException {
 		long seed = (long) StdRandom.uniform(0.0, Double.MAX_VALUE);
 		if (myOnline && myOnlineBoatId == 0) {
 			myOut.writeLong(seed);
@@ -109,21 +109,23 @@ public class Game implements Runnable {
 			sprites.add(boat);
 		}
 		
-		// Create islands
-		for (int c = 0; c < 20; c++) {
-			Island il = new Island(myDraw, seed);
-			sprites.add(il);
+		if (withIsland) {
+			// Create islands
+			for (int c = 0; c < 20; c++) {
+				Island il = new Island(myDraw, seed);
+				sprites.add(il);
+			}
 		}
 	}
 
 	public void loop() throws ClassNotFoundException, IOException {
 		// Online games must initialize with 2 players and no AI
 		if (myOnline) {
-			init(2, 0);
+			init(2, 0, false);
 		} else {
 			// This might be changed in later updates based on a file from the options menu
 			double[] values = readSerializedDouble("options");
-			init((int) values[1], (int) values[2]);
+			init((int) values[1], (int) values[2], false);
 		}
 
 		FPS = 1;
@@ -148,7 +150,9 @@ public class Game implements Runnable {
 			// Draw the blue background
 			myDraw.setPenColor(new Color(25, 25, 255));
 			myDraw.filledSquare(0.0, 0.0, 100);
-		//	draw.picture(0, 0, "resources/Ocean.png", 10, 10);
+			myDraw.setPenColor(Color.GREEN);
+			myDraw.square(0, 0, 2);
+			//myDraw.picture(0, 0, "resources/Ocean.png", 30, 30);
 			
 			// Adjust the zoom of the screen
 			adjustZoom(myBoats);

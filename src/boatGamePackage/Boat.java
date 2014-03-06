@@ -22,12 +22,10 @@ public class Boat extends Sprite {
 	protected int myHealth = 100;
 	protected double myAccel = 0.0005;
 	
-	//private ArrayList<Waves> myWaves = new ArrayList<Waves>();
-	
 	protected int myPID;
 	
 	private final double myCannonDeadZone = 0.15;
-
+	
 	private int myReloadRightProgress = 0; // 0 is ready to shoot
 	private int myReloadLeftProgress = 0;
 	private int myReloadTime = (int) (100 * 1.5 );
@@ -315,6 +313,23 @@ public class Boat extends Sprite {
 			myZoomOut = false;
 		}
 		
+		System.out.println(Game.zoom * 2);
+		System.out.println(myX);
+		
+		if (myX > 2) {
+			myX = 2;
+			//myZoomOut = false;
+		}
+		if (myX < -2) {
+			myX = -2;
+		}
+		if (myY > 2) {
+			myY = 2;
+		}
+		if (myY < -2) {
+			myY = -2;
+		}
+		
 		// Convert speed and angle to vx and vy
 		myVx += mySpeed * Math.cos((myAngle - 270) * Math.PI / 180);
 		myVy += mySpeed * Math.sin((myAngle - 270) * Math.PI / 180);
@@ -376,4 +391,5 @@ public class Boat extends Sprite {
 		myX = 0;
 		myY = 0;
 	}
+	
 }

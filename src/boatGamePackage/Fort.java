@@ -1,10 +1,14 @@
 package boatGamePackage;
 
+import java.awt.Color;
+
 import edu.princeton.cs.introcs.Draw;
 
 public class Fort extends Sprite {
 	
 	private Cannon myCannon;
+	private final int myReloadTime = 100;
+	private int myReloadProgress = 0;
 
 	public Fort(Draw draw, String fileName, double x, double y) {
 		super(draw, fileName, 0, x, y, 0, 0);
@@ -36,16 +40,24 @@ public class Fort extends Sprite {
 				targetBoat = b;
 			}
 		}
-		//targetBoat = Game.myBoats.get(0);
 		
 		double directRight = Math.atan2(targetBoat.myY - myY, targetBoat.myX - myX);
-		
 		
 		double angleInDegrees = directRight * 180 / Math.PI;
 		angleInDegrees -= 90;
 		
 		myCannon.myAngle = angleInDegrees;
-		Game.sprites.add(myCannon.fire());
+		
+		if (myReloadProgress == 0) {
+			Game.sprites.add(myCannon.fire());
+			myReloadProgress = myReloadTime;
+		} else {
+			myReloadProgress -= 1;
+		}
+		
+		myDraw.setPenColor(new Color(0, 255, 0, 100));
+		myDraw.filledCircle(myX, myY, myReloadProgress * 0.005);
+		
 	}
 	
 	public double getDistanceToBoat(Boat b) {
