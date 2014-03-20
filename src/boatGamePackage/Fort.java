@@ -20,11 +20,11 @@ public class Fort extends Sprite {
 	}
 	
 	public void calcAngle() {
-		Boat targetBoat = Game.myBoats.get(0);
-		double[] distances = new double[Game.myBoats.size()];
+		Boat targetBoat = GameBattle.myBoats.get(0);
+		double[] distances = new double[GameBattle.myBoats.size()];
 		
-		for (int i = 0; i < Game.myBoats.size(); i++) {
-			distances[i] = getDistanceToBoat(Game.myBoats.get(i));
+		for (int i = 0; i < GameBattle.myBoats.size(); i++) {
+			distances[i] = getDistanceToBoat(GameBattle.myBoats.get(i));
 		}
 		
 		
@@ -35,7 +35,7 @@ public class Fort extends Sprite {
 			}
 		}
 		
-		for (Boat b : Game.myBoats) {
+		for (Boat b : GameBattle.myBoats) {
 			if (getDistanceToBoat(b) == currentHighestDistance) {
 				targetBoat = b;
 			}
@@ -49,7 +49,7 @@ public class Fort extends Sprite {
 		myCannon.myAngle = angleInDegrees;
 		
 		if (myReloadProgress == 0) {
-			Game.sprites.add(myCannon.fire());
+			GameBattle.sprites.add(myCannon.fire());
 			myReloadProgress = myReloadTime;
 		} else {
 			myReloadProgress -= 1;
@@ -71,7 +71,7 @@ public class Fort extends Sprite {
 	@Override
 	public void updateSelf() {
 		// TODO Auto-generated method stub
-		if (Game.myBoats.size() > 1) {
+		if (GameBattle.myBoats.size() > 1) {
 			calcAngle();
 		}
 		updatePosition();

@@ -51,7 +51,7 @@ public class CannonBall extends Sprite {
         		&& deltaObstacleY <= b.myHeight/2 
         		&& deltaObstacleY >= -b.myHeight/2) {
         	didCollide = true;
-        	Game.sprites.remove(this);
+        	GameBattle.sprites.remove(this);
         }
         
         return didCollide;
@@ -62,16 +62,16 @@ public class CannonBall extends Sprite {
 	public void updateSelf() {
 		
 		// If the bullet is off the screen
-		if (Math.abs(myX) > Game.zoom || Math.abs(myY) > Game.zoom) {
-			Game.sprites.remove(this); 
+		if (Math.abs(myX) > GameBattle.zoom || Math.abs(myY) > GameBattle.zoom) {
+			GameBattle.sprites.remove(this); 
 		}
 		updatePosition();
 		visualize();
 		
-		for (Boat b : Game.myBoats) {
+		for (Boat b : GameBattle.myBoats) {
 		
 			if (didCollideWithBoat(b)) {
-				Game.sprites.add(onHit(b));
+				GameBattle.sprites.add(onHit(b));
 			}
 		
 		}

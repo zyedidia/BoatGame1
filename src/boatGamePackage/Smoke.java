@@ -22,7 +22,7 @@ public class Smoke extends Sprite {
 	public void updateSelf() {
 		animate();
 		if (isFinished) {
-			Game.sprites.remove(this);
+			GameBattle.sprites.remove(this);
 		}
 	}
 	

@@ -20,8 +20,8 @@ public class AIBoat extends Boat {
 	
 	// Compute what the computer should do this frame
 	public void computeMove(Boat targetBoat) {
-		// Only do anything if the target is still alive
-		if (!targetBoat.isDead) {
+		// Only do anything if the target is still alive and if the target is not yourself
+		if (!targetBoat.isDead && !(targetBoat == this)) {
 		
 			boolean faceRight = true;
 			boolean faceLeft = true;
@@ -91,7 +91,7 @@ public class AIBoat extends Boat {
 	// Update the boat
 	public void updateSelf() {
 		System.out.println("Instance of");
-		Boat targetBoat  = Game.myBoats.get(0);
+		Boat targetBoat  = GameBattle.myBoats.get(0);
 		
 		if (myLeftFire) {
 			fireLeftGuns(); 

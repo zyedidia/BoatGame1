@@ -30,7 +30,7 @@ public class Client {
 		
 		// Create a Game instance
 		// All client-server communications will be handled by the Game class
-		Game game = new Game(true, myIn, myOut, 1);
+		GameBattle game = new GameBattle(true, myIn, myOut, 1);
 		//Thread t = new Thread(game);
 		//t.start();
 		game.loop();

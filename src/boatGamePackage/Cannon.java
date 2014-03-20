@@ -55,7 +55,7 @@ public class Cannon extends Sprite {
 		
 		CannonBall cb = new CannonBall(myDraw, myX + (myWidth + 0.065) * 2 * Math.cos(angleInRadians), 
 				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 
-				0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
+				0.05 * 40/GameBattle.FPS, 0.05 * 40/GameBattle.FPS, (int) myAngle);
 				
 		return cb;
 	}
@@ -64,7 +64,7 @@ public class Cannon extends Sprite {
 	public CannonBall fire(double angleInRadians) {
 		CannonBall cb = new CannonBall(myDraw, myX + (myWidth + 0.065) * 2 * Math.cos(angleInRadians), 
 				myY + (myHeight + 0.065) * 2 * Math.sin(angleInRadians), 
-				0.05 * 40/Game.FPS, 0.05 * 40/Game.FPS, (int) myAngle);
+				0.05 * 40/GameBattle.FPS, 0.05 * 40/GameBattle.FPS, (int) myAngle);
 				
 		return cb;
 	}

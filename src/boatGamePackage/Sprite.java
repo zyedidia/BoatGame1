@@ -66,7 +66,7 @@ public abstract class Sprite {
 	// Put the sprite off the screen
 	public void die() {
 		isDead = true;
-		Game.sprites.remove(this);
+		GameBattle.sprites.remove(this);
 		mySpeed = 0;
 		myX = 0;
 		myY = 0;

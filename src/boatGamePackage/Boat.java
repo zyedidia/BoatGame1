@@ -71,7 +71,7 @@ public class Boat extends Sprite {
 		myNumGuns = 5;	// Guns per side
 		myNumCrew = 100;	//Crew
 		myHealth = 100;
-		myAccel = 0.0005 * 40.0 / Game.FPS;
+		myAccel = 0.0005 * 40.0 / GameBattle.FPS;
 	}
 	
 	// Set the starting position and angle of the boat based on the player id
@@ -200,8 +200,8 @@ public class Boat extends Sprite {
 		// Returns the ArrayList with the new CannonBalls
 		if (myReloadRightProgress == 0) {
 			for (Cannon c : myRightGuns) {
-				Game.sprites.add(c.fire());
-				Game.sprites.add(c.fireSmoke());
+				GameBattle.sprites.add(c.fire());
+				GameBattle.sprites.add(c.fireSmoke());
 				myReloadRightProgress = myReloadTime;
 			}
 		}
@@ -214,8 +214,8 @@ public class Boat extends Sprite {
 
 		if (myReloadLeftProgress == 0) {
 			for (Cannon c : myLeftGuns) {
-				Game.sprites.add(c.fire());
-				Game.sprites.add(c.fireSmoke());
+				GameBattle.sprites.add(c.fire());
+				GameBattle.sprites.add(c.fireSmoke());
 				myReloadLeftProgress = myReloadTime;
 			}
 		}
@@ -233,7 +233,7 @@ public class Boat extends Sprite {
 
 	// Update the boat
 	public void updateSelf() {
-		myAccel = 0.0005 * 40/Game.FPS;
+		myAccel = 0.0005 * 40/GameBattle.FPS;
 
 		if (myHealth == 0) die();
 		// Boat can't move if there is no crew
@@ -298,22 +298,22 @@ public class Boat extends Sprite {
 		
 		// Check if the boat is nearing the edge of the screen
 			// If so, the Game will zoom out (adjustZoom() in Game class)
-		if (myX > Game.zoom - Game.zoom / 6) {
+		if (myX > GameBattle.zoom - GameBattle.zoom / 6) {
 			myZoomOut = true;
 		}
-		else if (myX < -Game.zoom + Game.zoom / 6) {
+		else if (myX < -GameBattle.zoom + GameBattle.zoom / 6) {
 			myZoomOut = true;
 		}
-		else if (myY > Game.zoom - Game.zoom / 6) {
+		else if (myY > GameBattle.zoom - GameBattle.zoom / 6) {
 			myZoomOut = true;
 		} 
-		else if (myY < -Game.zoom + Game.zoom / 6) {
+		else if (myY < -GameBattle.zoom + GameBattle.zoom / 6) {
 			myZoomOut = true;
 		} else {
 			myZoomOut = false;
 		}
 		
-		System.out.println(Game.zoom * 2);
+		System.out.println(GameBattle.zoom * 2);
 		System.out.println(myX);
 		
 		if (myX > 2) {
@@ -363,7 +363,7 @@ public class Boat extends Sprite {
 	
 	// Check if the boat collided with any islands
 	public void checkCollideWithIslands() {
-		for (Sprite i : Game.sprites) {
+		for (Sprite i : GameBattle.sprites) {
 			if (i instanceof Island) {
 				
 				double deltaObstacleX = myX - i.myX;
@@ -384,9 +384,9 @@ public class Boat extends Sprite {
 		Smoke s = new Smoke(myDraw, "ExplosionAtlasFolder", 0, myX, myY);
 		s.myWidth = 0.3;
 		s.myHeight = 0.3;
-		Game.sprites.add(s);
-		Game.sprites.remove(this);
-		Game.myBoats.remove(this);
+		GameBattle.sprites.add(s);
+		GameBattle.sprites.remove(this);
+		GameBattle.myBoats.remove(this);
 		mySpeed = 0;
 		myX = 0;
 		myY = 0;

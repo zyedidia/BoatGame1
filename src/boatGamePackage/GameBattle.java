@@ -14,7 +14,7 @@ import javax.swing.JMenuBar;
 import edu.princeton.cs.introcs.Draw;
 import edu.princeton.cs.introcs.StdRandom;
 
-public class Game implements Runnable {
+public class GameBattle implements Runnable {
 
 	public static ArrayList<Sprite> sprites;
 	public static double zoom = 1.0;
@@ -29,7 +29,7 @@ public class Game implements Runnable {
 	private String myName;
 
 	// Constructor \\
-	public Game(boolean online, ObjectInputStream in, ObjectOutputStream out, int id) {
+	public GameBattle(boolean online, ObjectInputStream in, ObjectOutputStream out, int id) {
 		myOut = out;
 		myIn = in;
 		myOnlineBoatId = id;
@@ -211,6 +211,7 @@ public class Game implements Runnable {
 				System.exit(0);
 			}
 			else if (paused.isClicked()) {
+				// Unpause the game
 				myDraw.setXscale(-oldZoom, oldZoom);
 				myDraw.setYscale(-oldZoom, oldZoom);
 				System.out.println("Pause Clicked");
@@ -239,13 +240,14 @@ public class Game implements Runnable {
 		}
 	}
 
+	// Update all the objects being drawn to the screen
 	public void updateSprites() {
 		try {
 			for (int i = 0; i < sprites.size(); i++) {
 				Sprite s = sprites.get(i);
 				s.updateSelf();
 			}
-		} catch(ArrayIndexOutOfBoundsException e){
+		} catch(ArrayIndexOutOfBoundsException e) {
 			System.out.println("Deleted object requested. Ignoring.");
 		}
 	}

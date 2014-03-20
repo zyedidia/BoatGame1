@@ -34,7 +34,7 @@ public class GameServer {
 		myIn = new ObjectInputStream(mySocket.getInputStream());
 		
 		// Start a game (all the client-server communications are handled in the Game class
-		Game game = new Game(true, myIn, myOut, 0);
+		GameBattle game = new GameBattle(true, myIn, myOut, 0);
 		//Thread t = new Thread(game);
 		//t.start();
 		game.loop();

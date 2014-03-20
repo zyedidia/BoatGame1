@@ -42,7 +42,7 @@ public class Menu implements Runnable {
 			myDraw.frame.setVisible(false);
 			myDraw.frame.dispose();
 			// Create the game
-			Game game = new Game(false, null, null, 0);
+			GameBattle game = new GameBattle(false, null, null, 0);
 			//Thread t = new Thread(game);
 			//t.start();
 			game.loop();
